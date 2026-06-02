@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طَمئن قَلبك - مساحتك الروحية</title>
+    <style>
+        :root {
+            --bg-color: #0b132b;
+            --card-bg: #1c2541;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-color: #48cae4;
+            --accent-color: #5bc0be;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* شريط البحث */
+        .search-box {
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(72, 202, 228, 0.3);
+        }
+
+        /* شبكة الأزرار الـ 10 مشاعر */
+        .status-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .status-btn {
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .status-btn:hover {
+            border-color: var(--primary-color);
+            background: rgba(72, 202, 228, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* صندوق النتيجة */
+        .result-box {
+            display: none;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 30px;
+            border-radius: 16px;
+            border-right: 5px solid var(--accent-color);
+            text-align: right;
+            margin-top: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .result-box p {
+            font-size: 1.15rem;
+            color: #e2e8f0;
+            white-space: pre-line;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>طَمئن قَلبك ❤️</h1>
+        <p class="subtitle">ابحث عن ما في قلبك، أو اختر شعورك الحالي..</p>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="اكتب ما تشعر به هنا.. (مثال: خايف، تعبان، ظلم)" oninput="searchStatus()">
+        </div>
+
+        <div class="status-container">
+            <button class="status-btn" onclick="showMessage('sad')">زعلان ومهموم 😔</button>
+            <button class="status-btn" onclick="showMessage('suffocated')">مخنوق وضايقة بيك 💔</button>
+            <button class="status-btn" onclick="showMessage('lazy')">مش قادر أصلي 🛐</button>
+            <button class="status-btn" onclick="showMessage('anxious')">قلقان من بكرة 😰</button>
+            <button class="status-btn" onclick="showMessage('money')">شايل هم الرزق 💸</button>
+            <button class="status-btn" onclick="showMessage('lost')">مشتت وضايع 🌀</button>
+            <button class="status-btn" onclick="showMessage('betrayed')">مظلوم وموجوع 🥺</button>
+            <button class="status-btn" onclick="showMessage('grief')">فقدت حد غالي 🖤</button>
+            <button class="status-btn" onclick="showMessage('tired')">كسلان وتعبان 😴</button>
+            <button class="status-btn" onclick="showMessage('happy')">فرحان وبشكر ربنا الحمد لله 🤍</button>
+        </div>
+
+        <div id="resultBox" class="result-box">
+            <h3 id="resultTitle"></h3>
+            <p id="resultText"></p>
+        </div>
+
+        <footer>
+            الدال على الخير كفاعله • انشر الموقع واكسب ثواب
+        </footer>
+    </div>
+
+    <script>
+        const database = {
+            sad: {
+                keywords: ["حزين", "زعلان", "مهموم", "الحزن", "هم"],
+                title: "لعل الله يُحدث بعد ذلك أمراً ✨",
+                text: "قال رسول الله ﷺ: 'مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلا وَصَبٍ وَلا هَمٍّ وَلا حُزْنٍ... إِلا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ'.\n\nوافتكر دايماً آية: 'لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا'. حزنك مش ضايع، ربك حاسس بيك وهيجبر خاطرك."
+            },
+            suffocated: {
+                keywords: ["مخنوق", "ضيق", "خنقة", "ضايق", "مضايق"],
+                title: "ألا بذكر الله تطمئن القلوب 🌿",
+                text: "لو الدنيا ضاقت بيك، افتكر الآية دي: 'وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ * فَسَبِّحْ بِحَمْدِ رَبِّكَ وَكُن مِّنَ السَّاجِدِينَ'.\n\nقم اتوضى وصلي ركعتين، وفضفض لربنا في السجود، السجدة هي المكان الوحيد اللي بتهمس فيه للأرض فيسمعك أهل السماء."
+            },
+            lazy: {
+                keywords: ["صلاة", "اصلي", "مش قادر اصلي", "المهمل", "قطع"],
+                title: "استعن بالله ولا تعجز 🕊️",
+                text: "طبيعي يمر عليك وقت تحس بفتور، بس متسيبش حبل الوصل مع ربنا. جاهد نفسك وقول: 'اللهم أعني على ذكرك وشكرك وحسن عبادتك'.\n\nابدأ بالفروض بس دلوقتي، حتى لو صليت وأنت مش في كامل خشوعك، الصلاة المجاهدة ثوابها كبير جداً!"
+            },
+            anxious: {
+                keywords: ["خايف", "قلقان", "خوف", "قلق", "بكرة", "المستقبل"],
+                title: "فوض أمرك لله 🤍",
+                text: "متقلقش من بكرة، بكرة في يد لطيف خبير. قال تعالى: 'وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ'.\n\nوكان من دعاء النبي ﷺ: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ'. رددها ونام مطمن، ربنا مدبر ليك الخير كله."
+            },
+            money: {
+                keywords: ["رزق", "فلوس", "شغل", "الرزق", "فقر", "دين"],
+                title: "وفي السماء رزقكم وما توعدون 💎",
+                text: "اطمن، رزقك مكتوب ومحسوب وأنت في بطن أمك. قال تعالى: 'وَفِي السَّمَاءِ رِزْقُكُمْ وَمَا تُوعَدُونَ'.\n\nعليك بالسعي والاستغفار، فالاستغفار يفتح الأقفال. قال تعالى: 'فَقُلْتُ اسْتَغْفِرُوا رَبَّكُمْ إِنَّهُ كَانَ غَفَّارًا * يُرْسِلِ السَّمَاءَ عَلَيْكُم مِّدْرَارًا'."
+            },
+            lost: {
+                keywords: ["مشتت", "ضايع", "حيرة", "محتار", "تائه"],
+                title: "وعسى أن تكرهوا شيئاً وهو خير لكم 🧭",
+                text: "لو حاسس بقلة حيلة وتشتت، الجأ لربنا بـ صلاة الاستخارة وفوض أمرك بالكامل له. ردّد: 'اللهم خر لي واختر لي ولا تكلني إلى نفسي طرفة عين'.\n\nربنا هيوجهك للطريق الصح في وقته المناسب."
+            },
+            betrayed: {
+                keywords: ["مظلوم", "ظلم", "خيانة", "موجوع", "كسرني"],
+                title: "وعزتي وجلالي لأنصرنك ولو بعد حين 🛡️",
+                text: "لو اتظلمت أو قلبك اتوجع من بشر، افتكر إن ربنا مبيفوتش حاجة. دعوة المظلوم ليس بينها وبين الله حجاب.\n\nحسبنا الله ونعم الوكيل هي سلاحك، وفوض أمرك للحي الذي لا يموت."
+            },
+            grief: {
+                keywords: ["فقد", "موت", "وفاة", "مات", "فقدت"],
+                title: "وبشر الصابرين 🤍",
+                text: "الفقد مر، والقلب يحزن، لكن الجائزة عظيمة. قال تعالى: 'الَّذِينَ إِذَا أَصَابَتْهُم مُّصِيبَةٌ قَالُوا إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ * أُولَٰئِكَ عَلَيْهِمْ صَلَوَاتٌ مِّن رَّبِّهِمْ وَرَحْمَةٌ'.\n\nربنا يجمعك بمن تحب في الفردوس الأعلى، ويثلج صدرك بالصبر."
+            },
+            tired: {
+                keywords: ["تعبان", "كسلان", "مكسل", "طاقة", "مجهد"],
+                title: "يا حي يا قيوم برحمتك أستغيث ⚡",
+                text: "لما تحس إن طاقتك خلصت ومش قادر، ردد وصية النبي ﷺ للسيدة فاطمة لما اشتكت التعب:\n\nسبّح الله (33)، واحمده (33)، وكبّره (34) قبل النوم، فإنه خير لك من خادم، ويعطيك قوة ونشاطاً في يومك."
+            },
+            happy: {
+                keywords: ["فرحان", "سعيد", "الحمدلله", "مبسوط", "فرحة"],
+                title: "ولئن شكرتم لأزيدنكم ☀️",
+                text: "يدوم الفرح بالشكر! الحمد لله الذي بنعمته تتم الصالحات.\n\nحافظ على هذه النعمة بالحمد والصدقة والتقرب إلى الله، لتدوم عليك الفرحة ويبارك الله لك فيها."
+            }
+        };
+
+        function showMessage(key) {
+            // تفريغ خانة البحث لو ضغطنا على زرار جاهز
+            document.getElementById('searchInput').value = "";
+            
+            const box = document.getElementById('resultBox');
+            const title = document.getElementById('resultTitle');
+            const text = document.getElementById('resultText');
+
+            title.innerText = database[key].title;
+            text.innerText = database[key].text;
+            box.style.display = 'block';
+        }
+
+        function searchStatus() {
+            const input = document.getElementById('searchInput').value.trim().toLowerCase();
+            const box = document.getElementById('resultBox');
+            const title = document.getElementById('resultTitle');
+            const text = document.getElementById('resultText');
+
+            // التعديل السحري هنا: لو الخانة فاضية، اخفي الصندوق فوراً واقفل الدالة
+            if (input === "") {
+                box.style.display = 'none';
+                return;
+            }
+
+            let found = false;
+            for (let key in database) {
+                let match = database[key].keywords.some(keyword => input.includes(keyword) || keyword.includes(input));
+                if (match) {
+                    title.innerText = database[key].title;
+                    text.innerText = database[key].text;
+                    box.style.display = 'block';
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                title.innerText = "اكتب كلمة أخرى 🔍";
+                text.innerText = "لم نجد كلمات مطابقة تماماً، جرب كتابة كلمات بسيطة مثل: (خايف، زعلان، تعبان، رزق، صلاة، ظلم).";
+                box.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
