@@ -3,177 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حصن المسلم التفاعلي</title>
+    <title>أذكار وطمأنينة</title>
     <style>
         :root {
-            --main-bg: #090d16;
-            --box-bg: #111827;
-            --text-color: #f3f4f6;
-            --cyan-glow: #22d3ee;
-            --amber-glow: #fbbf24;
+            --bg-color: #0b132b;
+            --card-bg: #1c2541;
+            --text-color: #ffffff;
+            --primary-blue: #38bdf8;
+            --btn-color: #2dd4bf;
+            --highlight: #facc15;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, sans-serif; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
         body {
-            background-color: var(--main-bg);
+            background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
             padding: 20px;
         }
-        .wrapper {
-            background: var(--box-bg);
-            padding: 35px;
-            border-radius: 20px;
+
+        /* التصميم المطابق لـ image_a4af3a.png */
+        .card {
+            background-color: var(--card-bg);
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
+            padding: 40px;
+            border-radius: 24px;
             text-align: center;
-            border: 1px solid #1f2937;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .tabs {
+
+        .title {
+            color: var(--primary-blue);
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 30px;
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 10px;
+        }
+
+        .zkr-text {
+            font-size: 1.4rem;
+            line-height: 1.8;
             margin-bottom: 25px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .tab {
-            background: #1f2937;
-            color: #9ca3af;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
+
+        .reward {
+            color: var(--highlight);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            min-height: 40px;
         }
-        .tab.active {
-            background: var(--cyan-glow);
-            color: #0f172a;
-        }
-        .display-box {
-            background: rgba(255,255,255,0.02);
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .text { font-size: 1.35rem; line-height: 1.8; margin-bottom: 15px; }
-        .reward { color: var(--amber-glow); font-size: 0.95rem; line-height: 1.4; }
+
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
         }
-        .btn-nav {
-            background: #1f2937;
-            color: #fff;
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-color);
             border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .btn-counter {
-            flex: 1;
-            background: var(--cyan-glow);
-            color: #0f172a;
-            border: none;
-            padding: 15px;
+            padding: 12px 20px;
             border-radius: 12px;
-            font-size: 1.2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* الزر الفيروزي الكبير المماثل للصورة */
+        .action-btn {
+            flex: 1;
+            background-color: var(--btn-color);
+            color: #0b132b;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 1.3rem;
             font-weight: bold;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
         }
-        .btn-counter.done {
-            background: #10b981;
-            color: #fff;
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .action-btn.done {
+            background-color: #10b981;
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <div class="tabs">
-            <button id="t-m" class="tab active" onclick="changeCat('morning')">🌅 الصباح</button>
-            <button id="t-e" class="tab" onclick="changeCat('evening')">🌆 المساء</button>
-            <button id="t-s" class="tab" onclick="changeCat('sleep')">🛏️ النوم</button>
-        </div>
-
-        <div class="display-box">
-            <p id="zkrTxt" class="text">أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...}</p>
-            <p id="zkrRew" class="reward">فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.</p>
-        </div>
+    <div class="card">
+        <div class="title">✨ أذكار وطمأنينة</div>
+        
+        <!-- النص الأول يظهر فوراً بدون جافا سكريبت لمنع أي شاشة تحميل قديمة -->
+        <div id="zkrText" class="zkr-text">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ...</div>
+        <div id="zkrReward" class="reward">لم يضره أي شيء أو فجأة بلاء حتى يصبح.</div>
 
         <div class="controls">
-            <button class="btn-nav" onclick="prev()">السابق</button>
-            <button id="countBtn" class="btn-counter" onclick="hit()">0 / 1</button>
-            <button class="btn-nav" onclick="next()">التالي</button>
+            <button class="nav-btn" onclick="prev()">السابق</button>
+            <button id="mainBtn" class="action-btn" onclick="handleClick()">
+                <span>الذكر التالي</span> ➡️
+            </button>
+            <button class="nav-btn" onclick="next()">التالي</button>
         </div>
     </div>
 
     <script>
-    const data = {
-        morning: [
-            {t: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}", r: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.", c: 1},
-            {t: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ...}", r: "تكفيك من كل شيء عند قراءتها ثلاث مرات.", c: 3},
-            {t: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ.", r: "تجعل يومك مباركاً وتدفع أقدار السوء والكسل.", c: 1},
-            {t: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أنتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...", r: "سيد الاستغفار: من قالها موقناً بها ومات من يومه دخل الجنة.", c: 1}
-        ],
-        evening: [
-            {t: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ...", r: "تمنح النفس الهدوء والسكينة عند غياب الشمس.", c: 1},
-            {t: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ...", r: "لم يضره أي شيء أو فجأة بلاء حتى يصبح.", c: 3}
-        ],
-        sleep: [
-            {t: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ...", r: "تسليم روحي وجسدي كامل للخالق لحفظ النفس أثناء النوم.", c: 1},
-            {t: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ.", r: "تقال 3 مرات للوقاية من العقاب والأمان القلبي.", c: 3}
-        ]
-    };
+        // الأذكار الكاملة بالتكرار الصحيح
+        const azkar = [
+            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ...", reward: "لم يضره أي شيء أو فجأة بلاء حتى يصبح.", count: 3 },
+            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...}", reward: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.", count: 1 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ}", reward: "تكفيك من كل شيء عند قراءتها ثلاث مرات.", count: 3 },
+            { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ.", reward: "تمنحك البركة وراحة البال والنشاط في يومك.", count: 1 },
+            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أنتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ...", reward: "سيد الاستغفار: من قالها موقناً بها ومات من يومه دخل الجنة.", count: 1 }
+        ];
 
-    let cat = 'morning', idx = 0, currentCount = 0;
+        let index = 0;
+        let currentProgress = 0;
 
-    function update() {
-        const item = data[cat][idx];
-        document.getElementById("zkrTxt").innerText = item.t;
-        document.getElementById("zkrRew").innerText = item.r;
-        
-        const btn = document.getElementById("countBtn");
-        if (currentCount >= item.c) {
-            btn.innerText = `✓ تم (${item.c})`;
-            btn.classList.add("done");
-        } else {
-            btn.innerText = `${currentCount} / ${item.c}`;
-            btn.classList.remove("done");
+        function updateUI() {
+            const currentZkr = azkar[index];
+            document.getElementById("zkrText").innerText = currentZkr.text;
+            document.getElementById("zkrReward").innerText = currentZkr.reward;
+            
+            const btn = document.getElementById("mainBtn");
+            
+            if (currentProgress >= currentZkr.count) {
+                btn.innerHTML = `<span>✓ تم (${currentZkr.count}) - التالي</span> ➡️`;
+                btn.classList.add("done");
+            } else {
+                btn.innerHTML = `<span>الذكر التالي (${currentProgress} / ${currentZkr.count})</span> ➡️`;
+                btn.classList.remove("done");
+            }
         }
-    }
 
-    function hit() {
-        const max = data[cat][idx].c;
-        if (currentCount < max) {
-            currentCount++;
-            update();
-        } else {
-            next();
+        function handleClick() {
+            const max = azkar[index].count;
+            if (currentProgress < max) {
+                currentProgress++;
+                updateUI();
+            } else {
+                next();
+            }
         }
-    }
 
-    function next() {
-        if (idx < data[cat].length - 1) { idx++; currentCount = 0; update(); }
-    }
+        function next() {
+            if (index < azkar.length - 1) {
+                index++;
+                currentProgress = 0;
+                updateUI();
+            } else {
+                alert("ما شاء الله! أتممت الأذكار بالكامل 🤍");
+                index = 0;
+                currentProgress = 0;
+                updateUI();
+            }
+        }
 
-    function prev() {
-        if (idx > 0) { idx--; currentCount = 0; update(); }
-    }
+        function prev() {
+            if (index > 0) {
+                index--;
+                currentProgress = 0;
+                updateUI();
+            }
+        }
 
-    function changeCat(newCat) {
-        cat = newCat; idx = 0; currentCount = 0;
-        document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
-        if(newCat==='morning') document.getElementById("t-m").classList.add("active");
-        if(newCat==='evening') document.getElementById("t-e").classList.add("active");
-        if(newCat==='sleep') document.getElementById("t-s").classList.add("active");
-        update();
-    }
+        // تشغيل التحديث الأول للتأكد من العدادات
+        updateUI();
     </script>
 </body>
 </html>
