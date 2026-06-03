@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طمئن قلبك - الحصن الشامل المطور (45 ذكراً)</title>
+    <title>طمئن قلبك - الحصن الرقمي المتكامل</title>
     <style>
         :root {
             --bg-color: #0a1128;
@@ -14,6 +14,8 @@
             --accent-color: #00f5d4;
             --highlight: #ffd166;
             --success-color: #2a9d8f;
+            --warning-color: #f4a261;
+            --danger-color: #e63946;
         }
 
         * {
@@ -58,9 +60,113 @@
             max-width: 850px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 35px;
         }
 
+        /* سيكشن القرآن الكريم الجديد */
+        .quran-section {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .quran-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quran-search {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(10, 17, 40, 0.6);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .quran-search:focus {
+            border-color: var(--accent-color);
+        }
+
+        .quran-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* تخصيص السكرول بار للقائمة */
+        .quran-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .quran-grid::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .quran-grid::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .surah-card {
+            background: rgba(10, 17, 40, 0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .surah-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .surah-num {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.05);
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .surah-name {
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+
+        .surah-status-select {
+            width: 100%;
+            padding: 6px;
+            border-radius: 8px;
+            background: #0a1128;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* الحالات بالألوان داخل الكارت */
+        .surah-card.not-read { border-right: 4px solid var(--danger-color); }
+        .surah-card.reading { border-right: 4px solid var(--warning-color); }
+        .surah-card.done { border-right: 4px solid var(--success-color); background: rgba(42, 157, 143, 0.1); }
+
+        /* الأقسام القديمة المحدثة */
         .azkar-section {
             background: var(--card-bg);
             border-radius: 24px;
@@ -100,13 +206,12 @@
             background: rgba(10, 17, 40, 0.6);
             padding: 25px;
             border-radius: 16px;
-            min-height: 240px;
+            min-height: 220px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
             margin-bottom: 20px;
         }
 
@@ -177,18 +282,9 @@
             text-align: center;
         }
 
-        .counter-btn:active {
-            transform: scale(0.95);
-        }
-
         .counter-btn.done {
             background: var(--success-color);
             color: #fff;
-            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.3);
-        }
-
-        .search-container {
-            width: 100%;
         }
 
         .search-box {
@@ -206,7 +302,6 @@
             color: var(--text-color);
             font-size: 1.15rem;
             outline: none;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
@@ -223,11 +318,6 @@
             font-size: 1.15rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .search-box .search-btn:hover {
-            background-color: var(--accent-color);
         }
 
         .result-card {
@@ -237,7 +327,6 @@
             border-right: 6px solid var(--primary-color);
             line-height: 2;
             font-size: 1.25rem;
-            animation: fadeIn 0.4s ease-out;
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             text-align: justify;
         }
@@ -254,7 +343,6 @@
             background: rgba(28, 37, 65, 0.4);
             padding: 25px;
             border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .buttons-grid {
@@ -267,18 +355,16 @@
         .feeling-btn {
             padding: 12px 8px;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
             background-color: var(--card-bg);
             color: var(--text-color);
             font-size: 0.95rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .feeling-btn:hover {
             border-color: var(--primary-color);
-            transform: translateY(-3px);
         }
 
         footer {
@@ -290,23 +376,18 @@
             width: 100%;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>طمئن قلبك 🤍</h1>
-        <p>الموسوعة الروحية الشاملة: 45 ذكراً مقسماً بالتساوي للحفظ اليومي والسكينة النفسية</p>
+        <p>الموسوعة الإسلامية النفسية الشاملة والمطورة</p>
     </header>
 
     <div class="main-container">
-        
-        <!-- قسم الأذكار -->
+
+        <!-- قِسم أذكار اليوم -->
         <div class="azkar-section">
             <div class="azkar-tabs">
                 <button id="btn-morning" class="tab-btn active" onclick="switchAzkar('morning')">🌅 أذكار الصباح (15)</button>
@@ -330,10 +411,17 @@
             </div>
         </div>
 
-        <!-- قسم البحث النفسي المصلح -->
+        <!-- قِسم متابعة وقراءة القرآن الكريم بالكامل (114 سورة) -->
+        <div class="quran-section">
+            <h2>📖 الحصن القرآني ومتابعة الورد (114 سورة)</h2>
+            <input type="text" id="quranSearchInput" class="quran-search" placeholder="🔍 ابحث عن السورة بسرعة (مثال: البقرة، يس، الملك)..." oninput="filterQuran()">
+            <div id="quranGrid" class="quran-grid"></div>
+        </div>
+
+        <!-- قِسم الفضفضة النفسية والبحث الذكي المصلح -->
         <div class="search-container">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="اكتب شعورك أو الموقف بالتفصيل (مثال: خايف من النتيجة، ماليش نفس أذاكر، حاسس بكسرة خاطر، مديون)" onkeypress="handleKeyPress(event)">
+                <input type="text" id="searchInput" placeholder="اكتب شعورك أو الموقف بالتفصيل (مثال: ماليش نفس أذاكر، خايف من النتيجة، مكسور، مديون)" onkeypress="handleKeyPress(event)">
                 <button class="search-btn" onclick="searchFeeling()">ابحث عن طمأنينة</button>
             </div>
             <div id="searchResult" class="search-result"></div>
@@ -357,30 +445,29 @@
     </div>
 
     <footer>
-        <p>طمئن قلبك © 2026 | أذكار تفاعلية وموسوعة نفسية متكاملة لراحة بالك</p>
+        <p>طمئن قلبك © 2026 | أذكار، سور القرآن الكريم وموسوعة الطمأنينة النفسية</p>
     </footer>
 
     <script>
+    // قائمة الـ 114 سورة كاملة مرتبة بالمصحف الشريف
+    const surahsList = [
+        "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس", "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه", "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم", "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر", "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق", "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة", "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج", "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس", "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات", "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", "المسد", "الإخلاص", "الفلق", "الناس"
+    ];
+
+    // نظام الأذكار المبسط
     const azkarData = {
         morning: [
-            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (سورة البقرة: 255)", reward: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.", count: 1 },
+            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (سورة البقرة: 255)", reward: "فضلها: لن يزال عليك من الله حافظ حتى تمسي.", count: 1 },
             { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ...} (3 مرات)", reward: "فضلها: تكفيك من كل شيء.", count: 3 },
-            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...} (3 مرات)", reward: "فضلها: تحميك من شرور الحاسدين.", count: 3 },
-            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ النَّاسِ...} (3 مرات)", reward: "فضلها: وسيلة للوقاية من وساوس الصدر.", count: 3 },
-            { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ...", reward: "فضلها: تجلب توفيق اليوم وتدفع أقدار السوء الخفية.", count: 1 },
-            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...", reward: "فضلها: (سيد الاستغفار) من قالها موقناً بها ومات من يومه دخل الجنة.", count: 1 },
-            { text: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ...", reward: "فضلها: من قالها 4 مرات أعتقه الله من النار في ذلك اليوم.", count: 4 },
-            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ...", reward: "فضلها: لم يضره أي شيء أو مصيبة فجائية طوال يومه.", count: 3 },
-            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ...", reward: "فضلها: من قالها 7 مرات كفاه الله ما أهمه من أمر الدنيا.", count: 7 },
-            { text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.", reward: "فضلها: كان حقاً على الله سبحانه أن يرضيه يوم القيامة.", count: 3 },
-            { text: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ...", reward: "فضلها: تحميك من التشتت والقرارات الخاطئة.", count: 1 },
-            { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ، وَعَلَى كَلِمَةِ الْإِخْلَاصِ...", reward: "فضلها: تجديد للعهد والتوحيد في أول الأنفاس بالصباح.", count: 1 },
-            { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ...", reward: "فضلها: تعدل ساعات طويلة جداً من التسبيح والذكر.", count: 3 },
-            { text: "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ.", reward: "فضلها: تُكفى بها الهموم وتُغفر بها الذنوب.", count: 10 },
-            { text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ...", reward: "فضلها: كانت له حرزاً من الشيطان وكُتبت له مائة حسنة.", count: 100 }
+            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ...", reward: "فضلها: من قالها 7 مرات كفاه الله ما أهمه.", count: 7 },
+            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...", reward: "فضلها: سيد الاستغفار، موجب لدخول الجنة.", count: 1 }
         ],
-        evening: [], // تملأ حسب الرغبة بنفس النمط
-        sleep: []
+        evening: [
+            { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ...", reward: "تمنح النفس الهدوء والرضا والسكينة.", count: 1 }
+        ],
+        sleep: [
+            { text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ...", reward: "حفظ النفس والروح أثناء النوم.", count: 1 }
+        ]
     };
 
     let currentCategory = 'morning';
@@ -439,100 +526,153 @@
         currentCategory = category;
         currentIndex = 0;
         document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-        const targetBtn = document.getElementById(`btn-${category}`);
-        if(targetBtn) targetBtn.classList.add("active");
+        document.getElementById(`btn-${category}`).classList.add("active");
         loadZkr();
     }
 
     function updateProgressBar() {
         const currentList = azkarData[currentCategory];
-        if(!currentList) return;
         const percent = ((currentIndex + 1) / currentList.length) * 100;
         document.getElementById("progressBar").style.width = `${percent}%`;
     }
 
+    // --- بناء وإدارة قسم سور القرآن الـ 114 ---
+    function initQuran() {
+        const grid = document.getElementById("quranGrid");
+        grid.innerHTML = "";
+        
+        // جلب الحالات المحفوظة من المتصفح سابقاً أو عمل واحدة جديدة
+        let savedStatus = JSON.parse(localStorage.getItem("quran_tracker_status")) || {};
+
+        surahsList.forEach((name, index) => {
+            const surahNum = index + 1;
+            const status = savedStatus[surahNum] || "not-read"; // افتراضي لم يقرأ بعد
+
+            const card = document.createElement("div");
+            card.id = `surah-${surahNum}`;
+            card.className = `surah-card ${status}`;
+            card.setAttribute("data-name", name);
+
+            card.innerHTML = `
+                <div class="surah-info">
+                    <span class="surah-name">${surahNum}. سورة ${name}</span>
+                </div>
+                <select class="surah-status-select" onchange="changeSurahStatus(${surahNum}, this.value)">
+                    <option value="not-read" ${status === 'not-read' ? 'selected' : ''}>🔴 لم تقرأ</option>
+                    <option value="reading" ${status === 'reading' ? 'selected' : ''}>🟡 جاري قراءتها</option>
+                    <option value="done" ${status === 'done' ? 'selected' : ''}>🟢 تم قراءتها</option>
+                </select>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function changeSurahStatus(num, newStatus) {
+        const card = document.getElementById(`surah-${num}`);
+        card.className = `surah-card ${newStatus}`;
+
+        // حفظ الحالة في المتصفح
+        let savedStatus = JSON.parse(localStorage.getItem("quran_tracker_status")) || {};
+        savedStatus[num] = newStatus;
+        localStorage.setItem("quran_tracker_status", JSON.stringify(savedStatus));
+    }
+
+    function filterQuran() {
+        const query = document.getElementById("quranSearchInput").value.trim().toLowerCase();
+        const cards = document.querySelectorAll(".surah-card");
+
+        cards.forEach(card => {
+            const name = card.getAttribute("data-name");
+            if (name.includes(query) || query === "") {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+
     window.onload = function() {
         loadZkr();
+        initQuran();
     };
 
-    // --- قاعدة بيانات محرك البحث المحدثة والمصلحة بالكامل ---
+    // --- محرك البحث النفسي المصلح والذكي جداً ---
     const database = {
         "study_exams": {
             title: "النجاح، التوفيق في الدراسة، والامتحانات 📚",
-            ayah: "«قَالَ رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي ۝ يَفْقَهُوا قَوْلِي» [طه: 25-28]. وأيضاً: «وَقُل رَّبِّ زِدْنِي عِلْمًا» [طه: 114].",
+            ayah: "«قَالَ رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي» [طه: 25-26]. وأيضاً: «وَقُل رَّبِّ زِدْنِي عِلْمًا» [طه: 114].",
             hadith: "«ومَن سَلَكَ طَرِيقًا يَلْتَمِسُ فيه عِلْمًا، سَهَّلَ اللَّهُ له به طَرِيقًا إلى الجَنَّةِ»",
-            protection: "(اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً، اللهم افتح عليّ فتوح العارفين بفضلك).",
-            comfort: "اعمل ما عليك واجتهد في السعي والمذاكرة، وثق تماماً أن الله لا يضيع أجر من أحسن عملاً. التوفيق والنجاح حليفك بإذن الله!"
+            protection: "(اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً).",
+            comfort: "اعمل ما عليك واجتهد في السعي والملخصات، وثق تماماً أن الله لا يضيع أجر من أحسن عملاً. النجاح حليفك!"
         },
         "social_harm": {
             title: "مواقف الأذى الاجتماعي (التنمر والسخرية)",
-            ayah: "«يَا أَيُّهَا الَّذِينَ آمَنُوا Lا يَسْخَرْ قَوْمٌ مِّن قَوْمٍ...» [الحجرات: 11]",
+            ayah: "«يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِّن قَوْمٍ...» [الحجرات: 11]",
             hadith: "«بِحَسْبِ امْرِئٍ مِنَ الشَّرِّ أَنْ يَحْقِرَ أَخَاهُ الْمُسْلِمَ»",
             protection: "(اللهم اكفني شر خلقك بما شئت وكيف شئت).",
-            comfort: "قيمتك الحقيقية عند الله وليست في ألسنتهم."
+            comfort: "قيمتك الحقيقية ثابتة عند الله، فلا تهتم لألسنة العابثين."
         },
         "people_talk": {
             title: "مواقف كلام الناس والغيبة والنميمة",
             ayah: "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ» [الحجر: 97]",
-            hadith: "الغيبة والنميمة عواقبها وخيمة عند الله.",
-            protection: "(اللهم اجعلني خيراً مما يظنون واغفر لي ما لا يعلمون).",
-            comfort: "كلامهم يرفع درجاتك وحسناتك، فلا تبتئس."
+            hadith: "من تتبع عورات الناس تتبع الله عورته.",
+            protection: "(اللهم اجعلني خيراً مما يظنون واسترني فوق الأرض وتحت الأرض).",
+            comfort: "كلامهم يقع في صحيفتهم سيئات، ويرفع ميزان حسناتك فاصبر."
         },
         "envy_magic": {
             title: "الحسد، العين، والخوف من زوال النعمة",
             ayah: "«أَمْ يَحْسُدُونَ النَّاسَ عَلَىٰ مَا آتَاهُمُ اللَّهُ مِن فَضْلِهِ» [النساء: 54]",
             hadith: "«العَيْنُ حَقٌّ»",
-            protection: "(بسم الله أرقيك من كل شيء يؤذيك، من شر كل نفس أو عين حاسد).",
-            comfort: "حصنك بالأذكار يبطل مكر الحاسدين تماماً."
+            protection: "(بسم الله أرقيك من كل شيء يؤذيك، ومن شر كل نفس أو عين حاسد).",
+            comfort: "أذكار الصباح والمساء هي جدار أمانك الحديدي ضد أي حسد أو طاقة سلبية."
         },
         "depression_sadness": {
             title: "الحزن الشديد، ضيق الصدر، والخنقة",
             ayah: "«فَنَادَىٰ فِي الظُّلُمَاتِ أَن لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ» [الأنبياء: 87]",
             hadith: "«مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلَا وَصَبٍ... إِلَّا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ»",
             protection: "(اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل).",
-            comfort: "هذه الغمامة ستمر، والضيق يعقبه فرج عظيم يدهشك."
+            comfort: "الضيق الذي يعصر قلبك الآن هو بداية لانفراجة مدهشة، ثق بالله وقرب الفرج."
         },
         "money_debts": {
             title: "الرزق، الديون، وقلة المال",
-            ayah: "«وَفِي السَّمَاءِ رزقكم وَمَا تُوعَدُونَ» [الذاريات: 22]",
+            ayah: "«وَفِي السَّمَاءِ رِزْقُكُمْ وَمَا تُوعَدُونَ» [الذاريات: 22]",
             hadith: "«اللهم إني أعوذ بك من غلبة الدين وقهر الرجال»",
             protection: "(اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك).",
-            comfort: "الأرزاق مقسومة، اسع بالأسباب والباب سيفتح فجأة بالاستغفار."
+            comfort: "باب الرزق بيد مالك الملوك، اسع بالأسباب وداوم على الاستغفار وسوف تدهش."
         },
         "injustice_loneliness": {
             title: "الظلم والخذلان وقهر القلوب",
             ayah: "«وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ» [إبراهيم: 42]",
             hadith: "«وَعِزَّتِي وَجَلَالِي لَأَنْصُرَنَّكِ وَلَوْ بَعْدَ حِينٍ»",
-            protection: "(حسبي الله ونعم الوكيل، اللهم فوضت أمري إليك).",
-            comfort: "دعوتك صعدت ومظلمتك عند الله محفوظة، نم هادئاً فالله لا يظلم أحداً."
+            protection: "(حسبي الله ونعم الوكيل، تفويض كامل للمحكمة الإلهية).",
+            comfort: "دعوتك اخترقت السموات، نم قرير العين فحقك محفوظ ولن يضيع أبداً."
         },
         "sins_repentance": {
             title: "الذنوب، التقصير، وطلب التوبة",
-            ayah: "«قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ» [المرء: 53]",
-            hadith: "الله يفرح بتوبة عبده المقصر.",
-            protection: "(اللهم أنت ربي لا إله إلا أنت خلقتني وأنا عبدك وأنا على عهدك ووعدك).",
-            comfort: "طالما تشعر بالندم فقلبك حي، الله ينتظرك ليمسح ما مضى."
+            ayah: "«قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ» [الزمر: 53]",
+            hadith: "إن الله يبسط يده بالليل ليتوب مسيء النهار.",
+            protection: "(اللهم أنت ربي لا إله إلا أنت خلقتني وأنا عبدك، اغفر لي ذنوبي).",
+            comfort: "الندم دليل على حياة ونقاء قلبك، امسح الماضي بصفحة جديدة وتوكل على الله غافر الذنب."
         },
         "sickness_pain": {
             title: "المرض والتعب والألم الجسدي",
-            ayah: "«وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ» [الشعراء: 80]",
-            hadith: "«ضع يدك على الذي تألم من جسدك وقل باسم الله ثلاثاً...»",
-            protection: "(اللهم رب الناس أذهب البأس، واشفِ أنت الشافي).",
-            comfort: "ألمك طهور ويرفع درجاتك، والشافي قريب جداً منك."
+            ayah: "«وَإِذَا مَرِضْتُ فَهو يَشْفِينِ» [الشعراء: 80]",
+            hadith: "«اللهم رب الناس أذهب البأس واشفِ أنت الشافي»",
+            protection: "(أعوذ بالله وقدرته من شر ما أجد وأحاذر).",
+            comfort: "كل ألم تشعر به هو تطهير لجسدك وروحك ورفع لدرجاتك عند الشافي الكريم."
         }
     };
 
-    // خريطة الكلمات الدلالية المرنة للغاية
     const keywordsMap = {
-        "study_exams": ["دراسه", "دراسة", "مذاكره", "مذاكرة", "اذاكر", "أذاكر", "امتحان", "امتحانات", "كليه", "كلية", "نجاح", "توفيق", "نتيجه", "نتيجة", "تعبان من المذاكرة"],
+        "study_exams": ["دراسه", "دراسة", "مذاكره", "مذاكرة", "اذاكر", "أذاكر", "امتحان", "امتحانات", "كليه", "كلية", "نجاح", "توفيق", "نتيجه", "نتيجة"],
         "social_harm": ["تنمر", "متنمر", "سخرية", "تريقة", "بيتريقوا", "اهانة"],
-        "people_talk": ["كلام الناس", "قالوا", "بيتكلموا عليا", "اشاعة", "غيبة", "نميمة"],
+        "people_talk": ["كلام الناس", "قالوا", "بيتكلموا", "اشاعة", "غيبة", "نميمة"],
         "envy_magic": ["حسد", "محسود", "عين", "نظرة", "سحر", "عمل"],
-        "depression_sadness": ["حزين", "مكتئب", "اكتئاب", "مخنوق", "خنقة", "ضيق", "متضايق", "ببكي", "دموع"],
+        "depression_sadness": ["حزين", "مكتئب", "اكتئاب", "مخنوق", "خنقة", "ضيق", "متضايق", "دموع", "بكاء"],
         "money_debts": ["رزق", "فلوس", "مال", "فقر", "شغل", "ديون", "دين", "مديون"],
         "injustice_loneliness": ["مظلوم", "ظلم", "قهر", "مقهور", "خذلان", "مخذول", "وحيد"],
         "sins_repentance": ["مذنب", "ذنب", "معصية", "غلطت", "توبة", "تقصير"],
-        "sickness_pain": ["مريض", "مرض", "تعبان", "وجع", "ألم", "تعب"]
+        "sickness_pain": ["مريض", "مرض", "تعبان", "وجع", "ألم"]
     };
 
     function searchFeeling() {
@@ -540,42 +680,33 @@
         const resultBox = document.getElementById("searchResult");
         
         if (input === "") {
-            resultBox.innerHTML = "<p style='color: var(--text-muted); text-align: center;'>من فضلك اكتب شعوراً أو موقفاً تود معالجته وطمأنته.</p>";
+            resultBox.innerHTML = "<p style='color: var(--text-muted); text-align: center;'>من فضلك اكتب شعوراً أو موقفاً.</p>";
             return;
         }
         
         let matchedCategory = null;
         let maxScore = 0;
 
-        // دالة الفحص الذكي: تبحث إذا كان النص يحتوي على أي كلمة مفتاحية
         for (let category in keywordsMap) {
             let score = 0;
             let keywords = keywordsMap[category];
-            
             keywords.forEach(keyword => {
-                if (input.includes(keyword)) {
-                    score += 10; // إعطاء وزن كبير عند العثور على الكلمة
-                }
+                if (input.includes(keyword)) { score += 10; }
             });
-            
-            if (score > maxScore) {
-                maxScore = score;
-                matchedCategory = category;
-            }
+            if (score > maxScore) { maxScore = score; matchedCategory = category; }
         }
 
         if (matchedCategory && database[matchedCategory]) {
             const res = database[matchedCategory];
             resultBox.innerHTML = `
                 <div class="result-card">
-                    <h4 style="color: var(--primary-color); margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">📍 تم تشخيص الموقف: ${res.title}</h4>
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">📍 التشخيص: ${res.title}</h4>
                     <span class="section-title">📖 الآية الكريمة:</span><br><span>${res.ayah}</span><br><br>
-                    <span class="section-title">💬 من السنة الشريفة:</span><br><span style="color: var(--text-muted);">${res.hadith}</span><br><br>
-                    <span class="section-title">🤲 دعاء للوقاية والتحصين الشامل:</span><br><span style="color: var(--highlight);">${res.protection}</span><br><br>
-                    <span class="section-title">💡 رسالة طمأنينة لقلبك:</span><br><span style="color: var(--accent-color);">${res.comfort}</span>
+                    <span class="section-title">💬 من السنة:</span><br><span style="color: var(--text-muted);">${res.hadith}</span><br><br>
+                    <span class="section-title">🤲 دعاء التحصين:</span><br><span style="color: var(--highlight);">${res.protection}</span><br><br>
+                    <span class="section-title">💡 رسالة طمأنينة:</span><br><span style="color: var(--accent-color);">${res.comfort}</span>
                 </div>`;
         } else {
-            // النتيجة الاحتياطية في حال لم يعثر على أي كلمة على الإطلاق
             resultBox.innerHTML = `
                 <div class="result-card">
                     <h4 style="color: var(--text-muted); margin-bottom: 12px;">📍 طمأنينة عامة:</h4>
@@ -591,9 +722,7 @@
     }
 
     function handleKeyPress(event) {
-        if (event.key === "Enter") {
-            searchFeeling();
-        }
+        if (event.key === "Enter") { searchFeeling(); }
     }
     </script>
 </body>
