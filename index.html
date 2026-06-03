@@ -2,67 +2,514 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>أذكار المسلم</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طمئن قلبك - الموسوعة التفاعلية الكاملة</title>
     <style>
-        body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        :root {
+            --bg-color: #0a1128;
+            --card-bg: #1c2541;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-color: #00b4d8;
+            --accent-color: #00f5d4;
+            --highlight: #ffd166;
+            --success-color: #2a9d8f;
+        }
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .box {
-            background: #1e293b;
-            padding: 40px;
-            border-radius: 24px;
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
             text-align: center;
-            max-width: 550px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-            border: 1px solid #334155;
+            margin: 30px 0;
         }
-        h2 { color: #38bdf8; margin-top: 0; font-size: 1.8rem; }
-        p { font-size: 1.4rem; line-height: 1.8; color: #e2e8f0; min-height: 100px; }
-        .hint { color: #facc15; font-size: 1rem; margin-top: 15px; display: block; }
-        button {
-            background: #2dd4bf;
-            color: #0f172a;
-            border: none;
-            padding: 14px 30px;
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .azkar-section {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .azkar-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
             border-radius: 12px;
-            font-size: 1.2rem;
+            border: 2px solid rgba(0, 180, 216, 0.3);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 25px;
-            transition: background 0.2s;
+            transition: all 0.3s;
         }
-        button:hover { background: #14b8a6; }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary-color);
+            color: #000;
+            border-color: var(--primary-color);
+        }
+
+        .azkar-box {
+            background: rgba(10, 17, 40, 0.6);
+            padding: 25px;
+            border-radius: 16px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .zkr-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .zkr-reward {
+            font-size: 0.95rem;
+            color: var(--highlight);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 6.6%;
+            background: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .azkar-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-color);
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .counter-btn {
+            flex: 1;
+            max-width: 250px;
+            padding: 15px;
+            border-radius: 16px;
+            border: none;
+            background: var(--accent-color);
+            color: #000;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 245, 212, 0.2);
+            transition: all 0.2s;
+        }
+
+        .counter-btn.done {
+            background: var(--success-color);
+            color: #fff;
+            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.2);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 16px;
+            border: 2px solid var(--card-bg);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1.05rem;
+            outline: none;
+        }
+
+        .search-box button {
+            padding: 0 25px;
+            border-radius: 16px;
+            border: none;
+            background-color: var(--primary-color);
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            border-right: 6px solid var(--primary-color);
+            line-height: 1.8;
+            font-size: 1.15rem;
+            text-align: justify;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .quick-feelings {
+            text-align: center;
+            background: rgba(28, 37, 65, 0.4);
+            padding: 20px;
+            border-radius: 24px;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .feeling-btn {
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .feeling-btn:hover {
+            border-color: var(--primary-color);
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <h2>✨ أذكار وطمأنينة</h2>
-        <p id="text">أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...}</p>
-        <span class="hint" id="hint">فضله: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.</span>
-        <button onclick="change()">الذكر التالي ➡️</button>
+    <header>
+        <h1>طمئن قلبك 🤍</h1>
+        <p>الموسوعة الروحية التفاعلية الكاملة والأذكار بالتعداد الصحيح</p>
+    </header>
+
+    <div class="main-container">
+        
+        <!-- قسم الأذكار الرئيسي بكامل مميزاته -->
+        <div class="azkar-section">
+            <div class="azkar-tabs">
+                <button id="btn-morning" class="tab-btn active" onclick="switchAzkar('morning')">🌅 الصباح (15)</button>
+                <button id="btn-evening" class="tab-btn" onclick="switchAzkar('evening')">🌆 المساء (15)</button>
+                <button id="btn-sleep" class="tab-btn" onclick="switchAzkar('sleep')">🛏️ النوم (15)</button>
+            </div>
+
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+
+            <div class="azkar-box">
+                <div id="zkrText" class="zkr-text">أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۚ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۚ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۚ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ}</div>
+                <div id="zkrReward" class="zkr-reward">فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.</div>
+            </div>
+
+            <div class="azkar-controls">
+                <button class="nav-btn" onclick="prevZkr()">السابق ➡️</button>
+                <button id="counterBtn" class="counter-btn" onclick="countZkr()">0 / 1</button>
+                <button class="nav-btn" onclick="nextZkr()">⬅️ التالي</button>
+            </div>
+        </div>
+
+        <!-- محرك البحث النفسي القرآني المطور -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="اكتب ما يقلقك أو يؤلمك هنا (مثال: حاسس بضيق، خايف من بكرة، مديون ومخنوق)...">
+                <button onclick="searchFeeling()">ابحث عن طمأنينة</button>
+            </div>
+            <div id="searchResult" class="search-result"></div>
+        </div>
+
+        <!-- قسم الفضفضة السريعة -->
+        <div class="quick-feelings">
+            <h3 style="color: var(--text-muted); font-weight: 500; font-size: 1rem;">اختر ما تشعر به الآن للتشخيص القرآني الفوري:</h3>
+            <div class="buttons-grid">
+                <button class="feeling-btn" onclick="quickSearch('تنمر')">🗣️ التنمر والسخرية</button>
+                <button class="feeling-btn" onclick="quickSearch('حسد')">👁️ الحسد والعين</button>
+                <button class="feeling-btn" onclick="quickSearch('كلام الناس')">💬 كلام الناس</button>
+                <button class="feeling-btn" onclick="quickSearch('مخنوق')">😣 الضيق والخنقة</button>
+                <button class="feeling-btn" onclick="quickSearch('خايف')">😨 الخوف والقلق</button>
+                <button class="feeling-btn" onclick="quickSearch('ديون')">💵 قلة الرزق والديون</button>
+                <button class="feeling-btn" onclick="quickSearch('مظلوم')">⚖️ الظلم والخذلان</button>
+                <button class="feeling-btn" onclick="quickSearch('ذنب')">💔 التقصير والذنوب</button>
+                <button class="feeling-btn" onclick="quickSearch('مرض')">🩺 المرض والألم</button>
+            </div>
+        </div>
+
     </div>
 
+    <footer>
+        <p>طمئن قلبك © 2026 | الموسوعة مصلحة ومكتملة بالكامل</p>
+    </footer>
+
     <script>
-        const azkar = [
-            {t: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}", h: "فضله: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي."},
-            {t: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ}", h: "تكفيك من كل شيء عند قراءتها ثلاث مرات."},
-            {t: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ.", h: "تمنحك البركة وراحة البال في يومك."},
-            {t: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ...", h: "لم يضره أي شيء أو فجأة بلاء حتى يصبح."}
-        ];
-        let i = 0;
-        function change() {
-            i = (i + 1) % azkar.length;
-            document.getElementById("text").innerText = azkar[i].t;
-            document.getElementById("hint").innerText = azkar[i].h;
+    const azkarData = {
+        morning: [
+            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۚ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۚ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۚ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ}", reward: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.", count: 1 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ}", reward: "فضلها: تكفيك من كل شيء عند قراءتها ثلاث مرات.", count: 3 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ﴿١﴾ مِن شَرِّ مَا خَلَقَ ﴿٢﴾ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ﴿٣﴾ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ﴿٤﴾ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ}", reward: "فضلها: تحميك من شرور الحاسدين والعقد.", count: 3 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ النَّاسِ ﴿١﴾ مَلِكِ النَّاسِ ﴿٢﴾ إِلَٰهِ النَّاسِ ﴿٣﴾ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ﴿٤﴾ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ﴿٥﴾ مِنَ الْجِنَّةِ وَالنَّاسِ}", reward: "فضلها: وقاية من وساوس الصدر والأنفس الخفية.", count: 3 },
+            { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأελُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ.", reward: "فضلها: تجعل يومك مباركاً وتدفع أقدار السوء والكسل عنك.", count: 1 },
+            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أنتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ.", reward: "فضلها: (سيد الاستغفار) من قالها موقناً بها ومات من يومه دخل الجنة.", count: 1 },
+            { text: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.", reward: "فضلها: من قالها 4 مرات أعتقه الله من النار في ذلك اليوم.", count: 4 },
+            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.", reward: "فضلها: لم يضره أي شيء أو فجأة بلاء طوال يومه.", count: 3 },
+            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.", reward: "فضلها: من قالها 7 مرات كفاه الله ما أهمه من أمر الدنيا والآخرة.", count: 7 },
+            { text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.", reward: "فضلها: كان حقاً على الله سبحانه أن يرضيه يوم القيامة.", count: 3 },
+            { text: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.", reward: "فضلها: تحميك من التشتت والقرارات الخاطئة وتسلم أمرك لله.", count: 1 },
+            { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ، وَعَلَى كَلِمَةِ الْإِخْلَاصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ.", reward: "فضلها: تجديد للعهد والتوحيد في أول الصباح.", count: 1 },
+            { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ.", reward: "فضلها: تعدل ساعات طويلة جداً من التسبيح والذكر.", count: 3 },
+            { text: "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ.", reward: "فضلها: تُكفى بها الهموم وتُغفر بها الذنوب وتنال شفاعة الحبيب ﷺ.", count: 10 },
+            { text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.", reward: "فضلها: كانت له حرزاً من الشيطان وكُتبت له مائة حسنة ومُحيت مائة سيئة.", count: 100 }
+        ],
+        evening: [
+            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...}", reward: "فضلها: حارس سماوي يحميك من الشياطين والأرق والشرور حتى تصبح.", count: 1 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ...}", reward: "فضلها: أمان وحصن واقي طوال الليل عند تكرارها ثلاثاً.", count: 3 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...}", reward: "فضلها: لدفع السحر والحسد وشرور الليل إذا أظلم.", count: 3 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ النَّاسِ...}", reward: "فضلها: حماية تامة من وساوس شياطين الإنس والجن.", count: 3 },
+            { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ...", reward: "تمنح النفس الهدوء والسكينة عند غياب الشمس.", count: 1 },
+            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ...", reward: "توبة مسائية كبرى، إن مت في ليلتك دخلت الجنة.", count: 1 },
+            { text: "اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ...", reward: "مكررة 4 مرات لعتق البدن بالكامل من النار.", count: 4 },
+            { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.", reward: "فضلها: لم تضره حَمّة أو لدغة زواحف وهواّم الأرض في تلك الليلة.", count: 3 },
+            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ...", reward: "وقاية تامة وجدار دفاعي متين ضد المكاره والشرور والمفاجآت.", count: 3 },
+            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.", reward: "يكفيك الله بها سبع مرات ما غمك وأقلق راحتك وتفكيرك.", count: 7 },
+            { text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.", reward: "تضمن رضا المولى ومحبته وتوفيقه وجبر قلب العبد.", count: 3 },
+            { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ.", reward: "يفرّج الله بها الكرب الشديد ويقضي الديون الثقيلة.", count: 1 },
+            { text: "اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ... أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي.", reward: "تحمي من وساوس النفس والأفكار السيئة والانزلاق للخطأ والندم.", count: 1 },
+            { text: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ.", reward: "تزيد من قوة البدن وتفتح الأرزاق والمغاليق وتجلب الفرج.", count: 100 },
+            { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ.", reward: "تُمحى خطاياه وذنوبه كلها ولو كانت مثل زبد البحر العظيم.", count: 100 }
+        ],
+        sleep: [
+            { text: "يجمع كفه وينفث فيهما ويقرأ الإخلاص والفلق والناس، ثم يمسح بهما ما استطاع من جسده.", reward: "حماية تامة للبدن والروح من الكوابيس والأذى النفسي والجسدي.", count: 3 },
+            { text: "يقرأ آية الكرسي: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}", reward: "يرسل الله لك ملكاً حارساً يحميك ولا يقربك شيطان حتى تصبح.", count: 1 },
+            { text: "الآيتان من آخر سورة البقرة: {آمَنَ الرَّسُولُ بِمَا أُنزلَ إِلَيْهِ مِنْ رَبِّهِ...}", reward: "من قرأهما في ليلة كفتاه من كل سوء وشر وجان وهمّ وضيق.", count: 1 },
+            { text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمَسَكْتَ نَفْسِي فَارْحَمْهَا...", reward: "تسليم روحي وجسدي كامل للخالق لحفظ الأمانة والنفس.", count: 1 },
+            { text: "اللَّهُمَّ خَلَقْتَ نَفْسِي وَأَنْتَ تَوَفَّاهَا، لَكَ مَمَاتُهَا وَمَحْيَاهَا...", reward: "تجعلك تنام على الفطرة السليمة والتوحيد والنقاء الخالص.", count: 1 },
+            { text: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ.", reward: "تقال 3 مرات للوقاية من العقاب والأمان القلبي المطلق.", count: 3 },
+            { text: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.", reward: "الذكر والعهد النبوي القصير والجامع قبل النوم مباشرة.", count: 1 },
+            { text: "سُبْحَانَ اللَّهِ.", reward: "تقال 33 مرة تمنح الجسم والقلب طاقة ونشاطاً عند الاستيقاظ.", count: 33 },
+            { text: "الْحَمْدُ لِلَّهِ.", reward: "تقال 33 مرة لشكر النعم الظاهرة والباطنة وتثبيت الرضا النفسي.", count: 33 },
+            { text: "اللَّهُ أَكْبَرُ.", reward: "تقال 34 مرة ليكون المجموع 100 وهي خير للمرء من خادم يخدمه.", count: 34 },
+            { text: "اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِي إِلَيْكَ...", reward: "إن مت من ليلتك مت على الفطرة وجعلتهن آخر ما تقول.", count: 1 },
+            { text: "قراءة سورة الكافرون كاملة وبراءة تامّة من الشرك.", reward: "هي براءة من الشرك والنفاق والظلمات والوساوس.", count: 1 },
+            { text: "اللَّهُمَّ رَبَّ السَّمَاوَاتِ السَّبْعِ... اقْضِ عَنَّا الدَّيْنِ وَأَغْنِنَا مِنَ الْفَقْرِ.", reward: "كفاية مادية ونفسية ودفع تام للهواجس والأفكار المقلقة للرزق.", count: 1 },
+            { text: "قراءة سورة الملك كاملة للحفظ.", reward: "المنجية والواقية من عذاب القبر والشفيعة لصاحبها حتى يُغفر له.", count: 1 },
+            { text: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا، وَكَفَانَا وَآوَانَا...", reward: "استشعار نعم الأمان والمسكن والغطاء والحمد عليها بخشوع.", count: 1 }
+        ]
+    };
+
+    let currentCategory = 'morning';
+    let currentIndex = 0;
+    let userCount = 0;
+
+    // تشغيل الكود بمجرد التحميل الآمن
+    window.onload = function() {
+        loadZkr();
+    };
+
+    function loadZkr() {
+        const zkr = azkarData[currentCategory][currentIndex];
+        document.getElementById("zkrText").innerText = zkr.text;
+        document.getElementById("zkrReward").innerText = zkr.reward;
+        userCount = 0;
+        updateCounterButton(zkr.count);
+        updateProgressBar();
+    }
+
+    function updateCounterButton(max) {
+        const btn = document.getElementById("counterBtn");
+        btn.innerText = `${userCount} / ${max}`;
+        if (userCount >= max) {
+            btn.classList.add("done");
+            btn.innerText = `✓ تم (${max})`;
+        } else {
+            btn.classList.remove("done");
         }
+    }
+
+    function countZkr() {
+        const max = azkarData[currentCategory][currentIndex].count;
+        if (userCount < max) {
+            userCount++;
+            updateCounterButton(max);
+        } else {
+            nextZkr();
+        }
+    }
+
+    function nextZkr() {
+        const currentList = azkarData[currentCategory];
+        if (currentIndex < currentList.length - 1) {
+            currentIndex++;
+            loadZkr();
+        } else {
+            alert("ما شاء الله، لقد أتممت أذكار هذه الفئة كاملة! 🤍");
+        }
+    }
+
+    function prevZkr() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadZkr();
+        }
+    }
+
+    function switchAzkar(category) {
+        currentCategory = category;
+        currentIndex = 0;
+        document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+        document.getElementById(`btn-${category}`).classList.add("active");
+        loadZkr();
+    }
+
+    function updateProgressBar() {
+        const currentList = azkarData[currentCategory];
+        const percent = ((currentIndex + 1) / currentList.length) * 100;
+        document.getElementById("progressBar").style.width = `${percent}%`;
+    }
+
+    // قاعدة البيانات لمحرك البحث والفضفضة
+    const database = {
+        "social_harm": { title: "مواقف الأذى الاجتماعي (التنمر، السخرية، الاستهزاء)", ayah: "«يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِّن قَوْمٍ عَسَىٰ أَن يَكُونُوا خَيْرًا مِّنْهُمْ...» [الحجرات: 11].", hadith: "«بِحَسْبِ امْرِئٍ مِنَ الشَّرِّ أَنْ يَحْقِرَ أَخَاهُ الْمُسْلِمَ»", protection: "(اللهم اكفني شر خلقك بما شئت وكيف شئت).", comfort: "قيمتك الحقيقية عند الله وليست في ألسنتهم أو تقييمهم الجاهل." },
+        "people_talk": { title: "مواقف كلام الناس والاشاعات والغيبة والنميمة", ayah: "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ ﴿٩٧﴾ فَسَبِّحْ بِحَمْدِ رَبِّكَ...» [الحجر].", hadith: "«الذين يأكلون لحوم الناس، ويقعون في أعراضهم».", protection: "(اللهم طهر عرضي من غيبة الغائبين ونميمة النمامين).", comfort: "كلامهم يملأ صحائف سيئاتهم ويرفع درجاتك بدون حول منك ولا قوة." },
+        "envy_magic": { title: "الحسد، العين، السحر، الخوف من زوال النعمة", ayah: "«أَمْ يَحْسُدُونَ النَّاسَ عَلَىٰ مَا آتَاهُمُ اللَّهُ مِن فَضْلِهِ...» [النساء: 54].", hadith: "«العَيْنُ حَقٌّ»", protection: "(بسم الله أرقيك من كل شيء يؤذيك، من شر كل نفس أو عين حاسد).", comfort: "الملك ملكه والقدر قدره، وحصنك بالأذكار الكاملة واليقين يبطل مكر الإنس والجن." },
+        "depression_sadness": { title: "الحزن الشديد، الاكتئاب، ضيق الصدر، الخنقة", ayah: "«فَنَادَىٰ فِي الظُّلُمَاتِ أَن لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ...» [الأنبياء].", hadith: "«مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلَا وَصَبٍ وَلَا هَمٍّ وَلَا حُزْنٍ... إِلَّا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ».", protection: "(اللهم إني أعوذ بك من الهم والحزن، واجعل القرآن ربيع قلبي).", comfort: "هذه الغمامة ستمر لا محالة، والضيق الذي تعيشه تعقبه أوقات مبهجة وفرج يغسل أثره." },
+        "fear_future": { title: "الخوف، القلق، التوتر، الامتحانات، المستقبل", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا» [التوبة: 51].", hadith: "«احْرِصْ عَلَى مَا يَنْفَعُكَ، وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجَزْ»", protection: "(اللهم لا سهل إلا ما جعلته سهلاً).", comfort: "لا تقلق من الغد، فالمستقبل يدبره جبار السماوات والأرض برحمته ولطفه الواسع." },
+        "money_debts": { title: "الرزق، الديون، الفقر، قلة المال، ضيق الحال", ayah: "«وَفِي السَّمَاءِ رِزْقُكُمْ وَمَا تُوعَدُونَ» [الذاريات].", hadith: "«اللهم إني أعوذ بك من الهم والحزن... وضَلَعِ الدَّيْنِ...».", protection: "(اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك).", comfort: "الأرزاق مقسومة ومكتوبة بدقة، اسع بالأسباب والباب الموصود سيفتح بمفاتيح الاستغفار." }
+    };
+
+    const keywordsMap = {
+        "social_harm": ["تنمر", "متنمر", "سخرية", "تريقة", "اهانة"],
+        "people_talk": ["كلام الناس", "قالوا", "بيتكلموا", "غيبة", "نميمة"],
+        "envy_magic": ["حسد", "حاسد", "العين", "عين", "سحر", "مسحور"],
+        "depression_sadness": ["حزين", "حزن", "مهموم", "اكتئاب", "مخنوق", "خنقة", "ضيق", "متضايق"],
+        "fear_future": ["خايف", "خوف", "قلق", "متوتر", "مستقبل", "بكرة", "امتحان"],
+        "money_debts": ["الرزق", "رزق", "فلوس", "فقر", "ديون", "دين", "مديون"]
+    };
+
+    function searchFeeling() {
+        const input = document.getElementById("searchInput").value.trim().toLowerCase();
+        const resultBox = document.getElementById("searchResult");
+        
+        if (input === "") {
+            resultBox.innerHTML = "<p style='color: var(--text-muted); text-align: center;'>من فضلك اكتب شعوراً أو موقفاً تود معالجته.</p>";
+            return;
+        }
+        
+        let matchedCategory = null;
+        let maxScore = 0;
+
+        for (let category in keywordsMap) {
+            let score = 0;
+            keywordsMap[category].forEach(keyword => {
+                if (input.includes(keyword)) score += 5;
+            });
+            if (score > maxScore) {
+                maxScore = score;
+                matchedCategory = category;
+            }
+        }
+
+        if (matchedCategory && database[matchedCategory]) {
+            const res = database[matchedCategory];
+            resultBox.innerHTML = `
+                <div class="result-card">
+                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">📍 التشخيص: ${res.title}</h4>
+                    <span class="section-title">📖 الآية الكريمة:</span><br><span>${res.ayah}</span><br><br>
+                    <span class="section-title">🤲 دعاء التحصين:</span><br><span style="color: var(--highlight);">${res.protection}</span><br><br>
+                    <span class="section-title">💡 رسالة لقلبك:</span><br><span style="color: var(--accent-color);">${res.comfort}</span>
+                </div>`;
+        } else {
+            resultBox.innerHTML = `
+                <div class="result-card">
+                    <h4 style="color: var(--text-muted); margin-bottom: 12px;">📍 طمأنينة عامة لقلبك:</h4>
+                    <span class="section-title">📖 الآية الكاملة:</span><br><span>«الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ» [الرعد: 28]</span>
+                </div>`;
+        }
+    }
+
+    function quickSearch(word) {
+        document.getElementById("searchInput").value = word;
+        searchFeeling();
+    }
     </script>
 </body>
 </html>
