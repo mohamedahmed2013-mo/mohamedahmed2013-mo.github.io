@@ -2,64 +2,66 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الأذكار اليومية</title>
+    <title>أذكار المسلم</title>
     <style>
         body {
-            background-color: #0a1128;
+            background-color: #0f172a;
             color: #f8fafc;
-            font-family: sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-        .card {
-            background: #1c2541;
-            padding: 30px;
-            border-radius: 20px;
+        .box {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 24px;
             text-align: center;
-            max-width: 600px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            max-width: 550px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
         }
-        h1 { color: #00b4d8; margin-bottom: 20px; }
-        p { font-size: 1.3rem; line-height: 1.8; margin-bottom: 20px; }
-        .reward { color: #ffd166; font-size: 1rem; }
-        .btn {
-            background: #00f5d4;
-            color: #000;
+        h2 { color: #38bdf8; margin-top: 0; font-size: 1.8rem; }
+        p { font-size: 1.4rem; line-height: 1.8; color: #e2e8f0; min-height: 100px; }
+        .hint { color: #facc15; font-size: 1rem; margin-top: 15px; display: block; }
+        button {
+            background: #2dd4bf;
+            color: #0f172a;
             border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 25px;
+            transition: background 0.2s;
         }
+        button:hover { background: #14b8a6; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>الأذكار اليومية ✨</h1>
-        <p id="txt">أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...}</p>
-        <div class="reward" id="rew">فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.</div>
-        <button class="btn" onclick="next()">الذكر التالي ➡️</button>
+    <div class="box">
+        <h2>✨ أذكار وطمأنينة</h2>
+        <p id="text">أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...}</p>
+        <span class="hint" id="hint">فضله: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.</span>
+        <button onclick="change()">الذكر التالي ➡️</button>
     </div>
 
     <script>
-        const list = [
-            {t: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}", r: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي."},
-            {t: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ}", r: "تكفيك من كل شيء عند قراءتها ثلاث مرات."},
-            {t: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ.", r: "تمنحك البركة وراحة البال في يومك."},
-            {t: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ...", r: "لم يضره أي شيء أو فجأة بلاء حتى يصبح."}
+        const azkar = [
+            {t: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}", h: "فضله: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي."},
+            {t: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ}", h: "تكفيك من كل شيء عند قراءتها ثلاث مرات."},
+            {t: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ.", h: "تمنحك البركة وراحة البال في يومك."},
+            {t: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ...", h: "لم يضره أي شيء أو فجأة بلاء حتى يصبح."}
         ];
-        let idx = 0;
-        function next() {
-            idx = (idx + 1) % list.length;
-            document.getElementById("txt").innerText = list[idx].t;
-            document.getElementById("rew").innerText = list[idx].r;
+        let i = 0;
+        function change() {
+            i = (i + 1) % azkar.length;
+            document.getElementById("text").innerText = azkar[i].t;
+            document.getElementById("hint").innerText = azkar[i].h;
         }
     </script>
 </body>
