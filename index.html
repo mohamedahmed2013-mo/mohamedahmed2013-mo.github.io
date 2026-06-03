@@ -3,286 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طمئن قلبك</title>
+    <title>الأذكار اليومية</title>
     <style>
-        :root {
-            --bg-color: #0a1128;
-            --card-bg: #1c2541;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary-color: #00b4d8;
-            --accent-color: #00f5d4;
-            --highlight: #ffd166;
-            --success-color: #2a9d8f;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #0a1128;
+            color: #f8fafc;
+            font-family: sans-serif;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            height: 100vh;
+            margin: 0;
         }
-
-        header {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 12px;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        .main-container {
-            width: 100%;
-            max-width: 850px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .azkar-section {
-            background: var(--card-bg);
-            border-radius: 24px;
+        .card {
+            background: #1c2541;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
-
-        .azkar-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: 2px solid rgba(0, 180, 216, 0.3);
-            background: transparent;
-            color: var(--text-color);
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--primary-color);
-            color: #000;
-            border-color: var(--primary-color);
-        }
-
-        .azkar-box {
-            background: rgba(10, 17, 40, 0.6);
-            padding: 25px;
-            border-radius: 16px;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            border-radius: 20px;
             text-align: center;
-            margin-bottom: 20px;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
-
-        .zkr-text {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .zkr-reward {
-            font-size: 0.95rem;
-            color: var(--highlight);
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 6.6%;
-            background: var(--accent-color);
-            transition: width 0.3s;
-        }
-
-        .azkar-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .nav-btn {
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: none;
-            background: rgba(255,255,255,0.05);
-            color: var(--text-color);
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        .counter-btn {
-            flex: 1;
-            max-width: 250px;
-            padding: 15px;
-            border-radius: 16px;
-            border: none;
-            background: var(--accent-color);
+        h1 { color: #00b4d8; margin-bottom: 20px; }
+        p { font-size: 1.3rem; line-height: 1.8; margin-bottom: 20px; }
+        .reward { color: #ffd166; font-size: 1rem; }
+        .btn {
+            background: #00f5d4;
             color: #000;
-            font-size: 1.3rem;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-        }
-
-        .counter-btn.done {
-            background: var(--success-color);
-            color: #fff;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>طمئن قلبك 🤍</h1>
-        <p>الأذكار تعمل الآن بشكل فوري ومباشر</p>
-    </header>
-
-    <div class="main-container">
-        <div class="azkar-section">
-            <div class="azkar-tabs">
-                <button id="btn-morning" class="tab-btn active" onclick="switchAzkar('morning')">🌅 الصباح</button>
-                <button id="btn-evening" class="tab-btn" onclick="switchAzkar('evening')">🌆 المساء</button>
-                <button id="btn-sleep" class="tab-btn" onclick="switchAzkar('sleep')">🛏️ النوم</button>
-            </div>
-
-            <div class="progress-container">
-                <div id="progressBar" class="progress-bar"></div>
-            </div>
-
-            <div class="azkar-box">
-                <div id="zkrText" class="zkr-text">أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۚ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۚ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۚ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ}</div>
-                <div id="zkrReward" class="zkr-reward">فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.</div>
-            </div>
-
-            <div class="azkar-controls">
-                <button class="nav-btn" onclick="prevZkr()">السابق ➡️</button>
-                <button id="counterBtn" class="counter-btn" onclick="countZkr()">0 / 1</button>
-                <button class="nav-btn" onclick="nextZkr()">⬅️ التالي</button>
-            </div>
-        </div>
+    <div class="card">
+        <h1>الأذكار اليومية ✨</h1>
+        <p id="txt">أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ...}</p>
+        <div class="reward" id="rew">فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.</div>
+        <button class="btn" onclick="next()">الذكر التالي ➡️</button>
     </div>
 
     <script>
-    const azkarData = {
-        morning: [
-            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}", reward: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.", count: 1 },
-            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ}", reward: "تكفيك من كل شيء عند قراءتها ثلاث مرات.", count: 3 },
-            { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ.", reward: "تمنحك البركة وراحة البال في يومك.", count: 1 },
-            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أنتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...", reward: "سيد الاستغفار: من قالها موقناً بها ومات من يومه دخل الجنة.", count: 1 }
-        ],
-        evening: [
-            { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ...", reward: "تمنح النفس الهدوء والسكينة عند غياب الشمس.", count: 1 },
-            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ...", reward: "لم يضره أي شيء أو فجأة بلاء حتى يصبح.", count: 3 }
-        ],
-        sleep: [
-            { text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ...", reward: "حفظ النفس والروح أثناء النوم.", count: 1 },
-            { text: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ.", reward: "الأمان القلبي والوقاية من العقاب.", count: 3 }
-        ]
-    };
-
-    let currentCategory = 'morning';
-    let currentIndex = 0;
-    let userCount = 0;
-
-    function loadZkr() {
-        const zkr = azkarData[currentCategory][currentIndex];
-        document.getElementById("zkrText").innerText = zkr.text;
-        document.getElementById("zkrReward").innerText = zkr.reward;
-        userCount = 0;
-        updateCounter(zkr.count);
-        updateProgress();
-    }
-
-    function updateCounter(max) {
-        const btn = document.getElementById("counterBtn");
-        if (userCount >= max) {
-            btn.innerText = `✓ تم (${max})`;
-            btn.classList.add("done");
-        } else {
-            btn.innerText = `${userCount} / ${max}`;
-            btn.classList.remove("done");
+        const list = [
+            {t: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}", r: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي."},
+            {t: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ}", r: "تكفيك من كل شيء عند قراءتها ثلاث مرات."},
+            {t: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ.", r: "تمنحك البركة وراحة البال في يومك."},
+            {t: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ...", r: "لم يضره أي شيء أو فجأة بلاء حتى يصبح."}
+        ];
+        let idx = 0;
+        function next() {
+            idx = (idx + 1) % list.length;
+            document.getElementById("txt").innerText = list[idx].t;
+            document.getElementById("rew").innerText = list[idx].r;
         }
-    }
-
-    function countZkr() {
-        const max = azkarData[currentCategory][currentIndex].count;
-        if (userCount < max) {
-            userCount++;
-            updateCounter(max);
-        } else {
-            nextZkr();
-        }
-    }
-
-    function nextZkr() {
-        if (currentIndex < azkarData[currentCategory].length - 1) {
-            currentIndex++;
-            loadZkr();
-        } else {
-            alert("أتممت أذكار هذه الفئة! ✨");
-        }
-    }
-
-    function prevZkr() {
-        if (currentIndex > 0) {
-            currentIndex--;
-            loadZkr();
-        }
-    }
-
-    function switchAzkar(category) {
-        currentCategory = category;
-        currentIndex = 0;
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-        document.getElementById(`btn-${category}`).classList.add("active");
-        loadZkr();
-    }
-
-    function updateProgress() {
-        const percent = ((currentIndex + 1) / azkarData[currentCategory].length) * 100;
-        document.getElementById("progressBar").style.width = `${percent}%`;
-    }
     </script>
 </body>
 </html>
