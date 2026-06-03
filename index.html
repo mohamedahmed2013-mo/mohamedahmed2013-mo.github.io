@@ -22,7 +22,7 @@
         
         .main-container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 20px; }
         
-        /* تصميم المستطيلات الثلاثة الرئيسية في البداية */
+        /* تصميم المستطيلات الثلاثة النظيفة في البداية */
         .menu-box { 
             background: var(--card-bg); 
             border-radius: 15px; 
@@ -46,7 +46,7 @@
             background: #222f54;
         }
         
-        /* أقسام المحتوى (مخفية في البداية) */
+        /* أقسام المحتوى الداخلي */
         .content-section { 
             display: none; 
             background: var(--card-bg); 
@@ -88,14 +88,14 @@
 
     <div class="main-container">
         
-        <!-- القائمة الرئيسية الثنائية/الثلاثية التي تظهر أولاً -->
+        <!-- القائمة المحدثة بالأسماء المباشرة بدون كلمة مستطيل -->
         <div id="mainMenu" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
-            <div class="menu-box" onclick="showSection('azkarSection')">🌅 المستطيل الأول: الأذكار اليومية</div>
-            <div class="menu-box" onclick="showSection('feelingsSection')">🩹 المستطيل الثاني: محرك المشاعر والأمان النفسي</div>
-            <div class="menu-box" onclick="showSection('companionsSection')">🕌 المستطيل الثالث: سير الصحابة العظماء</div>
+            <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية</div>
+            <div class="menu-box" onclick="showSection('feelingsSection')">🩹 محرك المشاعر والأمان النفسي</div>
+            <div class="menu-box" onclick="showSection('companionsSection')">🕌 سير الصحابة العظماء</div>
         </div>
 
-        <!-- قسم الأذكار (مخفي) -->
+        <!-- قسم الأذكار -->
         <div id="azkarSection" class="content-section">
             <h2 class="box-title">🌅 الأذكار اليومية <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
             <div class="azkar-tabs">
@@ -114,7 +114,7 @@
             </div>
         </div>
 
-        <!-- قسم المشاعر (مخفي) -->
+        <!-- قسم المشاعر -->
         <div id="feelingsSection" class="content-section">
             <h2 class="box-title">🩹 محرك الأمان النفسي والشرعي <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
             <div class="search-box">
@@ -130,7 +130,7 @@
             <div id="searchResult"></div>
         </div>
 
-        <!-- قسم الصحابة (مخفي) -->
+        <!-- قسم الصحابة -->
         <div id="companionsSection" class="content-section">
             <h2 class="box-title">🕌 سير الصحابة العظماء ومواقفهم <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
             <div class="search-box">
@@ -143,7 +143,6 @@
     </div>
 
     <script>
-    // التحكم في التنقل بين المستطيلات والقائمة الرئيسية
     function showSection(sectionId) {
         document.getElementById('mainMenu').style.display = 'none';
         document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
@@ -156,7 +155,6 @@
         document.getElementById('mainMenu').style.display = 'flex';
     }
 
-    // قاعدة البيانات والأكواد اللوجستية (الأذكار والصحابة والمشاعر)
     const azkarData = {
         morning: [
             { text: "{اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (آية الكرسي)", reward: "فضلها: لن يزال عليك من الله حافظ حتى تمسي.", count: 1 },
