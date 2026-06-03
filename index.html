@@ -21,7 +21,7 @@
         
         .main-container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 20px; }
         
-        /* أزرار القائمة الرئيسية النظيفة تماماً */
+        /* الأزرار الرئيسية */
         .menu-box { 
             background: var(--card-bg); 
             border-radius: 15px; 
@@ -45,7 +45,7 @@
             background: #222f54;
         }
         
-        /* أقسام المحتوى الداخلي */
+        /* الأقسام الداخلية */
         .content-section { 
             display: none; 
             background: var(--card-bg); 
@@ -57,7 +57,7 @@
         .box-title { color: var(--accent-color); font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .back-btn { font-size: 0.9rem; padding: 5px 12px; background: rgba(255,255,255,0.1); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
         
-        /* تفاصيل الأذكار */
+        /* تصميم العداد والتبويبات */
         .azkar-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
         .tab-btn { padding: 8px 18px; border-radius: 10px; border: 2px solid var(--primary-color); background: transparent; color: #fff; font-weight: bold; cursor: pointer; }
         .tab-btn.active { background: var(--primary-color); color: #000; }
@@ -69,7 +69,7 @@
         .counter-btn { flex: 1; max-width: 180px; padding: 12px; border-radius: 12px; border: none; background: var(--accent-color); color: #000; font-size: 1.2rem; font-weight: bold; cursor: pointer; direction: ltr; }
         .counter-btn.done { background: var(--success-color); color: #fff; }
         
-        /* تفاصيل البحث والنتائج */
+        /* البحث والمشاعر */
         .search-box { display: flex; gap: 10px; margin: 15px 0; }
         .search-box input { flex: 1; padding: 12px; border-radius: 10px; border: none; background: #0a1128; color: #fff; font-size: 1rem; }
         .search-btn { padding: 0 20px; border-radius: 10px; border: none; background: var(--primary-color); color: #000; font-weight: bold; cursor: pointer; }
@@ -87,14 +87,14 @@
 
     <div class="main-container">
         
-        <!-- الأزرار الرئيسية بدون أي كلمة مستطيل وشغالة تماماً -->
+        <!-- القائمة الرئيسية المباشرة -->
         <div id="mainMenu" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
             <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية</div>
             <div class="menu-box" onclick="showSection('feelingsSection')">🩹 محرك المشاعر والأمان النفسي</div>
             <div class="menu-box" onclick="showSection('companionsSection')">🕌 سير الصحابة العظماء</div>
         </div>
 
-        <!-- قسم الأذكار -->
+        <!-- 1. قسم الأذكار -->
         <div id="azkarSection" class="content-section">
             <h2 class="box-title">🌅 الأذكار اليومية <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
             <div class="azkar-tabs">
@@ -113,27 +113,27 @@
             </div>
         </div>
 
-        <!-- قسم المشاعر -->
+        <!-- 2. قسم المشاعر -->
         <div id="feelingsSection" class="content-section">
             <h2 class="box-title">🩹 محرك المشاعر والأمان النفسي <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="اكتب شعورك الحالي (مخنوق، خايف، مديون، مظلوم...)">
+                <input type="text" id="searchInput" placeholder="اكتب شعورك الحالي (مخنوق، خايف، مديون، حزين...)">
                 <button class="search-btn" onclick="searchFeeling()">بحث</button>
             </div>
             <div class="buttons-grid">
                 <button class="feeling-btn" onclick="quickSearch('مخنوق')">😣 ضيق وخنقة</button>
                 <button class="feeling-btn" onclick="quickSearch('خايف')">😨 خوف وقلق</button>
                 <button class="feeling-btn" onclick="quickSearch('مديون')">💵 ضيق رزق</button>
-                <button class="feeling-btn" onclick="quickSearch('مظلوم')">⚖️ مظلومية</button>
+                <button class="feeling-btn" onclick="quickSearch('حزين')">😢 حزن وهم</button>
             </div>
             <div id="searchResult"></div>
         </div>
 
-        <!-- قسم الصحابة -->
+        <!-- 3. قسم الصحابة -->
         <div id="companionsSection" class="content-section">
             <h2 class="box-title">🕌 سير الصحابة العظماء ومواقفهم <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
             <div class="search-box">
-                <input type="text" id="companionInput" placeholder="اكتب اسم الصحابي (أبو بكر، عمر، خالد...)">
+                <input type="text" id="companionInput" placeholder="اكتب اسم الصحابي (أبو بكر، عمر، بلال...)">
                 <button class="search-btn" onclick="searchCompanion()">اقرأ قصته</button>
             </div>
             <div id="companionResult"></div>
@@ -142,33 +142,38 @@
     </div>
 
     <script>
-    // مصفوفات البيانات لتشغيل التطبيق بشكل كامل
+    // قاعدة البيانات الكاملة لتشغيل جميع الأقسام
     const azkarData = {
         morning: [
             { text: "{اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (آية الكرسي)", reward: "فضلها: لن يزال عليك من الله حافظ حتى تمسي.", count: 1 },
+            { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ.", reward: "فضلها: لطلب خير هذا اليوم والتعوذ من شره.", count: 1 },
             { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ...} (3 مرات)", reward: "فضلها: تكفيك من كل شيء.", count: 3 }
         ],
         evening: [
-            { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ (3 مرات).", reward: "فضلها: حماية من كل سوء ومكروه في ليلتك.", count: 3 }
+            { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ...", reward: "فضلها: حماية وسكينة للروح في المساء.", count: 1 },
+            { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ (3 مرات).", reward: "فضلها: لا يضرك شيء في تلك الليلة.", count: 3 }
         ],
         sleep: [
-            { text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ...", reward: "فضلها: يحفظ الله روحك أثناء النوم.", count: 1 }
+            { text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ...", reward: "فضلها: إن غفر الله روحك رحمها وإن أرسلها حفظها.", count: 1 }
         ]
     };
 
     const companionsData = [
-        { name: "أبو بكر الصديق", title: "الصديق، أول الخلفاء الراشدين", story: "صاحب رسول الله في الهجرة، وأول من آمن من الرجال، تميز بثباته العظيم وأنفق كل ماله لله." },
-        { name: "عمر بن الخطاب", title: "الفاروق، أمير المؤمنين", story: "تميز بالعدل المطلق والجرأة في الحق، وهو الذي فتح القدس وأعز الله به الإسلام." }
+        { name: "أبو بكر الصديق", title: "الصديق، أول الخلفاء الراشدين", story: "صاحب رسول الله ﷺ في الهجرة، وأول من آمن من الرجال، تميز بثباته يوم وفاة النبي وحارب المرتدين وجاهد بماله كله." },
+        { name: "عمر بن الخطاب", title: "الفاروق، أمير المؤمنين", story: "تميز بالعدل المطلق، أعز الله به الإسلام عند إسلامه، فتح بيت المقدس في عهده وأسس الدواوين الهجرية." },
+        { name: "بلال بن رباح", title: "مؤذن رسول الله", story: "ضرب أروع أمثلة الصبر على التعذيب في مكة وقوله 'أحد أحد'، وهو أول من أذن فوق الكعبة بعد فتح مكة." }
     ];
 
     const database = {
-        "makhnooq": { title: "الضيق والخنقة الشديدة", ayah: "«فَسَبِّحْ بِحَمْدِ رَبِّكَ وَكُن مِّنَ السَّاجِدِينَ»", hadith: "«ما يصيب المسلم من هم ولا حزن إلا كفّر الله به من خطاياه».", comfort: "الضيق بداية لفرج كبير غريب يغسل قلبك، استرخِ وسلم أمرك لله." },
-        "khaif": { title: "الخوف والقلق من المستقبل", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا»", hadith: "«احْرِصْ عَلَى مَا يَنْفَعُكَ، وَاسْتَعِنْ بِاللَّهِ»", comfort: "مستقبلك مكتوب بيد رب رحيم حكيم، فلا تقلق من أوهام الغد." }
+        "makhnooq": { title: "الضيق والخنقة الشديدة", ayah: "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ فَسَبِّحْ بِحَمْدِ رَبِّكَ وَكُن مِّنَ السَّاجِدِينَ»", hadith: "«ما يصيب المسلم من هم ولا حزن إلا كفّر الله به من خطاياه».", comfort: "الضيق دائمًا بداية لفرج كبير غريب يغسل قلبك، الجأ للسجود الآن." },
+        "khaif": { title: "الخوف والقلق من المستقبل", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا وَعَلَى اللَّهِ فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ»", hadith: "«احْرِصْ عَلَى مَا يَنْفَعُكَ، وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجِزْ»", comfort: "مستقبلك بيد رب رحيم حكيم، فلا تقلق وتدبر تدبيرًا لا تملكه." },
+        "madioon": { title: "الدين وضيق الرزق", ayah: "«وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ»", hadith: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ... وَغَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ.", comfort: "الرزق مكتوب ومقسوم، اسعَ واطرق الأبواب وأكثر من الاستغفار." },
+        "hazin": { title: "الحزن والهم", ayah: "«لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا»", hadith: "«يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ»", comfort: "الحزن سحابة صيف ستمر، تذكر أن مع العسر يسرًا." }
     };
 
     let currentCategory = 'morning', currentIndex = 0, userCount = 0;
 
-    // وظائف التنقل والتشغيل
+    // تشغيل الأقسام والتحويل بينها
     function showSection(sectionId) {
         document.getElementById('mainMenu').style.display = 'none';
         document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
@@ -181,6 +186,7 @@
         document.getElementById('mainMenu').style.display = 'flex';
     }
 
+    // إدارة الأذكار والعدادات
     function loadZkr() {
         const list = azkarData[currentCategory];
         const zkr = list[currentIndex];
@@ -188,22 +194,42 @@
         document.getElementById("zkrReward").innerText = zkr.reward;
         
         const btn = document.getElementById("counterBtn");
-        if (userCount >= zkr.count) { btn.classList.add("done"); btn.innerText = `✓ تم (${zkr.count})`; } 
-        else { btn.classList.remove("done"); btn.innerText = `${userCount} / ${zkr.count}`; }
+        if (userCount >= zkr.count) { 
+            btn.classList.add("done"); 
+            btn.innerText = `✓ تم (${zkr.count})`; 
+        } else { 
+            btn.classList.remove("done"); 
+            btn.innerText = `${userCount} / ${zkr.count}`; 
+        }
     }
 
     function countZkr() {
         const list = azkarData[currentCategory];
-        if (userCount < list[currentIndex].count) { userCount++; loadZkr(); } 
-        else { nextZkr(); }
+        if (userCount < list[currentIndex].count) { 
+            userCount++; 
+            loadZkr(); 
+        } else { 
+            nextZkr(); 
+        }
     }
 
     function nextZkr() {
-        if (currentIndex < azkarData[currentCategory].length - 1) { currentIndex++; userCount = 0; loadZkr(); } 
-        else { alert("الحمد لله! أتممت المجموعة 🤍"); }
+        if (currentIndex < azkarData[currentCategory].length - 1) { 
+            currentIndex++; 
+            userCount = 0; 
+            loadZkr(); 
+        } else { 
+            alert("الحمد لله! أتممت هذه المجموعة 🤍"); 
+        }
     }
 
-    function prevZkr() { if (currentIndex > 0) { currentIndex--; userCount = 0; loadZkr(); } }
+    function prevZkr() { 
+        if (currentIndex > 0) { 
+            currentIndex--; 
+            userCount = 0; 
+            loadZkr(); 
+        } 
+    }
 
     function switchAzkar(category) {
         currentCategory = category; currentIndex = 0; userCount = 0;
@@ -212,26 +238,47 @@
         loadZkr();
     }
 
-    function cleanText(text) { return text ? text.trim().replace(/[ًٌٍَُِّْ]/g, "").replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي") : ""; }
+    // تنظيف النصوص لتسهيل البحث
+    function cleanText(text) { 
+        return text ? text.trim().replace(/[ًٌٍَُِّْ]/g, "").replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي") : ""; 
+    }
 
+    // تشغيل بحث الصحابة
     function searchCompanion() {
         const input = cleanText(document.getElementById("companionInput").value);
         const result = document.getElementById("companionResult");
         if (!input) return;
         const found = companionsData.find(c => cleanText(c.name).includes(input));
-        result.innerHTML = found ? `<div class="result-card"><h3>🕌 ${found.name}</h3><p><strong>اللقب:</strong> ${found.title}</p><p>${found.story}</p></div>` : `<div class="result-card">جرّب كتابة: أبو بكر أو عمر لتشغيل المثال حالياً</div>`;
+        result.innerHTML = found ? 
+            `<div class="result-card"><h3>🕌 ${found.name}</h3><p style="color:var(--accent-color); margin:5px 0;"><strong>اللقب:</strong> ${found.title}</p><p>${found.story}</p></div>` : 
+            `<div class="result-card">⚠️ لم نعثر عليه، جرب كتابة: أبو بكر، عمر، بلال</div>`;
     }
 
+    // تشغيل بحث المشاعر
     function searchFeeling() {
         const input = cleanText(document.getElementById("searchInput").value);
         const result = document.getElementById("searchResult");
         if (!input) return;
-        let key = input.includes("خايف") || input.includes("قلق") ? "khaif" : "makhnooq";
+        
+        let key = "makhnooq";
+        if (input.includes("خايف") || input.includes("قلق") || input.includes("رعب")) key = "khaif";
+        else if (input.includes("مديون") || input.includes("فلوس") || input.includes("رزق")) key = "madioon";
+        else if (input.includes("حزين") || input.includes("زعلان") || input.includes("هم")) key = "hazin";
+        
         const data = database[key];
-        result.innerHTML = `<div class="result-card"><h3>🩺 في ${data.title}:</h3><p><strong>📖 القرآن:</strong> ${data.ayah}</p><p><strong>💬 السنة:</strong> ${data.hadith}</p><p><strong>🤍 سكينة:</strong> ${data.comfort}</p></div>`;
+        result.innerHTML = `
+            <div class="result-card">
+                <h3>🩺 عند الشعور بـ ${data.title}:</h3>
+                <p style="margin-top:10px;"><strong>📖 من القرآن:</strong> ${data.ayah}</p>
+                <p style="margin-top:10px;"><strong>💬 من السنة:</strong> ${data.hadith}</p>
+                <p style="margin-top:10px; color:var(--highlight);"><strong>🤍 رسالة لقلبك:</strong> ${data.comfort}</p>
+            </div>`;
     }
 
-    function quickSearch(feeling) { document.getElementById("searchInput").value = feeling; searchFeeling(); }
+    function quickSearch(feeling) { 
+        document.getElementById("searchInput").value = feeling; 
+        searchFeeling(); 
+    }
     </script>
 </body>
 </html>
