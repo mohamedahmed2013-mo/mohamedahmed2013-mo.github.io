@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طمئن قلبك - الحصن الشامل المطور (نسخة مصلحة بالكامل)</title>
+    <title>طمئن قلبك - النسخة المستقرة</title>
     <style>
         :root {
             --bg-color: #0a1128;
@@ -14,516 +14,153 @@
             --accent-color: #00f5d4;
             --highlight: #ffd166;
             --success-color: #2a9d8f;
-            --companions-color: #a855f7;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            color: var(--primary-color);
-            margin-bottom: 12px;
-            text-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .main-container {
-            width: 100%;
-            max-width: 850px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .azkar-section {
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .azkar-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            padding: 12px 25px;
-            border-radius: 12px;
-            border: 2px solid rgba(0, 180, 216, 0.3);
-            background: transparent;
-            color: var(--text-color);
-            font-size: 1.05rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--primary-color);
-            color: #000;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
-        }
-
-        .azkar-box {
-            background: rgba(10, 17, 40, 0.6);
-            padding: 25px;
-            border-radius: 16px;
-            min-height: 240px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .zkr-text {
-            font-size: 1.35rem;
-            line-height: 1.8;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .zkr-reward {
-            font-size: 1rem;
-            color: var(--highlight);
-            font-style: italic;
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 3px;
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: var(--accent-color);
-            transition: width 0.3s ease;
-        }
-
-        .azkar-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .nav-btn {
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: none;
-            background: rgba(255,255,255,0.05);
-            color: var(--text-color);
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        .counter-btn {
-            flex: 1;
-            max-width: 250px;
-            padding: 18px;
-            border-radius: 16px;
-            border: none;
-            background: var(--accent-color);
-            color: #000;
-            font-size: 1.4rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 5px 15px rgba(0, 245, 212, 0.3);
-            text-align: center;
-            direction: ltr; /* لضمان عرض العداد العربي بشكل صحيح 0 / 1 */
-        }
-
-        .counter-btn:active {
-            transform: scale(0.95);
-        }
-
-        .counter-btn.done {
-            background: var(--success-color);
-            color: #fff;
-            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.3);
-        }
-
-        .search-container {
-            width: 100%;
-        }
-
-        .search-section-title {
-            font-size: 1.3rem;
-            color: var(--text-color);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .search-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .search-box input {
-            flex: 1;
-            padding: 18px 22px;
-            border-radius: 16px;
-            border: 2px solid var(--card-bg);
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            font-size: 1.15rem;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .search-box input:focus {
-            border-color: var(--primary-color);
-        }
-
-        .search-box .search-btn {
-            padding: 0 35px;
-            border-radius: 16px;
-            border: none;
-            background-color: var(--primary-color);
-            color: #000;
-            font-size: 1.15rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .search-box .search-btn:hover {
-            background-color: var(--accent-color);
-        }
-
-        .companions-btn {
-            background-color: var(--companions-color) !important;
-            color: #fff !important;
-        }
-        .companions-btn:hover {
-            opacity: 0.9;
-        }
-
-        .result-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 20px;
-            border-right: 6px solid var(--primary-color);
-            line-height: 2;
-            font-size: 1.25rem;
-            animation: fadeIn 0.4s ease-out;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            text-align: justify;
-            margin-bottom: 20px;
-        }
-
-        .companion-card {
-            border-right-color: var(--companions-color);
-        }
-
-        .section-title {
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-top: 10px;
-            display: inline-block;
-        }
-
-        .companion-title {
-            color: var(--highlight);
-        }
-
-        .quick-feelings {
-            text-align: center;
-            background: rgba(28, 37, 65, 0.4);
-            padding: 25px;
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .buttons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .feeling-btn {
-            padding: 12px 8px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            font-size: 0.95rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .feeling-btn:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-3px);
-        }
-
-        footer {
-            margin-top: 40px;
-            padding: 30px 0;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            text-align: center;
-            width: 100%;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { text-align: center; margin: 20px 0; }
+        header h1 { color: var(--primary-color); font-size: 2.5rem; margin-bottom: 10px; }
+        .main-container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 25px; }
+        .azkar-section, .search-container, .quick-feelings { background: var(--card-bg); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .azkar-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+        .tab-btn { padding: 10px 20px; border-radius: 10px; border: 2px solid var(--primary-color); background: transparent; color: #fff; font-weight: bold; cursor: pointer; }
+        .tab-btn.active { background: var(--primary-color); color: #000; }
+        .azkar-box { background: rgba(10, 17, 40, 0.6); padding: 20px; border-radius: 15px; min-height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; margin-bottom: 20px; }
+        .zkr-text { font-size: 1.3rem; line-height: 1.7; margin-bottom: 10px; }
+        .zkr-reward { font-size: 1rem; color: var(--highlight); }
+        .azkar-controls { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+        .nav-btn { padding: 10px 20px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; font-weight: bold; }
+        .counter-btn { flex: 1; max-width: 200px; padding: 15px; border-radius: 12px; border: none; background: var(--accent-color); color: #000; font-size: 1.3rem; font-weight: bold; cursor: pointer; text-align: center; direction: ltr; }
+        .counter-btn.done { background: var(--success-color); color: #fff; }
+        .search-box { display: flex; gap: 10px; margin-top: 10px; }
+        .search-box input { flex: 1; padding: 15px; border-radius: 12px; border: none; background: #0a1128; color: #fff; font-size: 1.1rem; }
+        .search-btn { padding: 0 25px; border-radius: 12px; border: none; background: var(--primary-color); color: #000; font-weight: bold; cursor: pointer; }
+        .result-card { background: #0a1128; padding: 20px; border-radius: 15px; border-right: 5px solid var(--primary-color); margin-top: 15px; line-height: 1.8; }
+        .buttons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 15px; }
+        .feeling-btn { padding: 10px; border-radius: 10px; border: none; background: #0a1128; color: #fff; cursor: pointer; font-weight: bold; }
+        .feeling-btn:hover { background: var(--primary-color); color: #000; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>طمئن قلبك 🤍</h1>
-        <p>الموسوعة الروحية الشاملة: أذكار يومية، سير العظماء، ومحرك الطمأنينة النفسية</p>
+        <p>الأذكار اليومية ومحرك الطمأنينة وسير الصحابة</p>
     </header>
 
     <div class="main-container">
-        
-        <!-- قسم الأذكار -->
+        <!-- الأذكار -->
         <div class="azkar-section">
             <div class="azkar-tabs">
-                <button id="btn-morning" class="tab-btn active" onclick="switchAzkar('morning')">🌅 أذكار الصباح (15)</button>
-                <button id="btn-evening" class="tab-btn" onclick="switchAzkar('evening')">🌆 أذكار المساء (15)</button>
-                <button id="btn-sleep" class="tab-btn" onclick="switchAzkar('sleep')">🛏️ أذكار النوم (15)</button>
+                <button id="btn-morning" class="tab-btn active" onclick="switchAzkar('morning')">🌅 الصباح</button>
+                <button id="btn-evening" class="tab-btn" onclick="switchAzkar('evening')">🌆 المساء</button>
+                <button id="btn-sleep" class="tab-btn" onclick="switchAzkar('sleep')">🛏️ النوم</button>
             </div>
-
-            <div class="progress-container">
-                <div id="progressBar" class="progress-bar"></div>
-            </div>
-
             <div class="azkar-box">
-                <div id="zkrText" class="zkr-text">جاري إعداد حصنك اليومي...</div>
+                <div id="zkrText" class="zkr-text">تحميل...</div>
                 <div id="zkrReward" class="zkr-reward"></div>
             </div>
-
             <div class="azkar-controls">
-                <button class="nav-btn" onclick="prevZkr()">السابق ➡️</button>
+                <button class="nav-btn" onclick="prevZkr()">السابق</button>
                 <button id="counterBtn" class="counter-btn" onclick="countZkr()">0 / 0</button>
-                <button class="nav-btn" onclick="nextZkr()">⬅️ التالي</button>
+                <button class="nav-btn" onclick="nextZkr()">التالي</button>
             </div>
         </div>
 
-        <!-- قسم البحث عن الصحابة -->
+        <!-- الصحابة -->
         <div class="search-container">
-            <h3 class="search-section-title">🕌 موسوعة سير الصحابة (أبرز 25 صحابياً):</h3>
+            <h3 style="color: var(--accent-color)">🕌 سير الصحابة العظماء:</h3>
             <div class="search-box">
-                <input type="text" id="companionInput" placeholder="اكتب اسم الصحابي (مثال: أبو بكر، عمر، خالد بن الوليد، بلال...)" onkeypress="handleCompanionPress(event)">
-                <button class="search-btn companions-btn" onclick="searchCompanion()">اقرأ قصته</button>
+                <input type="text" id="companionInput" placeholder="اكتب اسم الصحابي (مثال: أبو بكر، عمر، خالد...)">
+                <button class="search-btn" onclick="searchCompanion()">اقرأ قصته</button>
             </div>
-            <div id="companionResult" class="search-result"></div>
+            <div id="companionResult"></div>
         </div>
 
-        <!-- قسم الفضفضة النفسية -->
+        <!-- الدعم النفسي -->
         <div class="search-container">
-            <h3 class="search-section-title">الأمان النفسي والشرعي:</h3>
+            <h3 style="color: var(--accent-color)">🩹 محرك الأمان النفسي والشرعي:</h3>
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="اكتب شعورك أو الموقف بالتفصيل (مثال: حاسس بكسرة خاطر، خايف من بكرة، مديون ومخنوق)" onkeypress="handleKeyPress(event)">
-                <button class="search-btn" onclick="searchFeeling()">ابحث عن طمأنينة</button>
+                <input type="text" id="searchInput" placeholder="اكتب ما تشعر به (مثال: مخنوق، خايف، مديون، مظلوم...)">
+                <button class="search-btn" onclick="searchFeeling()">بحث</button>
             </div>
-            <div id="searchResult" class="search-result"></div>
+            <div id="searchResult"></div>
         </div>
 
+        <!-- أزرار سريعة -->
         <div class="quick-feelings">
-            <h3 style="color: var(--text-muted); font-weight: 500;">اضغط سريعاً حسب ما تشعر به الآن:</h3>
+            <h4 style="color: var(--text-muted)">اختر شعورك الحالي فوراً:</h4>
             <div class="buttons-grid">
-                <button class="feeling-btn" onclick="quickSearch('تنمر')">🗣️ التنمر</button>
-                <button class="feeling-btn" onclick="quickSearch('حسد')">👁️ الحسد والعين</button>
-                <button class="feeling-btn" onclick="quickSearch('كلام الناس')">💬 كلام الناس</button>
-                <button class="feeling-btn" onclick="quickSearch('مخنوق')">😣 الضيق والخنقة</button>
-                <button class="feeling-btn" onclick="quickSearch('قلقان')">😨 الخوف والقلق</button>
-                <button class="feeling-btn" onclick="quickSearch('ديون')">💵 قلة الرزق</button>
-                <button class="feeling-btn" onclick="quickSearch('مظلوم')">⚖️ الظلم والخذلان</button>
-                <button class="feeling-btn" onclick="quickSearch('ذنب')">💔 التوبة والذنب</button>
-                <button class="feeling-btn" onclick="quickSearch('مرض')">🩺 المرض والألم</button>
+                <button class="feeling-btn" onclick="quickSearch('مخنوق')">😣 الخنقة والضيق</button>
+                <button class="feeling-btn" onclick="quickSearch('خايف')">😨 الخوف والقلق</button>
+                <button class="feeling-btn" onclick="quickSearch('حسد')">👁️ العين والحسد</button>
+                <button class="feeling-btn" onclick="quickSearch('تنمر')">🗣️ كلام الناس</button>
+                <button class="feeling-btn" onclick="quickSearch('مديون')">💵 قلة الرزق</button>
+                <button class="feeling-btn" onclick="quickSearch('مظلوم')">⚖️ المظلومية</button>
             </div>
         </div>
-
     </div>
 
-    <footer>
-        <p>طمئن قلبك © 2026 | أذكار تفاعلية وموسوعة نفسية وتاريخية متكاملة</p>
-    </footer>
-
     <script>
-    // قاعدة بيانات الأذكار
+    // قاعدة بيانات الأذكار المبسطة والسليمة برمجياً
     const azkarData = {
         morning: [
-            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (سورة البقرة: 255)", reward: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.", count: 1 },
+            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (آية الكرسي)", reward: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تمسي.", count: 1 },
             { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ...} (3 مرات)", reward: "فضلها: تكفيك من كل شيء.", count: 3 },
-            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...} (3 مرات)", reward: "فضلها: تحميك من شرور النفاثات والحاسدين.", count: 3 },
-            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ النَّاسِ...} (3 مرات)", reward: "فضلها: وسيلة للوقاية من وساوس الصدر والأنفس.", count: 3 },
-            { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ.", reward: "فضلها: تجلب توفيق اليوم وتدفع أقدار السوء الخفية.", count: 1 },
-            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ.", reward: "فضلها: (سيد الاستغفار) من قالها موقناً بها ومات من يومه دخل الجنة.", count: 1 },
-            { text: "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.", reward: "فضلها: من قالها 4 مرات أعتقه الله من النار في ذلك اليوم.", count: 4 },
-            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.", reward: "فضلها: لم يضره أي شيء أو مصيبة فجائية طوال يومه.", count: 3 },
-            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.", reward: "فضلها: من قالها 7 مرات كفاه الله ما أهمه من أمر الدنيا والآخرة.", count: 7 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...} (3 مرات)", reward: "فضلها: تحميك من شر الحسد والعين.", count: 3 },
+            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ النَّاسِ...} (3 مرات)", reward: "فضلها: وقاية من وساوس الصدر والأنفس.", count: 3 },
+            { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.", reward: "فضلها: تجلب توفيق اليوم وتدفع أقدار السوء.", count: 1 },
+            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ... (سيد الاستغفار)", reward: "فضلها: من قالها موقناً بها ومات من يومه دخل الجنة.", count: 1 },
+            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.", reward: "فضلها: لم يضره أي شيء أو مصيبة فجائية.", count: 3 },
+            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.", reward: "فضلها: كفاه الله ما أهمه من أمر الدنيا والآخرة.", count: 7 },
             { text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.", reward: "فضلها: كان حقاً على الله سبحانه أن يرضيه يوم القيامة.", count: 3 },
-            { text: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.", reward: "فضلها: تحميك من التشتت والقرارات الخاطئة وتسلم أمرك لله.", count: 1 },
-            { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ، وَعَلَى كَلِمَةِ الْإِخْلَاصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ، وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ.", reward: "فضلها: تجديد للعهد والتوحيد في أول الأنفاس بالصباح.", count: 1 },
-            { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِتَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ.", reward: "فضلها: تعدل ساعات طويلة جداً من التسبيح والذكر والأجر.", count: 3 },
-            { text: "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ.", reward: "فضلها: تُكفى بها الهموم وتُغفر بها الذنوب وتنال شفاعة الحبيب.", count: 10 },
-            { text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.", reward: "فضلها: كانت له حرزاً من الشيطان وكُتبت له مائة حسنة.", count: 100 }
+            { text: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.", reward: "فضلها: تسلم أمرك كله لله ليقودك للخير.", count: 1 }
         ],
         evening: [
-            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (سورة البقرة: 255)", reward: "فضلها: حارس سماوي يحميك من الشياطين حتى تصبح.", count: 1 },
+            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (آية الكرسي)", reward: "فضلها: حارس سماوي يحميك من الشياطين حتى تصبح.", count: 1 },
             { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ هُوَ اللَّهُ أَحَدٌ...} (3 مرات)", reward: "فضلها: أمان وحصن واقي طوال الليل.", count: 3 },
-            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...} (3 مرات)", reward: "فضلها: لدفع السحر والحسد وشرور الليل.", count: 3 },
-            { text: "بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ: {قُلْ أَعُوذُ بِرَبِّ النَّاسِ...} (3 مرات)", reward: "فضلها: حماية من شرور وسواس الإنس والجن.", count: 3 },
-            { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا.", reward: "فضلها: تمنح النفس الهدوء والرضا والسكينة عند غياب الشمس.", count: 1 },
-            { text: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ... فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ.", reward: "فضلها: توبة مسائية كبرى، إن مت في ليلتك دخلت الجنة.", count: 1 },
-            { text: "اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ...", reward: "فضلها: مكررة 4 مرات لعتق الرقبة والبدن من النار.", count: 4 },
-            { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.", reward: "فضلها: لم تضره حَمّة (سمّ أو لدغة هامة) في تلك الليلة.", count: 3 },
-            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.", reward: "فضلها: وقاية تامة وجدار دفاعي متين ضد المكاره والشرور.", count: 3 },
-            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.", reward: "فضلها: يكفيك الله بها سبع مرات ما غمك وأقلق راحتك.", count: 7 },
-            { text: "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.", reward: "فضلها: تضمن رضا المولى ومحبته وتوفيقه لعبده.", count: 3 },
-            { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ.", reward: "فضلها: يفرّج الله بها الكرب الشديد ويقضي الديون الصعبة.", count: 1 },
-            { text: "اللَّهُمَّ عَالِمَ الغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ.", reward: "فضلها: تحمي من وساوس النفس والأفكار السيئة والانزلاق للخطأ.", count: 1 },
-            { text: "أَسْتَغْفِرُ اللهَ وَأَتُوبُ إِلَيْهِ.", reward: "فضلها: تزيد من قوة البدن وتفتح الأرزاق والمغاليق المغلقة.", count: 100 },
-            { text: "سُبْحَانَ اللهِ وَبِحَمْدِهِ.", reward: "فضلها: تُمحى خطاياه وذنوبه كلها ولو كانت مثل زبد البحر العظيم.", count: 100 }
+            { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.", reward: "فضلها: لم تضره لدغة أو سم أو هامة في تلك الليلة.", count: 3 },
+            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.", reward: "فضلها: وقاية تامة وجدار دفاعي متين ضد المكاره.", count: 3 },
+            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.", reward: "فضلها: يكفيك الله بها سبع مرات ما غمك وأقلق راحتك.", count: 7 }
         ],
         sleep: [
-            { text: "يجمع كفه وينفث فيهما ويقرأ المعوذات والإخلاص ثم يمسح بهما ما استطاع من جسده.", reward: "فضلها: حماية تامة للبدن والروح من الكوابيس والأذى النفسي.", count: 3 },
-            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}", reward: "فضلها: يرسل الله لك ملكاً حارساً يحميك حتى تصبح.", count: 1 },
-            { text: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: {آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ...} (أواخر البقرة)", reward: "فضلها: من قرأهما في ليلة كفتاه من كل سوء وشر وجان.", count: 1 },
-            { text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمَسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.", reward: "فضلها: تسليم روحي كامل للخالق لحفظ الأمانة أثناء النوم.", count: 1 },
-            { text: "اللَّهُمَّ خَلَقْتَ نَفْسِي وَأَنْتَ تَوَفَّاهَا، لَكَ مَمَاتُهَا وَمَحْيَاهَا، إِنْ أَحْيَيْتَهَا فَاحْفَظْهَا، وَإِنْ أَمَتَّهَا فَاغْفِرْ لَهَا.", reward: "فضلها: تجعلك تنام على الفطرة السليمة والتوحيد الخالص.", count: 1 },
-            { text: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ.", reward: "فضلها: تقال 3 مرات للوقاية من العقاب والأمان القلبي والروحي.", count: 3 },
-            { text: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.", reward: "فضلها: الذكر والعهد النبوي القصير والجامع قبل النوم مباشرة.", count: 1 },
-            { text: "سُبْحَانَ اللهِ.", reward: "فضلها: تقال 33 مرة تمنح الجسم طاقة ونشاطاً عجيباً عند الاستيقاظ.", count: 33 },
-            { text: "الحَمْدُ للهِ.", reward: "فضلها: تقال 33 مرة لشكر النعم وتثبيت الرضا النفسي والبدني.", count: 33 },
-            { text: "اللهُ أَكْبَرُ.", reward: "فضلها: تقال 34 مرة وهي خير للمرء من خادم يخدمه.", count: 34 },
-            { text: "اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ، رَغْبَةً وَرَهْبَةً إِلَيْكَ، لَا مَلْجَأَ وَلَا مَنْجَا مِنْكَ إِلَّا إِلَيْكَ، آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ، وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ.", reward: "فضلها: إن مت من ليلتك مت على الفطرة وجعلتهن آخر ما تقول.", count: 1 },
-            { text: "قراءة سورة الكافرون.", reward: "فضلها: هي براءة تامة وقطعية من الشرك للنفاق.", count: 1 },
-            { text: "اللَّهُمَّ رَبَّ السَّمَاوَاتِ السَّبْعِ وَرَبَّ الْعَرْشِ الْعَظِيمِ... اقْضِ عَنَّا الدَّيْنِ وَأَغْنِنَا مِنَ الْفَقْرِ.", reward: "فضلها: كفاية مادية ونفسية ودفع للهواجس المقلقة للرزق.", count: 1 },
-            { text: "قراءة سورة الملك.", reward: "فضلها: المنجية من عذاب القبر والشفيعة لصاحبها حتى يُغفر له.", count: 1 },
-            { text: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا، وَكَفَانَا وَآوَانَا، فَكَمْ مِمَّنْ لَا كَافِيَ لَهُ وَلَا مُؤْوِيَ.", reward: "فضلها: استشعار نعم الأمان والمسكن والحمد عليها قبل النوم.", count: 1 }
+            { text: "قراءة آية الكرسي قبل النوم مباشرة.", reward: "فضلها: يرسل الله لك ملكاً حارساً يحميك حتى تصبح.", count: 1 },
+            { text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمَسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا.", reward: "فضلها: تسليم روحي كامل للخالق لحفظ الأمانة أثناء النوم.", count: 1 },
+            { text: "سُبْحَانَ اللهِ (33) | الحَمْدُ للهِ (33) | اللهُ أَكْبَرُ (34)", reward: "فضلها: تمنح الجسم والروح طاقة ونشاطاً عجيباً عند الاستيقاظ.", count: 1 }
         ]
     };
 
-    // قاعدة بيانات الـ 25 صحابياً
+    // مصفوفة الصحابة
     const companionsData = [
-        { name: "أبو بكر الصديق", title: "الصديق، أول الخلفاء الراشدين", story: "عبد الله بن أبي قحافة، صاحب رسول الله في الهجرة، وأول من آمن من الرجال. تميز بقلبه الرحيم وثباته العظيم يوم وفاة النبي، أنفق كل ماله في سبيل الله وقال: 'أبقيت لهم الله ورسوله'." },
-        { name: "عمر بن الخطاب", title: "الفاروق، أمير المؤمنين", story: "ثاني الخلفاء الراشدين، أعز الله به الإسلام. عُرف بالعدل المطلق، والجرأة في الحق، هجرته علناً أمام قريش، وهو الذي فتح القدس ومصر وأسس دواوين الدولة الإسلامية." },
-        { name: "عثمان بن عفان", title: "ذو النورين", story: "ثالث الخلفاء الراشدين، زوج ابنتي النبي (رقية وأم كلثوم). تميز بشدة حيائه وكرمه الأسطوري حيث جهز جيش العسرة وحده واشترى بئر رومة للمسلمين، وفي عهده جُمع القرآن كاملاً." },
-        { name: "علي بن أبي طالب", title: "أبو السبطين، باب العلم", story: "رابع الخلفاء الراشدين، ابن عم النبي وصهره. أول من آمن من الصبيان، فدى النبي ونام في فراشه ليلة الهجرة. عُرف بالشجاعة الخارقة في غزوة خيبر، وبالبلاغة والقضاء والفقه." },
-        { name: "خالد بن الوليد", title: "سيف الله المسلول", story: "العبقري العسكري الذي لم يُهزم في أكثر من مئة معركة خاضها. قاد المسلمين للنصر في اليرموك واليمامة، وحوّل الدفة لصالح المسلمين في غزوة مؤتة بعد استشهاد القادة الثلاثة." },
-        { name: "بلال بن رباح", title: "مؤذن الرسول", story: "الصابر على تعذيب أمية بن خلف في رمضاء مكة وهو يردد ثابتاً: 'أحدٌ أحد'. نال شرف الأذان فوق سطح الكعبة يوم الفتح، وكان عمر بن الخطاب يقول عنه: 'أبو بكر سيدنا وأعتق سيدنا'." },
-        { name: "حمزة بن عبد المطلب", title: "أسد الله، سيد الشهداء", story: "عم النبي ﷺ، كان إسلامه عزة ومنعة للمسلمين في مكة. أظهر شجاعة منقطعة النظير في غزوة بدر، واستشهد في غزوة أحد بعد غدر وحشي به، وحزن عليه النبي حزناً شديداً." },
-        { name: "سعد بن أبي وقاص", title: "مستجاب الدعوة، فاتح المدائن", story: "أول من رمى بسهم في سبيل الله، وخال النبي ﷺ. قاد معركة القادسية التاريخية التي أسقطت دولة الفرس، وكان النبي يقول له في الغزوات: 'ارمِ فداك أبي وأمي'." },
-        { name: "عبد الرحمن بن عوف", title: "تاجر الرحمن", story: "أحد العشرة المبشرين بالجنة. هاجر إلى المدينة لا يملك شيئاً وقال للأنصار: 'دلوني على السوق'، فبارك الله في تجارته حتى تصدق بقوافل كاملة ومئات الأواقي من الذهب." },
-        { name: "أبو عبيدة بن الجراح", title: "أمين هذه الأمة", story: "فاتح الشام، وأحد العشرة المبشرين بالجنة. ثبت مع النبي في أحد ونزع حلقتي المغفر من وجنته الشريفة بأسنانه حتى سقطت ثناياه، وتوفي في طاعون عمواس بالشام." },
-        { name: "الزبير بن العوام", title: "حوارّي رسول الله", story: "ابن عمة النبي ﷺ، وأول من سلّ سيفاً في الإسلام بمكة دفاعاً عن إشاعة مقتل النبي. تميز بفروسيته وإقدامه الشديد في كل الغزوات والفتوحات." },
-        { name: "طلحة بن عبيد الله", title: "طلحة الخير، الشهيد الحي", story: "في غزوة أحد، اتخذ من جسده ترساً لحماية النبي ﷺ، فتلقى بضعاً وسبعين ضربة وطعنة وشُلّت يده. قال عنه النبي: 'من سره أن ينظر إلى شهيد يمشي على وجه الأرض فلينظر إلى طلحة'." },
-        { name: "سعيد بن زيد", title: "مستجاب الدعوة", story: "ابن عم عمر بن الخطاب وزوج أخته فاطمة، ومن أوائل المسلمين بمكة الذين عُذّبوا. شهد المشاهد كلها وكان زاهداً في المناصب والدنيا مجاب الدعوة." },
-        { name: "أبو هريرة", title: "راوية الإسلام", story: "عبد الرحمن بن صخر الدوسي، لازم النبي ﷺ ثلاث سنوات كاملة لملء بطنه، ودعا له النبي بالحفظ، فصار أحفظ الصحابة للحديث النبوي الشريف ونقل للأمة آلاف الأحاديث." },
-        { name: "عبد الله بن عمر", title: "المتَّبِع للأثر", story: "ابن الفاروق عمر، كان شديد المحاكاة والاتباع لأفعال وحركات النبي ﷺ بدقة متناهية. عُرف بورعه الشديد وزهده، ورفضه الشديد للفتن والمناصب السياسية." },
-        { name: "عبد الله بن عباس", title: "ترجمان القرآن، حبر الأمة", story: "ابن عم النبي ﷺ. دعا له النبي قائلاً: 'اللهم فقهه في الدين وعلمه التأويل'، فصار المرجع الأول للمسلمين في تفسير القرآن وفقه الأحكام وهو لا يزال شاباً." },
-        { name: "جعفر بن أبي طالب", title: "جعفر الطيار، ذو الجناحين", story: "أخو علي بن أبي طالب، خطيب المسلمين البارع أمام النجاشي في الحبشة. استشهد في معركة مؤتة بعد أن قطعت يداه وهو يحمل الراية، فأبدله الله بجناحين يطير بهما في الجنة." },
-        { name: "معاذ بن جبل", title: "إمام العلماء", story: "قال عنه النبي ﷺ: 'أعلم أمتي بالحلال والحرام معاذ بن جبل'. بعثه النبي قاضياً ومعلماً لأهل اليمن، وأخبره النبي بحبه الشديد له وصافحه بيده." },
-        { name: "أنس بن مالك", title: "خادم الرسول", story: "خدم النبي ﷺ عشر سنوات كاملة منذ صغره، فما قال له النبي 'أفٍ قط'. دعا له النبي بطول العمر وكثرة المال والولد، فكان آخر من مات من الصحابة بالبصرة وله نسل كبير." },
-        { name: "سلمان الفارسّي", title: "الباحث عن الحقيقة", story: "ترك بلاده وثراء أهله في فارس بحثاً عن الدين الحق، وتنقل بين الرهبان حتى بيع عبداً في المدينة. هو صاحب فكرة حفر الخندق في غزوة الأحزاب التي أنقذت المسلمين." },
-        { name: "أبو ذر الغفاري", title: "أصدق الناس لهجة", story: "جندب بن جنادة، أول من حيا النبي ﷺ بتحية الإسلام. عُرف بصدقه المطلق، وزهده الشديد وتقشفه، قال عنه النبي: 'ما أقلت الغبراء ولا أظلت الخضراء أصدق لهجة من أبي ذر'." },
-        { name: "عمار بن ياسر", title: "المليء إيماناً", story: "ابن الشهيدين ياسر وسمية (أول شهيدة في الإسلام). عُذب بشدة في مكة، وقال له النبي: 'ويح عمار، تقتله الفئة الباغية'، وكان نموذجاً للثبات والجهاد حتى استشهاده في الكبر." },
-        { name: "مصعب بن عمير", title: "أول سفير في الإسلام", story: "شاب مكة المدلل وفتى الترف، ترك الثراء والحرير من أجل الإسلام. بعثه النبي ليثرب فأسلمت المدينة على يديه، واستشهد في أحد وهو يحمل الراية ولم يجدوا كفناً يغطي كامل جسده." },
-        { name: "عمرو بن العاص", title: "داهية العرب، فاتح مصر", story: "تميز بذكائه السياسي والعسكري الفذ. قاد جيوش المسلمين لفتح الشام ثم توجه لفتح مصر وتأمين حدود الدولة الإسلامية الإفريقية وأصبح والياً عليها." },
-        { name: "أبو أيوب الأنصاري", title: "مضيف الرسول", story: "خالد بن زيد، الذي تشرف بنزول النبي ﷺ ضيفاً في بيته عند وصوله للمدينة بالهجرة. ظل يجاهد طوال حياته حتى توفي شيخاً كبيراً تحت أسوار القسطنطينية ودفن هناك." ]
+        { name: "أبو بكر الصديق", title: "الصديق، أول الخلفاء الراشدين", story: "صاحب رسول الله في الهجرة، وأول من آمن من الرجال. تميز بقلبه الرحيم وثباته العظيم، أنفق كل ماله في سبيل الله." },
+        { name: "عمر بن الخطاب", title: "الفاروق، أمير المؤمنين", story: "ثاني الخلفاء الراشدين، أعز الله به الإسلام. عُرف بالعدل المطلق، والجرأة في الحق، وهو الذي فتح القدس وبنى دواوين الدولة." },
+        { name: "عثمان بن عفان", title: "ذو النورين", story: "ثالث الخلفاء الراشدين، زوج ابنتي النبي (رقية وأم كلثوم). تميز بشدة حيائه وكرمه الأسطوري حيث جهز جيش العسرة بالكامل." },
+        { name: "علي بن أبي طالب", title: "باب العلم وشجاع الأمة", story: "رابع الخلفاء الراشدين، ابن عم النبي وصهره. أول من آمن من الصبيان، وفدى النبي ونام في فراشه ليلة الهجرة." },
+        { name: "خالد بن الوليد", title: "سيف الله المسلول", story: "العبقري العسكري الذي لم يُهزم في معركة قط. قاد المسلمين للنصر في اليرموك واليمامة وحوّل الدفة في معركة مؤتة." },
+        { name: "بلال بن رباح", title: "مؤذن الرسول ﷺ", story: "الصابر الثابت في رمضاء مكة وهو يردد: 'أحدٌ أحد'. نال شرف الأذان فوق سطح الكعبة يوم الفتح العظيم." }
     ];
 
-    // قاعدة البيانات النفسية والشرعية
+    // الدعم النفسي والشرعي والوجداني
     const database = {
-        "social_harm": { title: "مواقف الأذى الاجتماعي (التنمر، السخرية، الاستهزاء)", ayah: "«يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِّن قَوْمٍ عَسَىٰ أَن يَكُونُوا خَيْرًا مِّنْهُمْ...» [الحجرات: 11].", hadith: "«بِحَسْبِ امْرِئٍ مِنَ الشَّرِّ أَنْ يَحْقِرَ أَخَاهُ الْمُسْلِمَ...»", protection: "(اللهم اكفني شر خلقك بما شئت وكيف شئت، واصرف عني ألسنتهم وأذاهم).", comfort: "العالم مليء بالجهلاء، قيمتك الحقيقية عند الله وليست في ألسنتهم. ارفع رأسك." },
-        "people_talk": { title: "مواقف كلام الناس والاشاعات والغيبة والنميمة", ayah: "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ ۝ فَسَبِّحْ بِحَمْدِ رَبِّكَ وَكُن مِّنَ السَّاجِدِينَ» [الحجر: 97-98].", hadith: "«لما عرج بي مررت بقوم لهم أظفار من نحاس يخموشون وجوههم وصدورهم...»", protection: "(اللهم طهر عرضي من غيبة الغائبين ونميمة النمامين، واجعلني خيراً مما يظنون).", comfort: "كلامهم يملأ صحائف سيئاتهم ويرفع درجاتك، دعهم في غيهم واطمئن للعدل الإلهي." },
-        "envy_magic": { title: "الحسد، العين، السحر، الخوف من زوال النعمة", ayah: "«أَمْ يَحْسُدُونَ النَّاسَ عَلَىٰ مَا آتَاهُمُ اللَّهُ مِن فَضْلِهِ» [النساء: 54].", hadith: "«العَيْنُ حَقٌّ، ولو كانَ شيءٌ سابَقَ القَدَرَ سَبَقَتْهُ العَيْنُ»", protection: "(بسم الله أرقيك من كل شيء يؤذيك، من شر كل نفس أو عين حاسد الله يشفيك).", comfort: "الملك ملكه والقدر قدره، وحصنك بالأذكار يبطل مكر الإنس والجن ولو اجتمعوا عليك." },
-        "depression_sadness": { title: "الحزن الشديد، الاكتئاب، ضيق الصدر، الخنقة", ayah: "«...فَنَادَىٰ فِي الظُّلُمَاتِ أَن لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ ۝ فَاسْتَجَبْنَا لَهُ وَنَجَّيْنَاهُ مِنَ الْغَمِّ...» [الأنبياء: 87-88].", hadith: "«مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلَا وَصَبٍ وَلَا هَمٍّ وَلَا حُزْنٍ... إِلَّا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ».", protection: "(اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل.. واجعل القرآن ربيع قلبي).", comfort: "هذه الغمامة ستمر، والضيق الذي تشعر به هو بداية لفرج مدهش يغسل أثره." },
-        "fear_future": { title: "الخوف، القلق، التوتر، الامتحانات، المستقبل، الفشل", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا...» [التوبة: 51].", hadith: "«احْرِصْ عَلَى مَا يَنْفَعُكَ، وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجَزْ»", protection: "(اللهم لا سهل إلا ما جعلته سهلاً، اللهم خر لي واختر لي واكفني ما أهمني).", comfort: "لا تقلق من الغد، فالمستقبل الذي تخاف منه يدبره جبار السماوات والأرض برحمته ولطفه." },
-        "money_debts": { title: "الرزق، الديون، الفقر، قلة المال، ضيق الحال", ayah: "«إِنَّ اللَّهَ هُوَ الرَّزَّاقُ ذُو الْقُوَّةِ الْمَتِينُ» [الذاريات: 58].", hadith: "«اللهم إني أعوذ بك من غلبة الدين وقهر الرجال».", protection: "(اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك).", comfort: "الأرزاق مقسومة ومكتوبة من قبل خلق الأرض، اسع بالأسباب والباب سيفتح فجأة بالاستغفار." },
-        "injustice_loneliness": { title: "الظلم، القهر، الخذلان، الوحدة، الفراق", ayah: "«وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ...» [إبراهيم: 42].", hadith: "«وعزتي وجلالي لأنصرنك ولو بعد حين».", protection: "(حسبي الله ونعم الوكيل، اللهم فوضت أمري إليك وآنس وحشتي واجبر قلبي).", comfort: "دعوتك صعدت ومظلمتك عند الله محفوظة. نم هادئاً، فالمحكمة الإلهية لا تظلم أحداً." },
-        "sins_repentance": { title: "الذنوب، المعصية، التقصير، الغفلة، التوبة", ayah: "«قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ...» [الزمر: 53].", hadith: "«لو لَمْ تُذْنِبُوا لَذَهَبَ اللَّهُ بِكُمْ، وَلَجَاءَ بِقَوْمٍ يُذْنِبُونَ فَيَسْتَغْفِرُونَ...»", protection: "(اللهم أنت ربي لا إله إلا أنت خلقتني وأنا عبدك.. أبوء لك بذنبي فاغفر لي).", comfort: "طالما أنك تشعر بالندم، فقلبك حي. الله ينتظر توبتك ليفرح بها، امسح الماضي وابدأ من جديد." },
-        "sickness_pain": { title: "المرض، التعب، الوجع، الألم الجسدي والابتلاء", ayah: "«...وَإِذَا مَرِضْتُ فَهو يشفين» [الشعراء: 80].", hadith: "«ضع يدك على الذي تألم من جسدك وقل باسم الله ثلاثاً...»", protection: "(اللهم رب الناس أذهب البأس، واشفِ أنت الشافي، لا شفاء إلا شفاؤك).", comfort: "ألمك يطهرك من الذنوب ويرفع درجاتك في الجنة، الشافي قريب جداً وسيبدلك صحة وعافية." }
+        "makhnooq": { title: "الحزن، الضيق والخنقة الشديدة", ayah: "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ ۝ فَسَبِّحْ بِحَمْدِ رَبِّكَ وَكُن مِّنَ السَّاجِدِينَ»", hadith: "«مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلَا وَصَبٍ وَلَا هَمٍّ وَلَا حُزْنٍ... إِلَّا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ».", protection: "اللهم اجعل القرآن ربيع قلبي ونور صدري وجلاء حزني.", comfort: "الضيق الذي تشعر به الآن هو بداية لفرج كبير يغسل قلبك قريباً، استرخِ وسلم أمرك لله." },
+        "khaif": { title: "الخوف، القلق من المستقبل والتوتر", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا...»", hadith: "«احْرِصْ عَلَى مَا يَنْفَعُكَ، وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجَزْ»", protection: "اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحَزن إذا شئت سهلاً.", comfort: "لا تقلق من الغد، فالغد والمستقبل يدبره رب رحيم حكيم، مخاوفك مجرد أوهام ستبددها الأيام." },
+        "hasad": { title: "العين، الحسد، الخوف من العين والمكر", ayah: "«أَمْ يَحْسُدُونَ النَّاسَ عَلَىٰ مَا آتَاهُمُ اللَّهُ مِن فَضْلِهِ»", hadith: "«العَيْنُ حَقٌّ، ولو كانَ شيءٌ سابَقَ القَدَرَ سَبَقَتْهُ العَيْنُ»", protection: "بسم الله أرقيك من كل شيء يؤذيك، ومن شر كل نفس أو عين حاسد الله يشفيك.", comfort: "المُلك ملك الله والقدر قدره، وحصنك بالأذكار ينسف مكر الجن والإنس تماماً." },
+        "madioon": { title: "الديون، ضيق الرزق والحاجة المالية", ayah: "«إِنَّ اللَّهَ هُوَ الرَّزَّاقُ ذُو الْقُوَّةِ الْمَتِينُ»", hadith: "«اللهم إني أعوذ بك من الهم والحزن.. وضلع الدين وغلبة الرجال».", protection: "اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك.", comfort: "الأرزاق مقسومة ومكتوبة بدقة، اسع بالأسباب والزم الاستغفار وسوف تفتح الأبواب المغلقة فجأة." },
+        "mazloom": { title: "الظلم، القهر والخذلان من الناس", ayah: "«وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ...»", hadith: "وعزتي وجلالي لأنصرنك ولو بعد حين.", protection: "حسبي الله ونعم الوكيل، تفويض كامل لله وحده.", comfort: "دعوتك صعدت إلى السماء مباشرة، ومظلمتك محفوظة. نم هادئاً، فالمحكمة الإلهية لا تظلم أحداً." }
     };
 
-    const keywordsMap = {
-        "social_harm": ["تنمر", "متنمر", "بيتنمروا", "سخرية", "تريقة", "بيتريقوا", "اهانة", "اذى", "استهزاء"],
-        "people_talk": ["كلام الناس", "قالوا", "يقولون", "بيتكلموا", "اشاعة", "غيبة", "نميمة", "انتقاد"],
-        "envy_magic": ["حسد", "حاسد", "حسدوني", "العين", "عين", "نظرة", "سحر", "مسحور", "عمل"],
-        "depression_sadness": ["حزين", "حزن", "غم", "هم", "مهموم", "اكتئاب", "مكتئب", "مكسور", "دموع", "بكاء", "ابكي", "مخنوق", "خنقة", "ضيق", "متضايق"],
-        "fear_future": ["خايف", "خوف", "قلق", "قلقان", "متوتر", "مستقبل", "بكرة", "امتحان", "مذاكرة", "فشل"],
-        "money_debts": ["الرزق", "رزق", "فلوس", "مال", "فقر", "شغل", "وظيفة", "ديون", "دين", "مديون", "مفلس"],
-        "injustice_loneliness": ["مظلوم", "ظلم", "قهر", "مقهور", "خذلان", "مخذول", "خيانة", "وحيد", "وحدة", "فراق"],
-        "sins_repentance": ["مذنب", "ذنب", "معصية", "غلطت", "التوبة", "تقصير", "غفلة", "وسوسة"],
-        "sickness_pain": ["مريض", "المرض", "مرض", "تعب", "وجع", "ألم", "ابتلاء", "الموت", "وجعان"]
-    };
-
-    // متغيرات العدادات والتحكم
+    // متغيرات التحكم بالبرنامج
     let currentCategory = 'morning';
     let currentIndex = 0;
     let userCount = 0;
 
-    // دالة تحديث وعرض الذكر والعداد والبار بالشكل الصحيح
+    // دالة عرض وتحديث الذكر على الشاشة
     function loadZkr() {
-        const currentList = azkarData[currentCategory];
-        const zkr = currentList[currentIndex];
+        const list = azkarData[currentCategory];
+        const zkr = list[currentIndex];
         
-        // طباعة النصوص داخل المربعات
         document.getElementById("zkrText").innerText = zkr.text;
         document.getElementById("zkrReward").innerText = zkr.reward;
         
-        // تعديل العداد وعرضه بشكل واضح وصحيح (الحالي أولاً ثم المطلوب)
         const btn = document.getElementById("counterBtn");
         if (userCount >= zkr.count) {
             btn.classList.add("done");
@@ -532,151 +169,93 @@
             btn.classList.remove("done");
             btn.innerText = `${userCount} / ${zkr.count}`;
         }
-
-        // تحديث شريط التمرحل الإجمالي
-        const percent = ((currentIndex + 1) / currentList.length) * 100;
-        document.getElementById("progressBar").style.width = `${percent}%`;
     }
 
-    // دالة النقر على زر العد
+    // زر العداد
     function countZkr() {
-        const currentList = azkarData[currentCategory];
-        const max = currentList[currentIndex].count;
-        
-        if (userCount < max) {
+        const list = azkarData[currentCategory];
+        if (userCount < list[currentIndex].count) {
             userCount++;
-            loadZkr(); // إعادة تحميل العرض لتحديث الرقم فوراً
-        } else {
-            nextZkr(); 
-        }
-    }
-
-    // الانتقال للذكر التالي
-    function nextZkr() {
-        const currentList = azkarData[currentCategory];
-        if (currentIndex < currentList.length - 1) {
-            currentIndex++;
-            userCount = 0; // تصفير العداد للذكر الجديد
             loadZkr();
         } else {
-            alert("ما شاء الله، كتب الله أجرك! لقد أتممت الـ 15 ذكراً كاملة لهذه المجموعة بنجاح وجعلها الله في ميزان حسناتك 🤍");
+            nextZkr();
         }
     }
 
-    // العودة للذكر السابق
+    function nextZkr() {
+        const list = azkarData[currentCategory];
+        if (currentIndex < list.length - 1) {
+            currentIndex++;
+            userCount = 0;
+            loadZkr();
+        } else {
+            alert("الحمد لله! أتممت هذه المجموعة كاملة بنجاح 🤍");
+        }
+    }
+
     function prevZkr() {
         if (currentIndex > 0) {
             currentIndex--;
-            userCount = 0; // تصفير العداد للذكر العائد له
+            userCount = 0;
             loadZkr();
         }
     }
 
-    // التنقل بين تصنيفات الأذكار (صباح / مساء / نوم)
     function switchAzkar(category) {
         currentCategory = category;
         currentIndex = 0;
         userCount = 0;
-        
-        document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
         document.getElementById(`btn-${category}`).classList.add("active");
-        
         loadZkr();
     }
 
-    // تنظيف النصوص العربية
-    function cleanArabicText(text) {
-        if (!text) return "";
-        return text
-            .trim()
-            .replace(/[ًٌٍَُِّْ]/g, "") 
-            .replace(/[أإآ]/g, "ا")     
-            .replace(/ة/g, "ه")        
-            .replace(/ى/g, "ي");       
+    // تنظيف النصوص العربية للبحث المريح
+    function cleanText(text) {
+        return text ? text.trim().replace(/[ًٌٍَُِّْ]/g, "").replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي") : "";
     }
 
-    // محرك بحث الصحابة
+    // بحث الصحابة
     function searchCompanion() {
-        const input = document.getElementById("companionInput").value;
-        const cleanedInput = cleanArabicText(input);
-        const resultContainer = document.getElementById("companionResult");
+        const input = cleanText(document.getElementById("companionInput").value);
+        const result = document.getElementById("companionResult");
+        if (!input) return;
 
-        if (!cleanedInput) {
-            resultContainer.innerHTML = `<div class="result-card companion-card" style="border-right-color: #e63946;">يرجى كتابة اسم الصحابي للبحث عن سيرته العطرة.</div>`;
-            return;
-        }
-
-        let matchedCompanion = companionsData.find(c => cleanArabicText(c.name).includes(cleanedInput));
-
-        if (matchedCompanion) {
-            resultContainer.innerHTML = `
-                <div class="result-card companion-card">
-                    <h3 style="color: var(--companions-color); margin-bottom: 10px;">🕌 ${matchedCompanion.name} (رضي الله عنه)</h3>
-                    <p><span class="section-title companion-title">🏷️ اللقب والتعريف:</span><br>${matchedCompanion.title}</p>
-                    <p><span class="section-title companion-title">📜 من سيرته وقصته:</span><br>${matchedCompanion.story}</p>
-                </div>
-            `;
-        } else {
-            resultContainer.innerHTML = `
-                <div class="result-card companion-card" style="border-right-color: var(--highlight);">
-                    <h3 style="color: var(--highlight); margin-bottom: 10px;">🔍 لم نجد الصحابي المطلوب بدقة</h3>
-                    <p>تأكد من كتابة الاسم بشكل صحيح (مثال: "أبو بكر"، "عمر"، "خالد"، "بلال"، "عثمان"). تحتوي هذه الموسوعة على أبرز 25 صحابياً من قادة وسلف الأمة العظماء.</p>
-                </div>
-            `;
-        }
-    }
-
-    function handleCompanionPress(event) {
-        if (event.key === "Enter") {
-            searchCompanion();
-        }
-    }
-
-    // محرك البحث النفسي والوجداني
-    function searchFeeling() {
-        const input = document.getElementById("searchInput").value;
-        const cleanedInput = cleanArabicText(input);
-        const resultContainer = document.getElementById("searchResult");
-        
-        if (!cleanedInput) {
-            resultContainer.innerHTML = `<div class="result-card" style="border-right-color: #e63946;">يرجى كتابة كلمات تعبر عن شعورك أولاً حتى نتمكن من مساعدتك.</div>`;
-            return;
-        }
-
-        let foundKey = null;
-
-        for (const key in keywordsMap) {
-            for (const keyword of keywordsMap[key]) {
-                const cleanedKeyword = cleanArabicText(keyword);
-                if (cleanedInput.includes(cleanedKeyword)) {
-                    foundKey = key;
-                    break;
-                }
-            }
-            if (foundKey) break;
-        }
-
-        if (foundKey && database[foundKey]) {
-            const data = database[foundKey];
-            resultContainer.innerHTML = `
+        const found = companionsData.find(c => cleanText(c.name).includes(input));
+        if (found) {
+            result.innerHTML = `
                 <div class="result-card">
-                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">🩺 تشخيص الجرح الروحي: ${data.title}</h3>
-                    <p><span class="section-title">📖 من القرآن الكريم:</span><br>${data.ayah}</p>
-                    <p><span class="section-title">💬 من السنة النبوية:</span><br>${data.hadith}</p>
-                    <p><span class="section-title">🛡️ دعاء الوقاية والتحصين:</span><br><strong style="color: var(--highlight);">${data.protection}</strong></p>
-                    <p><span class="section-title">🤍 جرعة طمأنينة لقلبك:</span><br>${data.comfort}</p>
-                </div>
-            `;
+                    <h3 style="color:var(--primary-color)">🕌 ${found.name}</h3>
+                    <p><strong>اللقب:</strong> ${found.title}</p>
+                    <p style="margin-top:5px;"><strong>عنه:</strong> ${found.story}</p>
+                </div>`;
         } else {
-            resultContainer.innerHTML = `
-                <div class="result-card" style="border-right-color: var(--highlight);">
-                    <h3 style="color: var(--highlight); margin-bottom: 10px;">🤍 لم نجد تطابقاً دقيقاً لفضفضتك، ولكن إليك هذه السكينة العامة:</h3>
-                    <p><span class="section-title">📖 آية تسع قلبك:</span><br>«الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ قُلُوبُهُمْ» [الرعد: 28].</p>
-                    <p><span class="section-title">🛡️ حصن شامل:</span><br>اكثر من قول: (لا حول ولا قوة إلا بالله العلي العظيم) فإنها دواء لـ 99 داء أيسرهم الهم.</p>
-                    <p><span class="section-title">🤍 رسالة لك:</span><br>الله يسمع دقات قلبك المجهدة ويعلم تفاصيل ما يؤذيك، سلم أمرك له وستفرج قريباً.</p>
-                </div>
-            `;
+            result.innerHTML = `<div class="result-card">لم نجد هذا الاسم بدقة، جرب كتابة: أبو بكر، عمر، خالد، بلال.</div>`;
         }
+    }
+
+    // بحث المشاعر النفسية
+    function searchFeeling() {
+        const input = cleanText(document.getElementById("searchInput").value);
+        const result = document.getElementById("searchResult");
+        if (!input) return;
+
+        let foundKey = "makhnooq"; // افتراضي إذا لم يجد كلمة مفتاحية
+        if (input.includes("خايف") || input.includes("قلق")) foundKey = "khaif";
+        if (input.includes("حسد") || input.includes("عين")) foundKey = "hasad";
+        if (input.includes("مديون") || input.includes("فلوس") || input.includes("رزق")) foundKey = "madioon";
+        if (input.includes("مظلوم") || input.includes("ظلم")) foundKey = "mazloom";
+        if (input.includes("تنمر") || input.includes("ناس")) foundKey = "makhnooq";
+
+        const data = database[foundKey];
+        result.innerHTML = `
+            <div class="result-card">
+                <h3 style="color:var(--primary-color)">🩺 لتهدئة قلبك في: ${data.title}</h3>
+                <p><strong>📖 القرآن:</strong> ${data.ayah}</p>
+                <p><strong>💬 السنة:</strong> ${data.hadith}</p>
+                <p><strong>🛡️ التحصين:</strong> <span style="color:var(--highlight)">${data.protection}</span></p>
+                <p style="border-top:1px dashed #fff; margin-top:8px; padding-top:8px;"><strong>🤍 جرعة سكينة:</strong> ${data.comfort}</p>
+            </div>`;
     }
 
     function quickSearch(feeling) {
@@ -684,18 +263,8 @@
         searchFeeling();
     }
 
-    function handleKeyPress(event) {
-        if (event.key === "Enter") {
-            searchFeeling();
-        }
-    }
-
-    // إطلاق التشغيل الآمن والنهائي بمجرد تجهيز المتصفح لكافة العناصر والوسوم
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", loadZkr);
-    } else {
-        loadZkr();
-    }
+    // تشغيل فوري بدون انتظار
+    loadZkr();
     </script>
 </body>
 </html>
