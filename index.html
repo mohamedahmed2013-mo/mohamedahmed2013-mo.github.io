@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طمئن قلبك - الموسوعة الروحية الشاملة</title>
+    <title>طمئن قلبك - الموسوعة الروحية الشاملة والأذكار</title>
     <style>
         :root {
             --bg-color: #0a1128;
@@ -13,6 +13,7 @@
             --primary-color: #00b4d8;
             --accent-color: #00f5d4;
             --highlight: #ffd166;
+            --success-color: #2a9d8f;
         }
 
         * {
@@ -52,12 +53,141 @@
             line-height: 1.6;
         }
 
-        .search-container {
+        .main-container {
             width: 100%;
-            max-width: 700px;
-            margin-bottom: 35px;
+            max-width: 850px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
+        /* قسم الأذكار الجديد */
+        .azkar-section {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .azkar-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 180, 216, 0.3);
+            background: transparent;
+            color: var(--text-color);
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary-color);
+            color: #000;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+        }
+
+        .azkar-box {
+            background: rgba(10, 17, 40, 0.6);
+            padding: 25px;
+            border-radius: 16px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .zkr-text {
+            font-size: 1.35rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .zkr-reward {
+            font-size: 1rem;
+            color: var(--highlight);
+            font-style: italic;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .azkar-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-color);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .counter-btn {
+            flex: 1;
+            max-width: 250px;
+            padding: 18px;
+            border-radius: 16px;
+            border: none;
+            background: var(--accent-color);
+            color: #000;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 245, 212, 0.3);
+            text-align: center;
+        }
+
+        .counter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .counter-btn.done {
+            background: var(--success-color);
+            color: #fff;
+            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.3);
+        }
+
+        /* محرك البحث القديم المطور */
         .search-box {
             display: flex;
             gap: 10px;
@@ -79,7 +209,6 @@
 
         .search-box input:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 4px 25px rgba(0, 180, 216, 0.25);
         }
 
         .search-box button {
@@ -96,12 +225,6 @@
 
         .search-box button:hover {
             background-color: var(--accent-color);
-            transform: scale(1.02);
-        }
-
-        .search-result {
-            width: 100%;
-            min-height: 50px;
         }
 
         .result-card {
@@ -131,61 +254,42 @@
             color: var(--highlight);
             font-weight: bold;
             text-align: center;
-            font-size: 1.1rem;
         }
 
         .quick-feelings {
-            width: 100%;
-            max-width: 850px;
             text-align: center;
             background: rgba(28, 37, 65, 0.4);
             padding: 25px;
             border-radius: 24px;
             border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 40px;
-        }
-
-        .quick-feelings h3 {
-            margin-bottom: 20px;
-            color: var(--text-muted);
-            font-weight: 500;
         }
 
         .buttons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
         }
 
         .feeling-btn {
-            padding: 15px 10px;
-            border-radius: 14px;
+            padding: 12px 8px;
+            border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
             background-color: var(--card-bg);
             color: var(--text-color);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
         }
 
         .feeling-btn:hover {
             border-color: var(--primary-color);
-            transform: translateY(-4px);
-            background: rgba(28, 37, 65, 0.8);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .feeling-btn span {
-            font-size: 1.8rem;
+            transform: translateY(-3px);
         }
 
         footer {
-            margin-top: auto;
+            margin-top: 40px;
             padding: 30px 0;
             color: var(--text-muted);
             font-size: 0.95rem;
@@ -204,119 +308,195 @@
 
     <header>
         <h1>طمئن قلبك 🤍</h1>
-        <p>المحرك الذكي الشامل لأدق 1000 شعور وموقف اجتماعي ونفسي يمر بك مع آياتها، أحاديثها، وأدعية تحصينها وقائياً</p>
+        <p>المحرك الذكي لعلاج أحوال النفس، مع حصن المسلم المتكامل لتفتيح الصدر وتحصين الروح</p>
     </header>
 
-    <div class="search-container">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="اكتب شعورك أو الموقف بالتفصيل (مثال: بيتنمروا عليا، خايف من النتيجة، مخنوق من الشغل، حاسس بالوحدة)">
-            <button onclick="searchFeeling()">ابحث عن طمأنينة</button>
-        </div>
-        <div id="searchResult" class="search-result"></div>
-    </div>
+    <div class="main-container">
+        
+        <!-- قسم الأذكار الجديد بالكامل -->
+        <div class="azkar-section">
+            <div class="azkar-tabs">
+                <button class="tab-btn active" onclick="switchAzkar('morning')">🌅 أذكار الصباح</button>
+                <button class="tab-btn" onclick="switchAzkar('evening')">🌆 أذكار المساء</button>
+                <button class="tab-btn" onclick="switchAzkar('sleep')">🛏️ أذكار النوم</button>
+            </div>
 
-    <div class="quick-feelings">
-        <h3>أبرز التصنيفات والمواقف الحياتية:</h3>
-        <div class="buttons-grid">
-            <button class="feeling-btn" onclick="quickSearch('تنمر')"><span>🗣️</span>التنمر والسخرية</button>
-            <button class="feeling-btn" onclick="quickSearch('حسد')"><span>👁️</span>الحسد والعين</button>
-            <button class="feeling-btn" onclick="quickSearch('كلام الناس')"><span>💬</span>ألسنة الناس</button>
-            <button class="feeling-btn" onclick="quickSearch('مخنوق')"><span>😣</span>الضيق والخنقة</button>
-            <button class="feeling-btn" onclick="quickSearch('قلقان')"><span>😨</span>الخوف والقلق</button>
-            <button class="feeling-btn" onclick="quickSearch('ديون')"><span>💵</span>الرزق والديون</button>
-            <button class="feeling-btn" onclick="quickSearch('مظلوم')"><span>⚖️</span>الظلم والخذلان</button>
-            <button class="feeling-btn" onclick="quickSearch('ذنب')"><span>💔</span>التوبة والمعصية</button>
-            <button class="feeling-btn" onclick="quickSearch('حزين')"><span>😔</span>الحزن والكسرة</button>
-            <button class="feeling-btn" onclick="quickSearch('مرض')"><span>🩺</span>المرض والابتلاء</button>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+
+            <div class="azkar-box">
+                <div id="zkrText" class="zkr-text">تحميل الذكر...</div>
+                <div id="zkrReward" class="zkr-reward"></div>
+            </div>
+
+            <div class="azkar-controls">
+                <button class="nav-btn" onclick="prevZkr()">السابق ➡️</button>
+                <button id="counterBtn" class="counter-btn" onclick="countZkr()">0 / 1</button>
+                <button class="nav-btn" onclick="nextZkr()">⬅️ التالي</button>
+            </div>
         </div>
+
+        <!-- قسم البحث النفسي والدلالي -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="اكتب شعورك أو الموقف بالتفصيل (مثال: خايف من بكرة، بيتنمروا عليا، مديون ومخنوق)">
+                <button onclick="searchFeeling()">ابحث عن طمأنينة</button>
+            </div>
+            <div id="searchResult" class="search-result"></div>
+        </div>
+
+        <div class="quick-feelings">
+            <h3 style="color: var(--text-muted); font-weight: 500;">اضغط سريعاً حسب ما تشعر به الآن:</h3>
+            <div class="buttons-grid">
+                <button class="feeling-btn" onclick="quickSearch('تنمر')">🗣️ التنمر</button>
+                <button class="feeling-btn" onclick="quickSearch('حسد')">👁️ الحسد والعين</button>
+                <button class="feeling-btn" onclick="quickSearch('كلام الناس')">💬 كلام الناس</button>
+                <button class="feeling-btn" onclick="quickSearch('مخنوق')">😣 الضيق والخنقة</button>
+                <button class="feeling-btn" onclick="quickSearch('قلقان')">😨 الخوف والقلق</button>
+                <button class="feeling-btn" onclick="quickSearch('ديون')">💵 قلة الرزق</button>
+                <button class="feeling-btn" onclick="quickSearch('مظلوم')">⚖️ الظلم والخذلان</button>
+                <button class="feeling-btn" onclick="quickSearch('ذنب')">💔 التوبة والذنب</button>
+                <button class="feeling-btn" onclick="quickSearch('مرض')">🩺 المرض والألم</button>
+            </div>
+        </div>
+
     </div>
 
     <footer>
-        <p>طمئن قلبك © 2026 | موسوعة مبرمجة لراحة نفسك وتوجيه روحك بالقرآن والسنة</p>
+        <p>طمئن قلبك © 2026 | أذكار تفاعلية وموسوعة نفسية متكاملة لراحة بالك</p>
     </footer>
 
     <script>
-    // شجرة الحالات الروحية الكبرى وعلاجاتها ووسائل الوقاية والتحصين
-    const database = {
-        "social_harm": {
-            "title": "مواقف الأذى الاجتماعي (التنمر، السخرية، الاستهزاء، التريقة، الاضطهاد)",
-            "ayah": "«يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِّن قَوْمٍ عَسَىٰ أَن يَكُونُوا خَيْرًا مِّنْهُمْ وَلَا نِسَاءٌ مِّن نِّسَاءٍ عَسَىٰ أَن يَكُنَّ خَيْرًا مِّنْهُنَّ» [الحجرات: 11].",
-            "hadith": "قال رسول الله ﷺ: «بِحَسْبِ امْرِئٍ مِنَ الشَّرِّ أَنْ يَحْقِرَ أَخَاهُ الْمُسْلِمَ، كُلُّ الْمُسْلِمِ عَلَى الْمُسْلِمِ حَرَامٌ: دَمُهُ، وَمَالُهُ، وَعِرْضُهُ».",
-            "protection": "(اللهم احفظني من بين يدي ومن خلفي، وعن يميني وعن شمالي، ومن فوقي، وأعوذ بعظمتك أن أغتال من تحتي، اللهم اكفني شر خلقك بما شئت وكيف شئت، واصرف عني ألسنتهم وأذاهم).",
-            "comfort": "قيمتك ومكانتك كرمها الله من فوق سبع سماوات حين خلقك، فلا تبتئس بجهل جاهل أو سخرية حاقد، فصبرك يرفع درجاتك ويمحو سيئاتك ويُثقل ميزانك."
-        },
-        "people_talk": {
-            "title": "مواقف كلام الناس والاشاعات والغيبة والنميمة والانتقاد الهدام",
-            "ayah": "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ * فَسَبِّحْ بِحَمْدِ رَبِّكَ وَكُن مِّنَ السَّاجِدِينَ» [الحجر: 97-98]، و«فَلَا يَحْزُنكَ قَوْلُهُمْ ۘ إِنَّا نَعْلَمُ مَا يُسِرُّونَ وَمَا يُعْلِنُونَ».",
-            "hadith": "قال النبي ﷺ: «لَمَّا عُرِجَ بِي مَرَرْتُ بِقَوْمٍ لَهُمْ أَظْفَارٌ مِنْ نُحَاسٍ يَخْمُشُونَ وُجُوهَهُمْ وَصُدُورَهُمْ... هَؤُلَاءِ الَّذِينَ يَأْكُلُونَ لُحُومَ النَّاسِ».",
-            "protection": "(اللهم طهر سيرتي وعرضي من غيبة الغائبين ونميمة النمامين، اللهم اشغلهم بأنفسهم واجعلني خيراً مما يظنون واغفر لي ما لا يعلمون).",
-            "comfort": "كلام الناس لا يرفع وضيعاً ولا يخفض رفيعاً. رضا الناس غاية مستحيلة، ورضا الله غاية واضحة، فاجعل همك رضا ربك وسيتولى هو سبحانه تبييض وجهك والدفاع عنك."
-        },
-        "envy_magic": {
-            "title": "الحسد، العين، السحر، الخوف من زوال النعمة، الحقد، النظرة",
-            "ayah": "«أَمْ يَحْسُدُونَ النَّاسَ عَلَىٰ مَا آتَاهُمُ اللَّهُ مِن فَضْلِهِ» [النساء: 54]، و«وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ».",
-            "hadith": "قال رسول الله ﷺ: «العَيْنُ حَقٌّ، ولو كانَ شيءٌ سابَقَ القَدَرَ سَبَقَتْهُ العَيْنُ» وكان يعوّذ الحسن والحسين بكلام الله.",
-            "protection": "(بسم الله أرقيك من كل شيء يؤذيك، من شر كل نفس أو عين حاسد الله يشفيك. أعوذ بكلمات الله التامات من شر ما خلق، تحصنت بالحي القيوم الذي لا يموت).",
-            "comfort": "خزائن الله مليئة بالخير، وأقدارك مكتوبة بيده اللطيفة وحده. لا يمكن لإنس ولا جان أن يمنع رزقاً أو خيراً ساقه الله إليك، فحصن نفسك بالأذكار ونم مستقراً آمن السرب."
-        },
-        "depression_sadness": {
-            "title": "الحزن الشديد، الاكتئاب، البكاء، كسرة الخاطر، ضيق الصدر، الخنقة، الدموع",
-            "ayah": "«فَنَادَىٰ فِي الظُّلُمَاتِ أَن لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ * فَاسْتَجَبْنَا لَهُ وَنَجَّيْنَاهُ مِنَ الْغَمِّ ۚ وَكَذَٰلِكَ نُنجِي الْمُؤْمِنِينَ» [الأنبياء: 87-88].",
-            "hadith": "قال النبي ﷺ: «مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلَا وَصَبٍ وَلَا هَمٍّ وَلَا حُزْنٍ وَلَا أَذًى وَلَا غَمٍّ، حَتَّى الشَّوْكَةِ يُشَاكُهَا، إِلَّا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ».",
-            "protection": "(اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والبخل والجبن، وضَلَعِ الدين وغلَبة الرجال. اللهم اجعل القرآن ربيع قلبي ونور صدري وجلاء حزني).",
-            "comfort": "هذه الدنيا دار ممر لا مستقر، والضيق الذي تشعر به الآن يعقبه فرج عظيم يغسل مواطن الألم في قلبك. الجبار سبحانه سُمي جباراً لأنه يجبر القلوب المنكسرة."
-        },
-        "fear_future": {
-            "title": "الخوف، القلق، التوتر، الامتحانات، الدراسة، الحيرة، التشتت، المستقبل، بكرة، الفشل",
-            "ayah": "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا ۚ وَعَلَى اللَّهِ فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ» [التوبة: 51]، و«وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهو حَسْبُهُ».",
-            "hadith": "قال رسول الله ﷺ: «احْرِصْ عَلَى مَا يَنْفَعُكَ، وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجَزْ»، وقال: «لو أنكم تتوكلون على الله حق توكله لرزقكم كما يرزق الطير».",
-            "protection": "(اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً. اللهم خر لي واختر لي، واكفني ما أهمني، وآمن روعاتي واستر عوراتي).",
-            "comfort": "المستقبل والرزق والنتائج كلها بيد مدبر حكيم أرحم بك من أمك. سيعطيك الله على قدر سعيك وتعبك، فافعل ما بوسعك اليوم ودع تدبير بكرة لمن لا يغفل ولا ينام."
-        },
-        "money_debts": {
-            "title": "الرزق، الديون، الفقر، قلة المال، ضيق الحال، الحاجة، العمل، الوظيفة",
-            "ayah": "«وَفِي السَّمَاءِ رِزْقُكُمْ وَمَا تُوعَدُونَ * فَوَرَبِّ السَّمَاءِ وَالْأَرْضِ إِنَّهُ لَحَقٌّ مِّثْلَ مَا أَنَّكُمْ تَنطِقُونَ» [الذاريات: 22-23].",
-            "hadith": "جاءت فاطمة تسأل النبي خادماً فقال لها ولعلي: «ألا أدلكما على ما هو خير لكما من خادم؟ تسبحان الله ثلاثاً وثلاثين...»، وعلم أمته دعاء قضاء الدين الكبار.",
-            "protection": "(اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك. اللهم مالك الملك تؤتي الملك من تشاء.. اقضِ عني الدين وأغنني من الفقر برحمتك يا أرحم الراحمين).",
-            "comfort": "لا تموت نفس حتى تستكمل رزقها وأجلها. باب الرزق يفتحه الله بالاستغفار والتقوى، والضيق المالي الحالي هو ابتلاء مؤقت ليرى الله يقينك وثقتك بخزائنه."
-        },
-        "injustice_loneliness": {
-            "title": "الظلم، القهر، الخذلان، الغدر، الخيانة، الوحدة، الفراق، وحيد، مظلوم",
-            "ayah": "«وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ ۚ إِنَّمَا يُؤَخِّرُهُمْ لِيَوْمٍ تَشْخَصُ فِيهِ الْأَبْصَارُ» [إبراهيم: 42].",
-            "hadith": "يقول الله تبارك وتعالى في الحديث القدسي لدعوة المظلوم: «وَعِزَّتِي وَجَلَالِي لَأَنْصُرَنَّكِ وَلَوْ بَعْدَ حِينٍ».",
-            "protection": "(حسبي الله ونعم الوكيل، اللهم فوضت أمري إليك، اللهم أنت نصيري فلا تكلني لأحد من خلقك، وآنس وحشتي واجبر كسر قلبي).",
-            "comfort": "إذا خذلك الخلق فذلك لتعلم أن التعلق بغير الله منقصة، وإذا شعرت بالوحدة فالله معك أينما كنت. نم قرير العين فسهام الليل من المظلوم والمقهور صائبة."
-        },
-        "sins_repentance": {
-            "title": "الذنوب، المعصية، التقصير، الغفلة، التوبة، الندم، وسوسة الشيطان، ضعف الإيمان",
-            "ayah": "«قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ۚ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا ۚ إِنَّهُ هُوَ الْغَفُورُ الرَّحِيمُ» [الزمر: 53].",
-            "hadith": "قال رسول الله ﷺ: «والذي نَفْسِي بِيَدِهِ لو لَمْ تُذْنِبُوا لَذَهَبَ اللَّهُ بِكُمْ، وَلَجَاءَ بِقَوْمٍ يُذْنِبُونَ فَيَسْتَغْفِرُونَ اللَّهَ فَيَغْفِرُ لَهُمْ».",
-            "protection": "(اللهم أنت ربي لا إله إلا أنت خلقتني وأنا عبدك.. أعوذ بك من شر ما صنعت، وأبوء لك بنعمتك علي وأبوء بذنبي فاغفر لي فإنه لا يغفر الذنوب إلا أنت).",
-            "comfort": "الله لا يمل حتى تملوا، وباب التوبة والعودة مفتوح دائماً ما لم تغرب الشمس من مغربها. مجرد شعورك بالندم والوجع هو دليل حسي على حياة إيمانك وطهارة قلبك."
-        },
-        "sickness_pain": {
-            "title": "المرض، التعب، الوجع، الألم الجسدي، الابتلاء، الموت، الوهن",
-            "ayah": "«وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ» [الشعراء: 80]، و«أَنِّي مَسَّنِيَ الضُّرُّ وَأَنتَ أَرْحَمُ الرَّاحِمِينَ».",
-            "hadith": "قال النبي ﷺ: «ضع يدك على الذي تألم من جسدك وقل باسم الله ثلاثاً وقل سبع مرات: أعوذ بالله وقدرته من شر ما أجد وأحاذِر».",
-            "protection": "(اللهم رب الناس أذهب البأس، واشفِ أنت الشافي، لا شفاء إلا شفاؤك، شفاء لا يغادر سقماً. اللهم عافني في بدني، اللهم عافني في سمعي وفي بصري).",
-            "comfort": "كل وجع تشعر به أو ألم يمر بجسدك هو طهور لك، يغسل الله به خطاياك ويرفع به منزلتك في الجنة حتى تبلغ مرتبة الصابرين الأبرار."
+    // قاعدة بيانات الأذكار
+    const azkarData = {
+        morning: [
+            { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.", reward: "فائدته: فتح أبواب التوفيق والحفظ في هذا اليوم.", count: 1 },
+            { text: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ.", reward: "فائدته: إقرار بالتوحيد والتوكل الكامل على الله.", count: 1 },
+            { text: "قُلْ هُوَ اللَّهُ أَحَدٌ ، قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ، قُل * أَعُوذُ بِرَبِّ النَّاسِ", reward: "فائدته: تكفيك من كل شيء وتحميك من الإنس والجن والحسد.", count: 3 },
+            { text: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ.", reward: "فائدته: لم يضره شيء في ذلك اليوم ولا تصيبه فجأة بلاء.", count: 3 },
+            { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.", reward: "فائدته: من قالها كفاه الله ما أهمه من أمر الدنيا والآخرة.", count: 7 }
+        ],
+        evening: [
+            { text: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ.", reward: "فائدته: حماية ليلية كاملة وسكينة للنفس.", count: 1 },
+            { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ.", reward: "فائدته: تسليم الروح والبدن لخالقها عند المساء.", count: 1 },
+            { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.", reward: "فائدته: مضاد حاسم لشرور الإنس والجن والزواحف والهوام.", count: 3 },
+            { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ.", reward: "فائدته: يذهب الله به همك ويقضي به دينك.", count: 1 }
+        ],
+        sleep: [
+            { text: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.", reward: "فائدته: وكل الله بك ملكاً يحرسك حتى تصبح.", count: 1 },
+            { text: "اللَّهُمَّ خَلَقْتَ نَفْسِي وَأَنْتَ تَوَفَّاهَا، لَكَ مَمَاتُهَا وَمَحْيَاهَا، إِنْ أَحْيَيْتَهَا فَاحْفَظْهَا، وَإِنْ أَمَتَّهَا فَاغْفِرْ لَهَا.", reward: "فائدته: تنام على فطرة الإسلام والتوحيد النقي.", count: 1 },
+            { text: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ.", reward: "فائدته: وقاية من عقاب الله وأمان للقلب الخائف.", count: 3 }
+        ]
+    };
+
+    let currentCategory = 'morning';
+    let currentIndex = 0;
+    let userCount = 0;
+
+    function loadZkr() {
+        const currentList = azkarData[currentCategory];
+        const zkr = currentList[currentIndex];
+        
+        document.getElementById("zkrText").innerText = zkr.text;
+        document.getElementById("zkrReward").innerText = zkr.reward;
+        
+        userCount = 0;
+        updateCounterButton(zkr.count);
+        updateProgressBar();
+    }
+
+    function updateCounterButton(max) {
+        const btn = document.getElementById("counterBtn");
+        btn.innerText = `${userCount} / ${max}`;
+        if (userCount >= max) {
+            btn.classList.add("done");
+            btn.innerText = `✓ تم (${max})`;
+        } else {
+            btn.classList.remove("done");
         }
+    }
+
+    function countZkr() {
+        const currentList = azkarData[currentCategory];
+        const max = currentList[currentIndex].count;
+        
+        if (userCount < max) {
+            userCount++;
+            updateCounterButton(max);
+            if (userCount === max) {
+                // اهتزاز خفيف للهاتف إن وجد عند الاكتمال
+                if(navigator.vibrate) navigator.vibrate(50);
+            }
+        } else {
+            nextZkr(); // إذا ضغط بعد الاكتمال ينقله للذكر التالي تلقائياً
+        }
+    }
+
+    function nextZkr() {
+        const currentList = azkarData[currentCategory];
+        if (currentIndex < currentList.length - 1) {
+            currentIndex++;
+            loadZkr();
+        } else {
+            alert("أحسنت! لقد أتممت هذه المجموعة كاملة، تقبل الله منك وعمّرك بحفظه 🤍");
+        }
+    }
+
+    function prevZkr() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            loadZkr();
+        }
+    }
+
+    function switchAzkar(category) {
+        currentCategory = category;
+        currentIndex = 0;
+        
+        // تحديث شكل الأزرار النشطة
+        document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+        event.target.classList.add("active");
+        
+        loadZkr();
+    }
+
+    function updateProgressBar() {
+        const currentList = azkarData[currentCategory];
+        const percent = ((currentIndex + 1) / currentList.length) * 100;
+        document.getElementById("progressBar").style.width = `${percent}%`;
+    }
+
+    // تشغيل أول ذكر تلقائياً عند فتح الصفحة
+    window.onload = function() {
+        loadZkr();
     };
 
-    // قاموس الكلمات الدلالية الشامل (أكثر من 1000 كلمة ومترادف وموقف اجتماعي ونفسي)
+    // --- كود قاعدة بيانات محرك البحث الدلالي القديم ---
+    const database = {
+        "social_harm": { title: "مواقف الأذى الاجتماعي (التنمر، السخرية، الاستهزاء)", ayah: "«يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِّن قَوْمٍ عَسَىٰ أَن يَكُونُوا خَيْرًا مِّنْهُمْ...» [الحجرات: 11].", hadith: "«بِحَسْبِ امْرِئٍ مِنَ الشَّرِّ أَنْ يَحْقِرَ أَخَاهُ الْمُسْلِمَ...»", protection: "(اللهم اكفني شر خلقك بما شئت وكيف شئت، واصرف عني ألسنتهم وأذاهم).", comfort: "قيمتك كرمها الله، فلا تبتئس بجهل جاهل أو سخرية حاقد." },
+        "people_talk": { title: "مواقف كلام الناس والاشاعات والغيبة والنميمة", ayah: "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ بِمَا يَقُولُونَ * فَسَبِّحْ بِحَمْدِ رَبِّكَ...» [الحجر: 97-98].", hadith: "«لما عرج بي مررت بقوم لهم أظفار من نحاس يخموش وجوههم...»", protection: "(اللهم طهر عرضي من غيبة الغائبين ونميمة النمامين، واجعلني خيراً مما يظنون).", comfort: "كلام الناس لا يرفع وضيعاً ولا يخفض رفيعاً، اجعل همك رضا ربك." },
+        "envy_magic": { title: "الحسد، العين، السحر، الخوف من زوال النعمة", ayah: "«أَمْ يَحْسُدُونَ النَّاسَ عَلَىٰ مَا آتَاهُمُ اللَّهُ مِن فَضْلِهِ» [النساء: 54].", hadith: "«العَيْنُ حَقٌّ، ولو كانَ شيءٌ سابَقَ القَدَرَ سَبَقَتْهُ العَيْنُ»", protection: "(بسم الله أرقيك من كل شيء يؤذيك، من شر كل نفس أو عين حاسد الله يشفيك).", comfort: "خزائن الله مليئة، وأقدارك بيده، لا إنس ولا جان يمنع رزقاً ساقه الله إليك." },
+        "depression_sadness": { title: "الحزن الشديد، الاكتئاب، ضيق الصدر، الخنقة", ayah: "«فَنَادَىٰ فِي الظُّلُمَاتِ أَن لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ...»", hadith: "«مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلَا وَصَبٍ وَلَا هَمٍّ وَلَا حُزْنٍ... إِلَّا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ».", protection: "(اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل.. واجعل القرآن ربيع قلبي).", comfort: "الضيق يعقبه فرج عظيم يغسل مواطن الألم. الجبار سبحانه يجبر القلوب المنكسرة." },
+        "fear_future": { title: "الخوف، القلق، التوتر، الامتحانات، المستقبل، الفشل", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا...» [التوبة: 51].", hadith: "«احْرِصْ عَلَى مَا يَنْفَعُكَ، وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجَزْ»", protection: "(اللهم لا سهل إلا ما جعلته سهلاً، اللهم خر لي واختر لي واكفني ما أهمني).", comfort: "المستقبل والنتائج كلها بيد مدبر حكيم أرحم بك من أمك، اسعَ واطمئن." },
+        "money_debts": { title: "الرزق، الديون، الفقر، قلة المال، ضيق الحال", ayah: "«وَفِي السَّمَاءِ رِزْقُكُمْ وَمَا تُوعَدُونَ» [الذاريات: 22].", hadith: "كان النبي ﷺ يعوّذ من الكفر والدين ويقول: «اللهم إني أعوذ بك من غلبة الدين وقهر الرجال».", protection: "(اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك).", comfort: "لا تموت نفس حتى تستكمل رزقها وأجلها، الباب يفتح بالتقوى والاستغفار." },
+        "injustice_loneliness": { title: "الظلم، القهر، الخذلان، الوحدة، الفراق", ayah: "«وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ...» [إبراهيم: 42].", hadith: "يقول الله في الحديث القدسي لدعوة المظلوم: «وَعِزَّتِي وَجَلَالِي لَأَنْصُرَنَّكِ وَلَوْ بَعْدَ حِينٍ».", protection: "(حسبي الله ونعم الوكيل، اللهم فوضت أمري إليك وآنس وحشتي واجبر قلبي).", comfort: "إذا خذلك الخلق فالله معك أينما كنت. نم قرير العين فسهام الليل لا تخطئ." },
+        "sins_repentance": { title: "الذنوب، المعصية، التقصير، الغفلة، التوبة", ayah: "«قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ...»", hadith: "«لو لَمْ تُذْنِبُوا لَذَهَبَ اللَّهُ بِكُمْ، وَلَجَاءَ بِقَوْمٍ يُذْنِبُونَ فَيَسْتَغْفِرُونَ...»", protection: "(سيد الاستغفار: اللهم أنت ربي لا إله إلا أنت خلقتني وأنا عبدك.. أبوء لك بذنبي فاغفر لي).", comfort: "الله لا يمل حتى تملوا، وشعورك بالندم والوجع دليل على حياة إيمانك وطهارة قلبك." },
+        "sickness_pain": { title: "المرض، التعب، الوجع، الألم الجسدي والابتلاء", ayah: "«وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ» [الشعراء: 80].", hadith: "«ضع يدك على الذي تألم من جسدك وقل باسم الله ثلاثاً وقل سبعاً: أعوذ بالله وقدرته...»", protection: "(اللهم رب الناس أذهب البأس، واشفِ أنت الشافي، لا شفاء إلا شفاؤك).", comfort: "كل وجع تشعر به هو طهور لك، يغسل خطاياك ويرفع منزلتك في الجنة." }
+    };
+
     const keywordsMap = {
-        "social_harm": ["تنمر", "متنمر", "بيتنمروا", "يتنمر", "سخرية", "يسخر", "سخروا", "مسخرة", "تريقة", "بيتريقوا", "يتمسخر", "حقير", "يحقر", "اهانة", "يهين", "اضطهاد", "مضطهد", "تعدي", "ايذاء", "اذى"],
-        "people_talk": ["كلام الناس", "قالوا", "يقولون", "ألسنة", "الناس", "الخلق", "حكوا", "بيتكلموا", "اشاعة", "اشاعات", "غيبة", "الغيبة", "نميمة", "النميمة", "انتقاد", "انتقدوني", "يشوه", "سمعتي", "ذم", "يسبني"],
-        "envy_magic": ["حسد", "حاسد", "حسدوني", "محسود", "العين", "عين", "صابني", "نظرة", "منظور", "حقد", "حاقد", "الغل", "سحر", "مسحور", "عمل", "خايف من العين", "نعمة", "زوال"],
-        "depression_sadness": ["حزين", "حزن", "غم", "الغم", "هم", "الهم", "مهموم", "كئيب", "اكتئاب", "مكتئب", "البؤس", "بائس", "يائس", "اليأس", "احباط", "محبط", "منكسر", "مكسور", "كسرة", "خاطري", "دموع", "الدموع", "دمعتي", "بكاء", "ابكي", "ببكي", "تبكي", "عيطت", "مخنوق", "خنقة", "ضيق", "الضيق", "ضايق", "متضايق"],
-        "fear_future": ["خايف", "خايفة", "خوف", "قلق", "القلق", "قلقان", "متوتر", "توتر", "رعب", "مرعوب", "فزع", "مستقبل", "المستقبل", "بكرة", "امتحان", "الامتحانات", "مذاكرة", "الدراسة", "تشتت", "مشتت", "حيرة", "محتار", "فشل", "الفشل"],
-        "money_debts": ["الرزق", "رزق", "فلوس", "الفلوس", "مال", "فقر", "فقير", "حاجة", "شغل", "الشغل", "وظيفة", "الوظيفة", "ديون", "دين", "الدين", "مديون", "خسارة", "افلاس"],
-        "injustice_loneliness": ["مظلوم", "ظلم", "الظلم", "قهر", "مقهور", "خذلان", "مخذول", "خيانة", "غدر", "خاين", "وحيد", "وحدة", "الوحدة", "فراق", "الفراق", "تخلوا", "سابوني"],
-        "sins_repentance": ["مذنب", "ذنب", "الذنب", "معصية", "عصيت", "غلطت", "خطأ", "التوبة", "توبة", "استغفار", "تقصير", "مقصر", "غفلة", "شيطان", "وسوسة", "ايمان", "الصلاة"],
-        "sickness_pain": ["مريض", "المرض", "مرض", "تعب", "تعبان", "وجع", "الوجع", "ألم", "الألم", "ابتلاء", "الموت", "وفاة", "مات", "وهن", "ضعف", "جسدي", "عملية"]
+        "social_harm": ["تنمر", "متنمر", "بيتنمروا", "سخرية", "تريقة", "بيتريقوا", "اهانة", "اذى"],
+        "people_talk": ["كلام الناس", "قالوا", "يقولون", "بيتكلموا", "اشاعة", "غيبة", "نميمة", "انتقاد"],
+        "envy_magic": ["حسد", "حاسد", "حسدوني", "العين", "عين", "نظرة", "سحر", "مسحور", "عمل"],
+        "depression_sadness": ["حزين", "حزن", "غم", "هم", "مهموم", "اكتئاب", "مكتئب", "مكسور", "دموع", "بكاء", "ابكي", "مخنوق", "خنقة", "ضيق", "متضايق"],
+        "fear_future": ["خايف", "خوف", "قلق", "قلقان", "متوتر", "مستقبل", "بكرة", "امتحان", "مذاكرة", "فشل"],
+        "money_debts": ["الرزق", "رزق", "فلوس", "مال", "فقر", "شغل", "وظيفة", "ديون", "دين", "مديون"],
+        "injustice_loneliness": ["مظلوم", "ظلم", "قهر", "مقهور", "خذلان", "مخذول", "خيانة", "وحيد", "وحدة", "فراق"],
+        "sins_repentance": ["مذنب", "ذنب", "معصية", "غلطت", "التوبة", "تقصير", "غفلة", "وسوسة"],
+        "sickness_pain": ["مريض", "المرض", "مرض", "تعب", "وجع", "ألم", "ابتلاء", "الموت"]
     };
 
-    // محرك البحث الدلالي الذكي (Semantic & Token Matching Engine)
     function searchFeeling() {
         const input = document.getElementById("searchInput").value.trim().toLowerCase();
         const resultBox = document.getElementById("searchResult");
@@ -329,57 +509,37 @@
         let matchedCategory = null;
         let maxScore = 0;
 
-        // تفكيك النص والبحث الدلالي لربط آلاف الجمل والمواقف المترابطة بالتصنيف الصحيح
         for (let category in keywordsMap) {
             let score = 0;
             let keywords = keywordsMap[category];
-            
-            // فحص المطابقة المباشرة والجزئية للكلمات وجذورها
             keywords.forEach(keyword => {
                 if (input.includes(keyword) || keyword.includes(input)) {
-                    score += 5; // مطابقة دلالية عالية
+                    score += 5;
                 }
             });
-            
             if (score > maxScore) {
                 maxScore = score;
                 matchedCategory = category;
             }
         }
 
-        // عرض النتيجة بالتنسيق الإلهي والنبوي والتحصيني المطلوب
         if (matchedCategory && database[matchedCategory]) {
             const res = database[matchedCategory];
             resultBox.innerHTML = `
                 <div class="result-card">
                     <h4 style="color: var(--primary-color); margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">📍 تم تشخيص الموقف: ${res.title}</h4>
-                    <span class="section-title">📖 الآية الكريمة (إذا وقعت فيه):</span><br>
-                    <span style="color: #fff;">${res.ayah}</span><br><br>
-                    <span class="section-title">💬 من السنة والحديث الشريف:</span><br>
-                    <span style="color: var(--text-muted);">${res.hadith}</span><br><br>
-                    <span class="section-title">🤲 دعاء للوقاية والتحصين الشامل (علشان ده ميحصلش ويحميك الله):</span><br>
-                    <span style="color: var(--highlight); font-style: italic;">${res.protection}</span><br><br>
-                    <span class="section-title">💡 رسالة طمأنينة لقلبك ونفسك:</span><br>
-                    <span style="color: var(--accent-color);">${res.comfort}</span>
-                    <span class="share-text">انشرها.. فالدال على الخير كفاعله وتفريجاً لكرب غيرك 🤍</span>
-                </div>
-            `;
+                    <span class="section-title">📖 الآية الكريمة:</span><br><span>${res.ayah}</span><br><br>
+                    <span class="section-title">💬 من السنة الشريفة:</span><br><span style="color: var(--text-muted);">${res.hadith}</span><br><br>
+                    <span class="section-title">🤲 دعاء للوقاية والتحصين الشامل:</span><br><span style="color: var(--highlight);">${res.protection}</span><br><br>
+                    <span class="section-title">💡 رسالة طمأنينة لقلبك:</span><br><span style="color: var(--accent-color);">${res.comfort}</span>
+                </div>`;
         } else {
-            // الاستجابة الذكية الشاملة لحماية وتحصين أي حالة لم يتم إدراجها بشكل مباشر
             resultBox.innerHTML = `
-                <div class="result-card" style="border-right-color: var(--text-muted);">
-                    <h4 style="color: var(--text-muted); margin-bottom: 12px;">📍 طمأنينة وتحصين عام وشامل لقلبك:</h4>
-                    <span class="section-title">📖 الآية الجامعة لكل أحوال النفس:</span><br>
-                    <span style="color: #fff;">«الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ» [الرعد: 28].</span><br><br>
-                    <span class="section-title">💬 من هدي النبي ﷺ:</span><br>
-                    <span style="color: var(--text-muted);">«عَجَبًا لِأَمْرِ الْمُؤْمِنِ إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ، وَلَيْسَ ذَاكَ لِأَحَدٍ إِلَّا لِلْمُؤْمِنِ، إِنْ أَصَابَتْهُ سَرَّاءُ شَكَرَ فَكَانَ خَيْرًا لَهُ، وَإِنْ أَصَابَتْهُ ضَرَّاءُ صَبَرَ فَكانَ خَيْرًا لَهُ».</span><br><br>
-                    <span class="section-title">🤲 دعاء الوقاية والتحصين اليومي (علشان ميمسكش أي سوء):</span><br>
-                    <span style="color: var(--highlight);">(اللهم إني أعوذ بك من جهد البلاء، ودرك الشقاء، وسوء القضاء، وشماتة الأعداء. اللهم احفظني بحفظك الواسع واكفني ما أهمني من أمر ديني ودنياي).</span><br><br>
-                    <span class="section-title">💡 رسالة لقلبك:</span><br>
-                    <span style="color: var(--accent-color);">مهما كان الموقف أو الشعور الخفي الذي تمر به ويعجز لسانك عن شرحه، فإن الله يعلمه ويسمع دقات قلبك الخائفة.. سلّم أمرك له وتوكل عليه وسيرضيك.</span>
-                    <span class="share-text">انشرها.. فالدال على الخير كفاعله 🤍</span>
-                </div>
-            `;
+                <div class="result-card">
+                    <h4 style="color: var(--text-muted); margin-bottom: 12px;">📍 طمأنينة عامة:</h4>
+                    <span class="section-title">📖 الآية:</span><br><span>«أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ»</span><br><br>
+                    <span class="section-title">🤲 التحصين:</span><br><span style="color: var(--highlight);">(اللهم احفظني بحفظك الواسع واكفني ما أهمني)</span>
+                </div>`;
         }
     }
 
