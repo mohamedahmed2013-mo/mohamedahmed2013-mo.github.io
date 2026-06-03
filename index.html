@@ -11,16 +11,15 @@
             --text-color: #f8fafc;
             --primary-color: #00b4d8;
             --accent-color: #00f5d4;
-            --highlight: #ffd166;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         header { text-align: center; margin: 20px 0 30px 0; }
-        header h1 { color: var(--primary-color); font-size: 2.5rem; margin-bottom: 10px; }
+        header h1 { color: var(--primary-color); font-size: 2.5rem; }
         
         .main-container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 20px; }
         
-        /* أزرار القائمة الرئيسية - بدون أي كلمات إضافية */
+        /* الصناديق الثلاثة النظيفة تماماً بدون أي كلمات إضافية */
         .menu-box { 
             background: var(--card-bg); 
             border-radius: 15px; 
@@ -40,7 +39,6 @@
             background: #222f54;
         }
         
-        /* أقسام المحتوى */
         .content-section { 
             display: none; 
             background: var(--card-bg); 
@@ -51,72 +49,39 @@
         
         .box-title { color: var(--accent-color); font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .back-btn { font-size: 0.9rem; padding: 5px 12px; background: rgba(255,255,255,0.1); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
-        
-        /* الأذكار */
-        .azkar-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
-        .tab-btn { padding: 8px 18px; border-radius: 10px; border: 2px solid var(--primary-color); background: transparent; color: #fff; font-weight: bold; cursor: pointer; }
-        .tab-btn.active { background: var(--primary-color); color: #000; }
-        .azkar-box { background: rgba(10, 17, 40, 0.6); padding: 20px; border-radius: 15px; min-height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; margin-bottom: 20px; }
-        .zkr-text { font-size: 1.25rem; line-height: 1.7; margin-bottom: 10px; }
-        
-        /* البحث والنتائج */
-        .search-box { display: flex; gap: 10px; margin: 15px 0; }
-        .search-box input { flex: 1; padding: 12px; border-radius: 10px; border: none; background: #0a1128; color: #fff; }
-        .search-btn { padding: 0 20px; border-radius: 10px; border: none; background: var(--primary-color); color: #000; font-weight: bold; cursor: pointer; }
-        .result-card { background: #0a1128; padding: 18px; border-radius: 12px; border-right: 5px solid var(--primary-color); margin-top: 15px; }
-        .buttons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 15px; }
-        .feeling-btn { padding: 10px; border-radius: 8px; border: none; background: #0a1128; color: #fff; cursor: pointer; }
+        .azkar-box { background: rgba(10, 17, 40, 0.6); padding: 20px; border-radius: 15px; text-align: center; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>طمئن قلبك 🤍</h1>
+        <p style="margin-top: 10px; color: #94a3b8;">اختر القسم الذي تريد تصفحه</p>
     </header>
 
     <div class="main-container">
         
-        <!-- القائمة الرئيسية النظيفة تماماً -->
+        <!-- الأزرار الثلاثة المطلوبة بأسماء مباشرة وصافية -->
         <div id="mainMenu" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
             <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية</div>
             <div class="menu-box" onclick="showSection('feelingsSection')">🩹 المشاعر والأمان النفسي</div>
             <div class="menu-box" onclick="showSection('companionsSection')">🕌 سير الصحابة العظماء</div>
         </div>
 
-        <!-- قسم الأذكار -->
+        <!-- الأقسام الداخلية عند الضغط -->
         <div id="azkarSection" class="content-section">
             <h2 class="box-title">🌅 الأذكار اليومية <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
-            <div class="azkar-tabs">
-                <button id="btn-morning" class="tab-btn active" onclick="switchAzkar('morning')">الصباح</button>
-                <button id="btn-evening" class="tab-btn" onclick="switchAzkar('evening')">المساء</button>
-            </div>
-            <div class="azkar-box">
-                <div id="zkrText" class="zkr-text">تحميل...</div>
-            </div>
+            <div class="azkar-box">🔮 محتوى الأذكار سيظهر هنا...</div>
         </div>
 
-        <!-- قسم المشاعر -->
         <div id="feelingsSection" class="content-section">
             <h2 class="box-title">🩹 المشاعر والأمان النفسي <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="بماذا تشعر الآن؟">
-                <button class="search-btn" onclick="searchFeeling()">بحث</button>
-            </div>
-            <div class="buttons-grid">
-                <button class="feeling-btn" onclick="quickSearch('مخنوق')">😣 ضيق وخنقة</button>
-                <button class="feeling-btn" onclick="quickSearch('خايف')">😨 خوف وقلق</button>
-            </div>
-            <div id="searchResult"></div>
+            <div class="azkar-box">🔮 محرك المشاعر سيظهر هنا...</div>
         </div>
 
-        <!-- قسم الصحابة -->
         <div id="companionsSection" class="content-section">
             <h2 class="box-title">🕌 سير الصحابة العظماء <button class="back-btn" onclick="showMenu()">رجوع ↩</button></h2>
-            <div class="search-box">
-                <input type="text" id="companionInput" placeholder="اكتب اسم الصحابي...">
-                <button class="search-btn" onclick="searchCompanion()">اقرأ</button>
-            </div>
-            <div id="companionResult"></div>
+            <div class="azkar-box">🔮 قصص الصحابة ستظهر هنا...</div>
         </div>
 
     </div>
@@ -124,44 +89,13 @@
     <script>
     function showSection(sectionId) {
         document.getElementById('mainMenu').style.display = 'none';
-        document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
         document.getElementById(sectionId).style.display = 'block';
-        if(sectionId === 'azkarSection') loadZkr();
     }
 
     function showMenu() {
         document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
         document.getElementById('mainMenu').style.display = 'flex';
     }
-
-    const azkarData = {
-        morning: [{ text: "{اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} (آية الكرسي)" }],
-        evening: [{ text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ" }]
-    };
-
-    function loadZkr() {
-        document.getElementById("zkrText").innerText = azkarData[currentCategory][0].text;
-    }
-
-    let currentCategory = 'morning';
-    function switchAzkar(category) {
-        currentCategory = category;
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove('active'));
-        document.getElementById(`btn-${category}`).classList.add('active');
-        loadZkr();
-    }
-
-    function searchCompanion() {
-        const input = document.getElementById("companionInput").value;
-        document.getElementById("companionResult").innerHTML = `<div class="result-card">جاري البحث عن سيرة الصحابي: ${input}</div>`;
-    }
-
-    function searchFeeling() {
-        const input = document.getElementById("searchInput").value;
-        document.getElementById("searchResult").innerHTML = `<div class="result-card">آيات وأدعية مناسبة لشعور: ${input}</div>`;
-    }
-
-    function quickSearch(v) { document.getElementById("searchInput").value = v; searchFeeling(); }
     </script>
 </body>
 </html>
