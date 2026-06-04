@@ -3,75 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طمئن قلبك - النسخة الموسوعية الشاملة والمواقيت الدقيقة</title>
+    <title>طمئن قلبك - الموسوعة الشاملة</title>
     <style>
-        :root {
-            --bg-color: #0a1128;
-            --card-bg: #1c2541;
-            --text-color: #f8fafc;
-            --primary-color: #00b4d8;
-            --accent-color: #00f5d4;
-            --highlight: #ffd166;
-            --success-color: #2a9d8f;
-        }
+        :root { --bg-color: #0a1128; --card-bg: #1c2541; --text-color: #f8fafc; --primary-color: #00b4d8; --accent-color: #00f5d4; --highlight: #ffd166; --success-color: #2a9d8f; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        header { text-align: center; margin: 20px 0 30px 0; }
-        header h1 { color: var(--primary-color); font-size: 2.5rem; margin-bottom: 10px; }
+        header { text-align: center; margin: 20px 0; }
+        h1 { color: var(--primary-color); }
         .main-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 20px; }
-        .azan-bar { background: linear-gradient(135deg, #132247, #1c2541); border: 1px solid var(--primary-color); border-radius: 15px; padding: 15px 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .azan-header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .azan-info { display: flex; align-items: center; gap: 12px; }
-        .azan-title { font-weight: bold; color: var(--accent-color); font-size: 1.1rem; }
-        .azan-status { font-size: 0.85rem; color: #94a3b8; margin-top: 3px; }
-        .azan-btn { background: var(--primary-color); color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
-        .azan-btn:hover { background: var(--accent-color); transform: scale(1.03); }
-        .azan-btn.playing { background: #ff4d4d; color: #fff; }
-        .prayer-times-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.05); }
-        .prayer-item { text-align: center; padding: 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); }
-        .prayer-item.next-prayer { border: 1px solid var(--accent-color); background: rgba(0, 245, 212, 0.1); }
-        .prayer-name { font-size: 0.85rem; color: #94a3b8; margin-bottom: 4px; }
-        .prayer-time { font-size: 1rem; font-weight: bold; color: #fff; }
-        .menu-box { background: var(--card-bg); border-radius: 15px; padding: 25px; text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--text-color); cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .menu-box:hover { border-color: var(--primary-color); transform: translateY(-3px); background: #222f54; }
-        .content-section { display: none; background: var(--card-bg); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .box-title { color: var(--accent-color); font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .back-btn { font-size: 0.9rem; padding: 5px 12px; background: rgba(255,255,255,0.1); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
-        .azkar-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
-        .tab-btn { padding: 8px 18px; border-radius: 10px; border: 2px solid var(--primary-color); background: transparent; color: #fff; font-weight: bold; cursor: pointer; }
-        .tab-btn.active { background: var(--primary-color); color: #000; }
-        .azkar-box { background: rgba(10, 17, 40, 0.6); padding: 20px; border-radius: 15px; min-height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; margin-bottom: 20px; }
-        .zkr-text { font-size: 1.25rem; line-height: 1.7; margin-bottom: 10px; color: #fff; }
-        .zkr-reward { font-size: 0.95rem; color: var(--highlight); }
-        .azkar-controls { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
-        .nav-btn { padding: 10px 20px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; }
-        .counter-btn { flex: 1; max-width: 180px; padding: 12px; border-radius: 12px; border: none; background: var(--accent-color); color: #000; font-size: 1.2rem; font-weight: bold; cursor: pointer; direction: ltr; }
-        .counter-btn.done { background: var(--success-color); color: #fff; }
+        .azan-bar { background: linear-gradient(135deg, #132247, #1c2541); border: 1px solid var(--primary-color); border-radius: 15px; padding: 15px; }
+        .menu-box { background: var(--card-bg); padding: 25px; border-radius: 15px; text-align: center; cursor: pointer; border: 2px solid transparent; transition: 0.3s; }
+        .menu-box:hover { border-color: var(--primary-color); background: #222f54; }
+        .content-section { display: none; background: var(--card-bg); border-radius: 20px; padding: 25px; }
+        .box-title { color: var(--accent-color); margin-bottom: 20px; display: flex; justify-content: space-between; }
+        .tab-btn { padding: 8px 18px; border-radius: 10px; border: 2px solid var(--primary-color); background: transparent; color: #fff; cursor: pointer; }
+        .tab-btn.active { background: var(--primary-color); }
+        .azkar-box { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; margin: 20px 0; text-align: center; }
+        .counter-btn { width: 150px; padding: 10px; border-radius: 10px; border: none; background: var(--accent-color); cursor: pointer; font-weight: bold; }
+        .counter-btn.done { background: var(--success-color); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--card-bg); max-width: 700px; width: 100%; padding: 30px; border-radius: 20px; border: 2px solid var(--primary-color); overflow-y: auto; max-height: 90vh; }
         .search-box { display: flex; gap: 10px; margin: 15px 0; }
-        .search-box input { flex: 1; padding: 12px; border-radius: 10px; border: none; background: #0a1128; color: #fff; font-size: 1rem; }
-        .search-btn { padding: 0 20px; border-radius: 10px; border: none; background: var(--primary-color); color: #000; font-weight: bold; cursor: pointer; }
-        .result-card { background: #0a1128; padding: 20px; border-radius: 12px; border-right: 5px solid var(--primary-color); margin-top: 15px; line-height: 1.8; text-align: justify; }
-        .buttons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 15px; }
-        .feeling-btn { padding: 10px; border-radius: 8px; border: none; background: #0a1128; color: #fff; cursor: pointer; font-size: 0.9rem; }
-        .companions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; max-height: 500px; overflow-y: auto; padding-right: 5px; }
-        .companion-card { background: #0a1128; padding: 20px; border-radius: 12px; border-right: 4px solid var(--primary-color); cursor: pointer; transition: all 0.2s ease; }
-        .companion-card:hover { transform: translateY(-2px); background: #131f42; border-right-color: var(--accent-color); }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--card-bg); max-width: 750px; width: 100%; border-radius: 20px; padding: 30px; border: 2px solid var(--primary-color); position: relative; animation: fadeIn 0.3s ease; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        input { flex: 1; padding: 10px; border-radius: 8px; border: none; }
+        .companion-card { background: #0a1128; padding: 15px; margin-bottom: 10px; border-radius: 10px; border-right: 4px solid var(--primary-color); cursor: pointer; }
     </style>
 </head>
 <body onclick="enableAudioContext()">
 
-    <header>
-        <h1>طمئن قلبك 🤍</h1>
-        <p style="margin-top:5px; color: #94a3b8;">موسوعة السيرة النبوية العطرة وبستان الصحابة الأجلاء</p>
-    </header>
+    <header><h1>طمئن قلبك 🤍</h1></header>
 
     <div class="main-container">
+        <div class="azan-bar">
+            <div id="azanStatus">اضغط في أي مكان لتفعيل الأذان التلقائي 🔔</div>
+        </div>
+        <audio id="azanAudio" src="https://assets.mixkit.co/active_storage/sfx/1993/1993-84.wav"></audio>
+
+        <div id="mainMenu" style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية</div>
+            <div class="menu-box" onclick="showSection('feelingsSection')">🩹 محرك المشاعر</div>
+            <div class="menu-box" onclick="showSection('companionsSection')">🕌 سير الصحابة</div>
         </div>
 
+        <div id="azkarSection" class="content-section">
+            <h2 class="box-title">الأذكار <button onclick="showMenu()">رجوع</button></h2>
+            <div id="tabContainer" class="search-box">
+                <button class="tab-btn active" id="btn-morning" onclick="switchAzkar('morning')">الصباح</button>
+                <button class="tab-btn" id="btn-evening" onclick="switchAzkar('evening')">المساء</button>
+            </div>
+            <div class="azkar-box"><div id="zkrText">...</div><div id="zkrReward"></div></div>
+            <button id="counterBtn" class="counter-btn" onclick="countZkr()">0 / 0</button>
+        </div>
+
+        <div id="feelingsSection" class="content-section">
+            <h2 class="box-title">محرك المشاعر <button onclick="showMenu()">رجوع</button></h2>
+            <div class="search-box"><input type="text" id="searchInput" placeholder="اكتب شعورك (حزين، خايف...)"> <button onclick="searchFeeling()">بحث</button></div>
+            <div id="searchResult"></div>
+        </div>
+
+        <div id="companionsSection" class="content-section">
+            <h2 class="box-title">سير الصحابة <button onclick="showMenu()">رجوع</button></h2>
+            <input type="text" id="companionInput" oninput="filterCompanions()" placeholder="ابحث باسم الصحابي...">
+            <div id="companionsGrid" style="margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <div id="companionModal" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2 id="modalTitle"></h2>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
     <script>
-        // ضع هنا كود الجافاسكربت الخاص بك
+        const azanAudio = document.getElementById("azanAudio");
+        let isAudioAllowed = false;
+        
+        function enableAudioContext() { if (!isAudioAllowed) { azanAudio.play().then(() => { azanAudio.pause(); isAudioAllowed = true; }).catch(()=>{}); } }
+
+        const azkarData = {
+            morning: [{text: "آية الكرسي", reward: "حفظ", count: 1}, {text: "أصبحنا وأصبح الملك لله", reward: "بركة", count: 3}],
+            evening: [{text: "أعوذ بكلمات الله التامات", reward: "حماية", count: 3}]
+        };
+
+        const database = {
+            "حزين": { title: "الحزن", ayah: "لا تحزن إن الله معنا", comfort: "سيفرجها الله." },
+            "خايف": { title: "الخوف", ayah: "قل لن يصيبنا إلا ما كتب الله لنا", comfort: "اطمئن، المستقبل بيد الله." }
+        };
+
+        const companionsData = [
+            { name: "أبو بكر الصديق", title: "الرفيق الأول", story: "هو أول من أسلم من الرجال..." },
+            { name: "عمر بن الخطاب", title: "الفاروق", story: "أعز الله به الإسلام..." }
+        ];
+
+        function showSection(id) {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById(id).style.display = 'block';
+            if(id === 'companionsSection') renderCompanions();
+            if(id === 'azkarSection') switchAzkar('morning');
+        }
+
+        function showMenu() {
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            document.getElementById('mainMenu').style.display = 'flex';
+        }
+
+        let currentCategory = 'morning', currentZkrIndex = 0, currentCount = 0;
+
+        function switchAzkar(cat) {
+            currentCategory = cat; currentZkrIndex = 0; currentCount = 0;
+            const zkr = azkarData[cat][0];
+            document.getElementById('zkrText').innerText = zkr.text;
+            document.getElementById('zkrReward').innerText = zkr.reward;
+            updateCounterBtn(zkr.count);
+        }
+
+        function updateCounterBtn(total) {
+            const btn = document.getElementById('counterBtn');
+            btn.innerText = `${currentCount} / ${total}`;
+            btn.className = 'counter-btn' + (currentCount >= total ? ' done' : '');
+        }
+
+        function countZkr() {
+            const total = azkarData[currentCategory][currentZkrIndex].count;
+            if(currentCount < total) { currentCount++; updateCounterBtn(total); }
+        }
+
+        function searchFeeling() {
+            const val = document.getElementById('searchInput').value;
+            const match = database[val];
+            document.getElementById('searchResult').innerHTML = match ? `<div><h3>${match.title}</h3><p>${match.ayah}</p><p>${match.comfort}</p></div>` : "لم يتم العثور على نتيجة.";
+        }
+
+        function renderCompanions(filter = "") {
+            const grid = document.getElementById('companionsGrid');
+            grid.innerHTML = "";
+            companionsData.filter(c => c.name.includes(filter)).forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'companion-card';
+                card.innerHTML = `<h3>${c.name}</h3>`;
+                card.onclick = () => {
+                    document.getElementById('modalTitle').innerText = c.name;
+                    document.getElementById('modalBody').innerHTML = c.story;
+                    document.getElementById('companionModal').style.display = 'flex';
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCompanions() { renderCompanions(document.getElementById('companionInput').value); }
+        function closeModal() { document.getElementById('companionModal').style.display = 'none'; }
     </script>
 </body>
 </html>
