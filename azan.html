@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>مشغل الأذان</title>
+</head>
+<body>
+    <h1>نظام الأذان</h1>
+    <button id="btn" style="padding: 20px 40px; font-size: 24px; cursor: pointer;">اضغط هنا لتفعيل الصوت</button>
+
+    <script>
+        const audio = new Audio("https://server11.mp3quran.net/thubti/001.mp3");
+
+        document.getElementById('btn').addEventListener('click', function() {
+            // تشغيل الصوت
+            audio.play().then(() => {
+                this.innerText = "تم التفعيل.. سيعمل الأذان تلقائياً عند الوقت";
+                this.style.background = "#d4edda";
+            }).catch(e => alert("خطأ في التشغيل: " + e));
+        });
+
+        // مثال: فحص الوقت كل ثانية
+        setInterval(() => {
+            let now = new Date();
+            // اضبط هنا الساعة والدقيقة التي تريد الأذان فيها
+            if (now.getHours() === 12 && now.getMinutes() === 15) {
+                audio.play();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
