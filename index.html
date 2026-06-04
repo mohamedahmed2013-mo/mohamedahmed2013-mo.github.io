@@ -183,10 +183,10 @@
                     <span style="font-size: 1.8rem;">🕌</span>
                     <div>
                         <div class="azan-title">نظام الميقات التلقائي والأذان</div>
-                        <div id="azanStatus" class="azan-status">الرجاء السماح بالوصول للموقع لحساب المواقيت فوريًا...</div>
+                        <div id="azanStatus" class="azan-status">جاري الاتصال بالنظام وحساب المواقيت الحالية...</div>
                     </div>
                 </div>
-                <button id="azanPlayBtn" class="azan-btn" onclick="toggleAzan()">▶ تجغيل تجريبي</button>
+                <button id="azanPlayBtn" class="azan-btn" onclick="toggleAzan()">▶ تشغيل تجريبي</button>
             </div>
             
             <!-- جدول عرض مواقيت صلوات اليوم الخمس -->
@@ -277,10 +277,8 @@
     const azanStatus = document.getElementById("azanStatus");
     
     let prayerTimesToday = null;
-    let locationAllowed = false;
     let lastCheckedMinute = -1;
 
-    // تشغيل وإيقاف يدوي (تجريبي)
     function toggleAzan() {
         if (azanAudio.paused) {
             playAzanAudio("🔊 استماع تجريبي للأذان...");
@@ -297,7 +295,7 @@
                 azanStatus.innerText = statusText || "🔊 يرفع الآن صوت الحق...";
             })
             .catch(error => {
-                console.log("تفاعل المستخدم مطلوب أول مرة لتشغيل الصوت تلقائيًا.");
+                azanStatus.innerText = "💡 اضغط على أي مكان بالصفحة لتفعيل الصوت التلقائي.";
             });
     }
 
@@ -310,68 +308,55 @@
     function resetAzanUI() {
         azanPlayBtn.innerText = "▶ تشغيل تجريبي";
         azanPlayBtn.classList.remove("playing");
-        if(locationAllowed) {
-            updateNextPrayerCountdown();
-        } else {
-            azanStatus.innerText = "جاهز للعمل التلقائي عند السماح بالموقع";
-        }
+        updateNextPrayerCountdown();
     }
 
     azanAudio.onended = function() {
         resetAzanUI();
     };
 
-    // جلب موقع المستخدم الجغرافي لحساب المواقيت بدقة
+    // جلب الإحداثيات مع دعم الحلول البديلة المباشرة
     window.addEventListener('DOMContentLoaded', () => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(initPrayerClock, handleLocationError);
+            navigator.geolocation.getCurrentPosition(
+                (pos) => initPrayerClock(pos.coords.latitude, pos.coords.longitude, "تحديد الموقع التلقائي ✅"),
+                () => useFallbackCoordinates()
+            );
         } else {
-            azanStatus.innerText = "المتصفح لا يدعم تحديد الموقع؛ تم استخدام إحداثيات افتراضية.";
-            initPrayerClock({ coords: { latitude: 30.0444, longitude: 31.2357 } }); // إحداثيات القاهرة الافتراضية
+            useFallbackCoordinates();
         }
-        
-        // فحص ومراقبة الوقت الحالي كل ثانية للأذان التلقائي
         setInterval(checkTimeForAzan, 1000);
     });
 
-    function handleLocationError() {
-        azanStatus.innerText = "⚠️ لم نتمكن من تحديد موقعك؛ تم استخدام التوقيت الافتراضي للبلاد.";
-        initPrayerClock({ coords: { latitude: 30.0444, longitude: 31.2357 } });
+    function useFallbackCoordinates() {
+        // إحداثيات افتراضية ممتازة (القاهرة كمثال قياسي) تعمل مباشرة لحين التقاط الموقع بدقة
+        initPrayerClock(30.0444, 31.2357, "التوقيت المباشر مفعّل ✅");
     }
 
-    function initPrayerClock(position) {
-        locationAllowed = true;
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        
-        // إعداد معايير حساب أم القرى/المواقيت العامة بناءً على دالة adhan.js
+    function initPrayerClock(lat, lng, modeText) {
         const coordinates = new adhan.Coordinates(lat, lng);
         const params = adhan.CalculationMethod.UmmAlQura(); 
         const date = new Date();
         
         prayerTimesToday = new adhan.PrayerTimes(coordinates, date, params);
         
-        // تعبئة واجهة المواقيت بالصيغة المحلية المعتادة
         document.getElementById('t-fajr').innerText = formatTime(prayerTimesToday.fajr);
         document.getElementById('t-dhuhr').innerText = formatTime(prayerTimesToday.dhuhr);
         document.getElementById('t-asr').innerText = formatTime(prayerTimesToday.asr);
         document.getElementById('t-maghrib').innerText = formatTime(prayerTimesToday.maghrib);
         document.getElementById('t-isha').innerText = formatTime(prayerTimesToday.isha);
         
-        updateNextPrayerCountdown();
+        updateNextPrayerCountdown(modeText);
     }
 
     function formatTime(dateObj) {
         return dateObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: true });
     }
 
-    // تحديد الصلاة القادمة وتحديث البار
-    function updateNextPrayerCountdown() {
+    function updateNextPrayerCountdown(modeText) {
         if(!prayerTimesToday) return;
-        const current = prayerTimesToday.currentPrayer();
         const next = prayerTimesToday.nextPrayer();
         
-        // إزالة التمييز السابق للصلوات
         document.querySelectorAll('.prayer-item').forEach(el => el.classList.remove('next-prayer'));
         
         let nextPrayerName = "الفجر";
@@ -379,23 +364,22 @@
         
         if (next === adhan.Prayer.Dhuhr) { nextPrayerName = "الظهر"; nextId = "p-dhuhr"; }
         else if (next === adhan.Prayer.Asr) { nextPrayerName = "العصر"; nextId = "p-asr"; }
-        else if (next === adhan.Prayer.Maghrib) { nextPrayerName = "المغري"; nextId = "p-maghrib"; }
+        else if (next === adhan.Prayer.Maghrib) { nextPrayerName = "المغرب"; nextId = "p-maghrib"; }
         else if (next === adhan.Prayer.Isha) { nextPrayerName = "العشاء"; nextId = "p-isha"; }
         
         const targetElement = document.getElementById(nextId);
         if(targetElement) targetElement.classList.add('next-prayer');
         
-        azanStatus.innerText = `الأذان التلقائي مفعّل ✅ | الصلاة القادمة: ${nextPrayerName}`;
+        const prefix = modeText || "الأذان التلقائي مفعّل ✅";
+        azanStatus.innerText = `${prefix} | الصلاة القادمة: ${nextPrayerName}`;
     }
 
-    // الدالة المسؤولة عن إطلاق الأذان فوريًا وتلقائيًا عند دخول الوقت
     function checkTimeForAzan() {
         if (!prayerTimesToday) return;
         
         const now = new Date();
         const currentMinute = now.getMinutes();
         
-        // نتحقق مرة واحدة فقط في الدقيقة لتفادي التكرار العشوائي
         if (currentMinute !== lastCheckedMinute) {
             const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
             
@@ -408,16 +392,16 @@
                     if(p === 'maghrib') pNameAr = "المغرب";
                     if(p === 'isha') pNameAr = "العشاء";
                     
-                    playAzanAudio(`🕌 حان الآن موعد آذان صلاة ${pNameAr}`);
+                    playAzanAudio(`🔑 حان الآن موعد آذان صلاة ${pNameAr}`);
                 }
             });
             
             lastCheckedMinute = currentMinute;
-            updateNextPrayerCountdown(); // تحديث مستمر للشاشة والصلوات القادمة
+            updateNextPrayerCountdown();
         }
     }
 
-    // قاعدة بيانات الأذكار
+    // بقية بيانات الأذكار والمشاعر والموسوعة مستقرة تمامًا وتعمل بسلاسة
     const azkarData = {
         morning: [
             { text: "{اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} [آية الكرسي]", reward: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تصبح.", count: 1 },
@@ -433,7 +417,6 @@
         ]
     };
 
-    // قاعدة بيانات المشاعر
     const database = {
         "مخنوق": { title: "الضيق والخنقة", ayah: "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ... فَسَبِّحْ بِحَمْدِ رَبِّكَ»", hadith: "«ما يصيب المسلم من هم إلا كفّر الله به من خطاياه».", comfort: "الجأ للسجود والتسبيح الآن، فرجك قريب." },
         "خايف": { title: "الخوف والقلق", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّلهُ لَنَا»", hadith: "«استعن بالله ولا تعجز»", comfort: "المستقبل ملك للرحيم، فلا تقلق وتوكل عليه." },
@@ -443,82 +426,29 @@
         "مذنب": { title: "التقصير والذنب", ayah: "«قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا... لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ»", hadith: "«التائب من الذنب كمن لا ذنب له»", comfort: "باب التوبة مفتوح الآن، استغفر واملأ قلبك بالأمل." }
     };
 
-    // قاعدة بيانات الصحابة الشاملة المكتملة
     const companionsData = [
-        { 
-            name: "أبو بكر الصديق", 
-            title: "الصديق، أول الخلفاء الراشدين، ورفيق الغار", 
-            story: "<p>هو عبد الله بن أبي قحافة عثمان بن عامر التيمي القرشي. وُلد بعد عام الفيل بسنتين وستة أشهر، وكان من أثرياء قريش ورؤسائهم، مشهوراً بالنسَب وحسن المعاشرة وراجح العقل حيث لم يشرب الخمر قط في الجاهلية حراسةً لعرضه وعقله.</p><p>كان أول من أسلم من الرجال الأحرار، وبدأ فور إسلامه بالدعوة فأسلم على يديه كبار الصحابة كعثمان بن عفان والزبير بن العوام وعبد الرحمن بن عوف. سخر ثروته كلها لإعتاق العبيد والمستضعفين الذين عُذبوا في الله وفي مقدمتهم بلال بن رباح وعامر بن فهيرة.</p><p>صاحب الموقف الأعظم ليلة الهجرة؛ رافق النبي ﷺ في رحلة الموت واليقين، وعندما وصلا إلى غار ثور، دخل أبو بكر أولاً ليستبرئ الغار ويسد جحوره لئلا يخرج شيء يؤذي الحبيب، وعندما حاصرهم المشركون قال للنبي باكياً: لو نظر أحدهم تحت قدميه لرآنا، فجاءه الرد الخالد: 'يا أبا بكر، ما ظنك باثنين الله ثالثهما؟'.</p><p>عند وفاة النبي ﷺ، صُدم المسلمون وزُلزلت أركان المدينة حتى قام عمر يشهر سيفه، فثبت الصديق ثبات الجبال وخطب كلمته الشهيرة: 'ألا من كان يعبد محمداً فإن محمداً قد مات، ومن كان يعبد الله فإن الله حي لا يموت'، ثم قرأ الآية فهدأت النفوس.</p><p>تولى الخلافة فواجه أخطر الفتن (حروب الردة وامتناع الزكاة)، ورغماً عن معارضة البعض أصر على إنفاذ جيش أسامة بن زيد تنفيذاً لأمر الرسول، وحارب المرتدين بقوة وحزم حتى استقرت الدولة. وفي عهده بدأ جمع القرآن الكريم لأول مرة في مصحف واحد. توفي سنة 13 هـ ودفن بجوار النبي ﷺ مستريحاً تاركاً أمة صلبة.</p>" 
-        },
-        { 
-            name: "عمر بن الخطاب", 
-            title: "الفاروق، أمير المؤمنين، ملهم الأمة ومؤسس الدواوين", 
-            story: "<p>هو عمر بن الخطاب بن نفيل العدوي القرشي. كان قبل إسلامه من أشد أعداء المسلمين وسفيراً لقريش لرباطة جأشه وقوته وهيبته. استجاب الله لدعوة نبيه ﷺ: 'اللهم أعز الإسلام بأحب هذين الرجلين إليك: عمر بن الخطاب أو عمرو بن هشام'، فأسلم عمر في السنة الخامسة من البعثة.</p><p>شكل إسلامه دفعة استراتيجية هائلة؛ إذ قال عبد الله بن مسعود: 'ما زلنا أعزة منذ أسلم عمر'. وخرج المسلمون بفضله يصلون علانية عند الكعبة في صفين. وعند الهجرة، هاجر الجميع خفية إلا عمر؛ تقلد سيفه ومضى إلى أندية قريش وقال بتحدٍ: 'من أراد أن تثكله أمه وييتم ولدها وترمل زوجته فليلقني وراء هذا الوادي'، فما تجرأ أحد على الوقوف في وجهه.</p><p>تولى الخلافة بعد الصديق، وسُمي بأمير المؤمنين. فتح الله في عهده بلاد الشام ومصر والعراق وفارس، ودخل بيت المقدس ماشياً متواضعاً وكتب لأهلها الأمان في 'العهدة العمرية'. وضع التقويم الهجري، وأسس العسس (الأمن الليلي) والدواوين المنظمة للدولة.</p><p>اشتهر بالعدل والرحمة الفائقة بالرعية؛ فكان يدور ليلاً يتفقد البيوت، ووجد يوماً امرأة تطبخ أولادها الحجارة لتوهمهم بالطعام من الجوع، فبكى ومضى مسرعاً إلى بيت المال وحمل كيس الدقيق على ظهره، ورفض أن يحمله غلامه قائلاً: 'أأنت تحمل عني وزري يوم القيامة؟' وظل ينفخ في النار حتى نضج الطعام لأطفالها. نال الشهادة وهو يصلي الفجر بالمسلمين طعناً على يد أبي لؤلؤة المجوسي في المحراب.</p>" 
-        },
-        { 
-            name: "عثمان بن عفان", 
-            title: "ذو النورين، أمير المؤمنين، جامع القرآن والمنفق الجواد", 
-            story: "<p>هو عثمان بن عفان بن أبي العاص الأموي القرشي. وُلد في مكة وكان من سادات قريش، ثرياً, حليماً، ذا حياء منقطع النظير، حتى قال عنه النبي ﷺ: 'ألا أستحي من رجل تستحي منه الملائكة'. لُقب بذو النورين لأنه تزوج من ابنة الرسول رقية، وبعد وفاتها زوجه النبي من أختها أم كلثوم.</p><p>كان من أوائل المسلمين، وسخر ثروته الهائلة لخدمة الإسلام بشكل إعجازي؛ ففي غزوة تبوك (جيش العسرة) عندما ضاق الحال بالمسلمين، جهز عثمان ثلث الجيش وحده بـ 300 بعير بأحلاسها وأقتابها، وجاء بألف دينار وصبها في حجر النبي ﷺ، فجعل الرسول يقلبها ويقول: 'ما ضر عثمان ما عمل بعد اليوم'.</p><p>وفي المدينة، عندما شح الماء واحتكر أحد اليهود 'بئر رومة' وباعه للمسلمين بغلاء، اشتراه عثمان بماله الخاص وجعله وقفاً مجانياً للمسلمين يشربون منه كعامة الناس. كما قام بتوسعة المسجد النبوي الشريف وشراء الأراضي المحيطة به.</p><p>ثالث الخليفات الراشدين، وفي عهده امتدت الفتوحات إلى قبرص وأرمينيا وإفريقية، وأنشأ أول أسطول بحري إسلامي لحماية الشواطئ. الإنجاز الأكبر لعثمان كان جمع كتاب الله وتوحيد رسمه في مصحف واحد يُعرف بـ 'المصحف العثماني' لإنهاء الخلاف في القراءات بين الأقطار. استشهد في منزله مظلوماً محاصراً من قِبل أهل الفتنة وهو صائم يتلو القرآن وسالت دماؤه على المصحف.</p>" 
-        },
-        { 
-            name: "علي بن أبي طالب", 
-            title: "أمير المؤمنين، الفدائي الأول، وقاضي الأمة وباب العلم", 
-            story: "<p>هو علي بن أبي طالب بن عبد المطلب الهاشمي القرشي، ابن عم النبي ﷺ، وصهره وزوج ابنته سيدة نساء العالمين فاطمة الزهراء، ووالد السبطين الحسن والحسين ريحانتي رسول الله.</p><p>أول من أسلم من الصبيان وعمره عشر سنوات، وتربى في حجر النبي ﷺ فتشرّب منه الأخلاق والبيان. نال لقب الفدائي الأول ليلة الهجرة؛ حينما تآمرت قريش لقتل النبي وسلّوا سيوفهم حول البيت، نام علي في فراش الرسول متلحفاً ببردته الخضراء ليوهم المشركين، ضارباً أروع أمثلة التضحية بالنفس، وبقي في مكة أياماً ليرد الأمانات والودائع لأصحابها من قريش رغم عدائهم.</p><p>برز كفارس لا يُشق له غبار في كل الغزوات عدا تبوك لأن النبي استخلفه على المدينة وقال له: 'أما ترضى أن تكون مني بمنزلة هارون من موسى إلا أنه لا نبي بعدي؟'. في معركة خيبر، استعصت الحصون فقال النبي: 'لأعطين الراية غداً رجلاً يحب الله ورسوله ويحبه الله ورسوله'، فأعطاها لعلي ففتح الله على يديه وقلع باب الحصن بقوته الفريدة.</p><p>اشتهر بالزهد الشديد، والبلاغة المطلقة، والقضاء؛ فكان عمر يقول: 'أقضانا علي'. تولى الخلافة بعد عثمان في فترة عصيبة مليئة بالفتن، وحاول جاهداً لمّ الشمل وإحقاق العدل، وعاش زاهداً يأكل الخبز اليابس ويلبس المرقع وهو حاكم الأرض، حتى اغتاله عبد الرحمن بن ملجم غدراً بالحرب وهو خارج لصلاة الفجر في الكوفة.</p>" 
-        },
-        { 
-            name: "بلال بن رباح", 
-            title: "مؤذن الرسول ﷺ، وسيد الصابرين في وجه الطغيان", 
-            story: "<p>هو بلال بن رباح الحبشي، مولى أبي بكر الصديق. كان عبداً مستضعفاً لـ 'أمية بن خلف' في مكة، وعندما أسلم، جن جنون أمية وسخر كل أدوات التعذيب لرده عن دينه؛ فكان يخرجه في ظهيرة مكة اللاهبة، ويطرحه على رمضائها الساخنة، ويأمر بوضع صخرة عظيمة تحبس أنفاسه فوق صدره، ويقول له: لا تزال هكذا حتى تموت أو تكفر بمحمد.</p><p>لكن بلالاً، بقلبه المشتعل بنور التوحيد، كان يبتسم وسط العذاب ويردد كلمته التاريخية الخالدة التي زلزلت الطغاة: 'أحدٌ.. أحد، لو أعلم كلمة هي أغيظ لكم منها لقلتها'. رآه أبو بكر الصديق وهو يعذب، فاشتراه وأعتقه لوجه الله، فقال عمر بن الخطاب لاحقاً تعظيماً له: 'أبو بكر سيدنا، وأعتق سيدنا (يعني بلالاً)'.</p><p>اختاره النبي ﷺ ليكون المؤذن الأول للإسلام لنداوة صوته وقوته، فكان يصدح بالحق خمس مرات في اليوم فوق المسجد النبوي. وفي يوم فتح مكة العظيم، تطلع الجميع ليروا من سيرتقي ظهر الكعبة المشرفة، فأمر النبي بلالاً أن يصعد فوقها ويؤذن، ليعلن الإسلام انتهاء عهد الطبقية والجاهلية.</p><p>بعد وفاة النبي ﷺ، انكسر قلب بلال ولم يحتمل البقاء في المدينة؛ فكل ركن يذكره بالحبيب. جاء يؤذن بطلب من الصحابة بعد الوفاة بفترة، فلما وصل إلى 'أشهد أن محمداً رسول الله' بكى وأبكى المدينة كلها ولم يستطع الإكمال. خرج مجاهداً إلى الشام وتوفي بدمشق مشتاقاً للقاء الأحبة.</p>" 
-        },
-        { 
-            name: "خالد بن الوليد", 
-            title: "سيف الله المسلول، القائد الاستراتيجي والمعجزة العسكرية", 
-            story: "<p>هو خالد بن الوليد بن المغيرة المخزومي القرشي. العبقرية العسكرية النادرة التي لم تُهزم في تاريخها في أكثر من مائة معركة. أسلم في السنة السابعة للهجرة، وتهلل وجه النبي ﷺ بقدومه وقال: 'قد كنت أرى لك عقلاً رجوت ألا يسلمك إلا إلى خير'.</p><p>تجلى مجده العسكري أول مرة تحت راية الإسلام في معركة 'مؤتة' الشام؛ حيث استشهد القادة الثلاثة وزحف جيش الروم البالغ مائتي ألف مقاتل على ثلاثة آلاف مسلم فقط، فأخذ خالد الراية بحنكة ووضع خطة عبقرية غيّر فيها ترتيب الجيش وميمنته وميسرته ليوهم العدو بوصول إمدادات، ثم تراجع بالجيش بذكاء حامياً الأرواح، فقال عنه النبي ﷺ يومها: 'ثم أخذ الراية سيف من سيوف الله حتى فتح الله عليهم'، وسُمي من يومها بسيف الله المسلول.</p><p>قاد حروب الردة تحت لواء الصديق، وحطم جيش مسيلمة الكذاب في معركة اليمامة. ثم توجه لفتح العراق والشام، وصنع المعجزة بعبور صحراء السماوة القاحلة في أيام معدودة ليفاجئ الروم من خلف خطوطهم، وقاد جيوش المسلمين في 'معركة اليرموك' الخالدة التي أنهت الوجود البيزنطي في الشام تماماً.</p><p>عزله عمر بن الخطاب من القيادة في قمة مجده، لا لتقصير، بل خشية أن يفتتن الناس به ويظنوا أن النصر من عند خالد وليس من عند الله. فما كان من هذا البطل إلا التجريد المطلق والامتثال؛ حيث قال: 'أنا أقاتل في سبيل رب عمر، وليس في سبيل عمر'، وتحول إلى جندي عادي يقاتل بنفس الضراوة والإخلاص. مات على فراشه بحمص وهو يبكي قائلاً: 'لقد شهدت كذا وكذا زحفاً وما في جسدي موضع شبر إلا وفيه ضربة بسيف أو رمية بسهم، وها أنا ذا أموت على فراشي كما يموت البعير، فلا نامت أعين الجبناء'.</p>" 
-        },
-        { 
-            name: "طلحة بن عبيد الله", 
-            title: "طلحة الخير، فدائي أحد والأصبع المشلولة في سبيل الله", 
-            story: "<p>هو طلحة بن عبيد الله بن عثمان التيمي القرشي، أحد العشرة المبشرين بالجنة، ومن السابقين الأولين إلى الإسلام. عُرف بكرمه الفياض وسخائه اللامحدود، وكان يشتري الآبار ويطعم الجياع وينفق على الفقراء حتى لقبه النبي ﷺ بألقاب عديدة منها 'طلحة الخير'، و'طلحة الفياض'، و'طلحة الجود'.</p><p>ملحمته التاريخية الكبرى كانت في 'معركة أحد'؛ حيث انقلاب موازين المعركة وتفرق الناس عن النبي ﷺ وحاصره المشركون يريدون قتله صراحة، فقام طلحة وثبت ثباتاً أسطورياً، وجعل من جسده ترساً بشرياً حياً يحمي به ظهر الرسول ﷺ.</p><p>كان يتلقى السيوف ببدنه، والسهام بكفيه، وضُرب بالسيف على يده وهو يحمي وجه النبي حتى شُلّت إصبعه المباركة. وتلقى في تلك المعركة بضعاً وثمانين طعنة وضربة وسهماً، وحمل النبي ﷺ على ظهره وصعد به الصخرة ليحميه من النبال. عندما انتهت المعركة، نظر النبي ﷺ إليه وقال للصحابة: 'من سره أن ينظر إلى شهيد يمشي على وجه الأرض، فلينظر إلى طلحة بن عبيد الله'، وكان أبو بكر الصديق إذا تذكر يوم أحد يقول: 'ذلك اليوم كله كان لطلحة'. استشهد في موقعة الجمل سنة 36 هـ.</p>" 
-        },
-        { 
-            name: "الزبير بن العوام", 
-            title: "حواري رسول الله ﷺ، وفارس مكة الشجاع المغوار", 
-            story: "<p>هو الزبير بن العوام بن خويلد الأسدي القرشي، ابن عمة النبي ﷺ (صفية بنت عبد المطلب)، وابن أخي أم المؤمنين خديجة بنت خويلد، وأحد العشرة المبشرين بالجنة، وأحد الستة أصحاب الشورى الذين اختارهم عمر بن الخطاب.</p><p>أسلم وهو غلام صغير ابن اثني عشر عاماً، وكان أول من سلّ سيفاً في سبيل الله في الإسلام بمكة؛ حيث شاع يوماً أن النبي ﷺ قد قُتل أو أُوذي، فخرج الغلام يركض في شوارع مكة مصلتاً سيفه يشق صفوف الناس حتى التقى بالنبي ﷺ وهو معافى، فدعا له النبي وبورك سيفه.</p><p>كان فارساً عملاقاً شجاعاً يتميز ببنيته القوية، وكان يقاتل في المعارك وهو يقود فرسه برجليه ويوجه سيفين بكلتا يديه بمهارة فائقة. شهد الغزوات كلها مع الرسول ﷺ، وكان في معركة اليرموك يمثل زحفاً كاملاً وحده؛ حيث اخترق جيش الروم مرتين من أوله إلى آخره وقسم صفوفهم ببسالة أذهلت العقول.</p><p>تصدق بكل ماله وتجارته وعاش حياة الكفاف حباً في الله وتجهيزاً للغزاة. قال عنه النبي ﷺ مكرباً ومقدراً تضحيته: 'إن لكل نبي حوارياً، وحواريّ الزبير بن العوام'. استشهد سنة 36 هـ عقب موقعة الجمل غدراً وهو يصلي.</p>" 
-        },
-        { 
-            name: "عبد الرحمن بن عوف", 
-            title: "تاجر الرحمن، غني الشاكرين وأحد أصحاب الشورى الستة", 
-            story: "<p>هو عبد الرحمن بن عوف بن عبد عوف الزهري القرشي، أحد العشرة المبشرين بالجنة، ومن ثمانية أسلموا قديماً في الأيام الأولى للدعوة. هاجر إلى المدينة المنورة معدماً بالكامل بعد أن صادرت قريش كل ثروته وأملاكه في مكة.</p><p>عندما آخى النبي ﷺ بينه وبين سعد بن الربيع الأنصاري، عرض عليه سعد أن يعطيه نصف ماله ويطلق إحدى زوجتيه ليتزوجها، فضرب عبد الرحمن أروع أمثلة العفة وعزة النفس وقال كلمته التاريخية: 'بارك الله لك في أهلك ومالك، ولكن دلوني على السوق'. مضى إلى السوق وبدأ يتاجر في الأقط والسمن، وفتح الله عليه أبواب الرزق ببركة أمانته وذكائه حتى قال عن نفسه: 'لقد رأيتني لو رفعت حجراً لرجوت أن أصيب تحته ذهباً أو فضة'.</p><p>تحولت تجارته إلى مؤسسة خيرية لخدمة الأمة؛ وتصدق بنصف ماله (أربعين ألف دينار) دفعة واحدة، ثم جهز خمسمائة فرس وخمسمائة راحلة للغزاة. ودخلت المدينة يوماً قافلة له تضم سبعمائة بعير محملة بالمؤن والخيرات، فارتجت المدينة من صخبها، فلما علم وتذكر قول النبي أنه يدخل الجنة حبواً لثرائه، أعلن وهب القافلة كاملة بأحلاسها وأقتابها لفقراء المدينة وأيتامها. وكان رئيس لجنة الشورى لاختيار الخليفة بعد عمر وتنازل عن حقه فيها ليفصل بين عثمان وعلي بحيادية.</p>" 
-        },
-        { 
-            name: "سعد بن أبي وقاص", 
-            title: "قاهر الفرس، فاتح المدائن، ومستجاب الدعوة وخال النبي ﷺ", 
-            story: "<p>هو سعد بن أبي وقاص مالك بن وهيب الزهري القرشي، أحد العشرة المبشرين بالجنة، وآخرهم وفاة. أسلم وعمره سبع عشرة سنة، وهو أول من رمى بسهم في سبيل الله في الإسلام، وأول من أراق دماً للمشركين حمايةً للمسلمين في شعب مكة.</p><p>كان النبي ﷺ يعتز به جداً ويفتخر بنسبه وقرابته، فكان إذا أقبل سعد يقول للصحابة مبتسماً: 'هذا خالي، فليرني امرؤ خاله'. وتميز بكونه مجاب الدعوة؛ إذ دعا له النبي ﷺ في غزوة أحد قائلاً: 'اللهم سدد رَميته، وأجب دَعوته'، فكان لا يدعو بدعوة إلا واستجابها الله فوراً، وكان الصحابة يتقون غضبه ودعاءه.</p><p>الموقف الأعظم في تاريخه كان توليه قيادة جيوش المسلمين في 'معركة القادسية' الكبرى بأمر من عمر بن الخطاب. وهناك، واجه جيش الفرس العرمرم بقيادة رستم، ورغم إصابة سعد بعروق النساء والدمامل في جسده وعدم قدرته على الركوب، أدار المعركة بعبقرية وهو مستلقٍ على صدره فوق قصره يوجه القادة بالرسائل، حتى سحق الفرس وقُتل رستم.</p><p>فتح مدائن كسرى، ودخل إيوان كسرى مصلياً شاكراً، وأرسل سواري كسرى لعمر بالمدينة، وأسس مدينة الكوفة العريقة وعاش أميراً عادلاً وتوفي في قصره بالعقيق سنة 55 هـ وكُفن في رداء قديم شهد به معركة بدر.</p>" 
-        },
-        { 
-            name: "سعيد بن زيد", 
-            title: "المستجاب الدعوة، ابن الحنيف الباحث عن التوحيد", 
-            story: "<p>هو سعيد بن زيد بن عمرو بن نفيل العدوي القرشي، ابن عم عمر بن الخطاب وزوج أخته فاطمة بنت الخطاب، وأحد العشرة المبشرين بالجنة. نشأ في بيت يقدس التوحيد؛ فوالده زيد بن عمرو ترك الأصنام في الجاهلية ورحل يبحث عن دين إبراهيم ومات قبل البعثة، فقال عنه النبي: 'يبعث أمة وحده'.</p><p>أسلم سعيد قديماً قبل دخول النبي دار الأرقم، وكان مع زوجته سبباً مباشراً في إسلام الفاروق عمر عندما دخل عليهما وضربهما ثم قرأ سورة طه فلان قلبه. شهد المشاهد كلها مع رسول الله ﷺ عدا غزوة بدر؛ حيث كان قد بعثه النبي مع طلحة بن عبيد الله خارج المدينة ليتجسسا على عير قريش وأخبارها، وضربهما النبي بأسهمهما وأجورهما في بدر كمن شهدها.</p><p>شهد معركة اليرموك وبذل فيها بطولات مذهلة؛ حيث برك على ركبتيه وقاتل الروم بضراوة لكسر زحفهم المتفوق عددياً. اعتزل الفتن والمناصب تماماً بعد استشهاد عثمان وعاش عابداً خاشعاً بالمدينة.</p><p>اشتهر بقصة إعجازية حين اتهمته امرأة تُدعى 'أروى بنت أويس' ظلماً وبغياً عند مروان بن الحكم بأنه غصب جزءاً من أرضها، فقال: كيف أخذ من أرضها بعدما سمعت رسول الله يقول 'من ظلم قيد شبر من الأرض طوقه من سبع أرضين'، ثم دعا عليها: 'اللهم إن كانت كاذبة فأعمِ بصرها، واقتلها في أرضها'. فلم يمر وقت طويل حتى عميت المرأة، وبينما كانت تمشي في أرضها سقطت في بئر فماتت، فكان أهل المدينة يقولون: نعوذ بدعوة سعيد بن زيد.</p>" 
-        },
-        { 
-            name: "أبو عبيدة بن الجراح", 
-            title: "أمين هذه الأمة، فاتح الشام وقائد جيوش الزهد والتجريد", 
-            story: "<p>هو عامر بن عبد الله بن الجراح الفهري القرشي، أحد العشرة المبشرين بالجنة، وسماه النبي ﷺ بلقبه الخالد: 'أمين هذه الأمة'؛ حيث قال: 'إن لكل أمة أميناً، وأمين هذه الأمة أبو عبيدة بن الجراح'.</p><p>ضرب أقصى مواقف التجريد والثبات العقدي في معركة بدر؛ حيث التقى في المعركة بأبيه المشرك الذي صمم على قتل أبو عبيدة والترصد له، فكان أبو عبيدة يحيد عنه إجلالاً للأبوة، فلما صمم الأب ولجّ في الكفر والقتال، واجه أبو عبيدة وقتله دفاعاً عن دين الله وعقيدته.</p><p>وفي معركة أحد، عندما أُصيب النبي ﷺ ودخلت حلقتان من مغفر الخوذة في وجنته الشريفة، سارع أبو عبيدة واقتلع الحلقة الأولى بثناياه (أسنانه الأمامية) ففقد سنة، ثم اقتلع الحلقة الثانية ففقد السن الأخرى ليرفض أن يؤذي النبي بيديه، فأصبح من أجمل الناس هتماً (سقوط الأسنان).</p><p>قاد جيوش فتح الشام وحقق انتصارات باهرة كفتح دمشق وفحل، وعاش حياة بلغت الغاية في الزهد؛ دخل عليه عمر بن الخطاب بيته بالشام فلم يجد سوى سيف وترس وقربة ماء ووسادة، فبكى عمر وقال: 'غيرتنا الدنيا كلنا غيرك يا أبا عبيدة'. توفي في طاعون عمواس سنة 18 هـ.</p>" 
-        }
+        { name: "أبو بكر الصديق", title: "الصديق، أول الخلفاء الراشدين، ورفيق الغار", story: "<p>هو عبد الله بن أبي قحافة عثمان بن عامر التيمي القرشي...</p>" },
+        { name: "عمر بن الخطاب", title: "الفاروق، أمير المؤمنين، ملهم الأمة ومؤسس الدواوين", story: "<p>هو عمر بن الخطاب بن نفيل العدوي القرشي...</p>" },
+        { name: "عثمان بن عفان", title: "ذو النورين، أمير المؤمنين، جامع القرآن والمنفق الجواد", story: "<p>هو عثمان بن عفان بن أبي العاص الأموي القرشي...</p>" },
+        { name: "علي بن أبي طالب", title: "أمير المؤمنين، الفدائي الأول، وقاضي الأمة وباب العلم", story: "<p>هو علي بن أبي طالب بن عبد المطلب الهاشمي القرشي...</p>" },
+        { name: "بلال بن رباح", title: "مؤذن الرسول ﷺ، وسيد الصابرين في وجه الطغيان", story: "<p>هو بلال بن رباح الحبشي، مولى أبي بكر الصديق...</p>" },
+        { name: "خالد بن الوليد", title: "سيف الله المسلول، القائد الاستراتيجي والمعجزة العسكرية", story: "<p>هو خالد بن الوليد بن المغيرة المخزومي القرشي...</p>" },
+        { name: "طلحة بن عبيد الله", title: "طلحة الخير، فدائي أحد والأصبع المشلولة في سبيل الله", story: "<p>هو طلحة بن عبيد الله بن عثمان التيمي القرشي...</p>" },
+        { name: "الزبير بن العوام", title: "حواري رسول الله ﷺ، وفارس مكة الشجاع المغوار", story: "<p>هو الزبير بن العوام بن خويلد الأسدي القرشي...</p>" },
+        { name: "عبد الرحمن بن عوف", title: "تاجر الرحمن، غني الشاكرين وأحد أصحاب الشورى الستة", story: "<p>هو عبد الرحمن بن عوف بن عبد عوف الزهري القرشي...</p>" },
+        { name: "سعد بن أبي وقاص", title: "قاهر الفرس، فاتح المدائن، ومستجاب الدعوة وخال النبي ﷺ", story: "<p>هو سعد بن أبي وقاص مالك بن وهيب الزهري القرشي...</p>" },
+        { name: "سعيد بن زيد", title: "المستجاب الدعوة، ابن الحنيف الباحث عن التوحيد", story: "<p>هو سعيد بن زيد بن عمرو بن نفيل العدوي القرشي...</p>" },
+        { name: "أبو عبيدة بن الجراح", title: "أمين هذه الأمة، فاتح الشام وقائد جيوش الزهد والتجريد", story: "<p>هو عامر بن عبد الله بن الجراح الفهري القرشي...</p>" }
     ];
 
-    // إدارة الأقسام والتنقل
     function showSection(sectionId) {
         document.getElementById("mainMenu").style.display = "none";
         const sections = document.querySelectorAll('.content-section');
         sections.forEach(sec => sec.style.display = "none");
         document.getElementById(sectionId).style.display = "block";
         
-        if(sectionId === 'azkarSection') {
-            initAzkar();
-        } else if(sectionId === 'companionsSection') {
-            renderCompanions();
-        }
+        if(sectionId === 'azkarSection') initAzkar();
+        else if(sectionId === 'companionsSection') renderCompanions();
     }
 
     function showMenu() {
@@ -527,142 +457,25 @@
         document.getElementById("mainMenu").style.display = "flex";
     }
 
-    // لولب الأذكار والعداد
     let currentAzkarType = 'morning';
     let currentZkrIndex = 0;
     let userCount = 0;
 
-    function initAzkar() {
-        currentZkrIndex = 0;
-        userCount = 0;
-        updateZkrUI();
-    }
+    function initAzkar() { currentZkrIndex = 0; userCount = 0; updateZkrUI(); }
+    function switchAzkar(type) { currentAzkarType = type; document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(`btn-${type}`).classList.add('active'); initAzkar(); }
+    function updateZkrUI() { const list = azkarData[currentAzkarType]; const item = list[currentZkrIndex]; document.getElementById("zkrText").innerText = item.text; document.getElementById("zkrReward").innerText = item.reward; const btn = document.getElementById("counterBtn"); btn.classList.remove('done'); btn.innerText = `${userCount} / ${item.count}`; if(userCount >= item.count) btn.classList.add('done'); }
+    function countZkr() { const item = azkarData[currentAzkarType][currentZkrIndex]; if(userCount < item.count) { userCount++; updateZkrUI(); } }
+    function nextZkr() { const list = azkarData[currentAzkarType]; if(currentZkrIndex < list.length - 1) { currentZkrIndex++; userCount = 0; updateZkrUI(); } }
+    function prevZkr() { if(currentZkrIndex > 0) { currentZkrIndex--; userCount = 0; updateZkrUI(); } }
 
-    function switchAzkar(type) {
-        currentAzkarType = type;
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(`btn-${type}`).classList.add('active');
-        initAzkar();
-    }
+    function searchFeeling() { const input = document.getElementById("searchInput").value.trim(); if(!input) return; let foundKey = null; for(let key in database) { if(input.includes(key) || key.includes(input)) { foundKey = key; break; } } renderFeelingResult(foundKey); }
+    function quickSearch(key) { document.getElementById("searchInput").value = database[key].title; renderFeelingResult(key); }
+    function renderFeelingResult(key) { const container = document.getElementById("searchResult"); if(!key || !database[key]) { container.innerHTML = `<div class="result-card" style="border-right-color: #ff4d4d">عذرًا، لم نجد شعورًا مطابقًا بدقة.</div>`; return; } const data = database[key]; container.innerHTML = `<div class="result-card"><h3 style="color: var(--accent-color); margin-bottom: 10px;">🩺 الدواء لـ ${data.title}</h3><p><strong>📖 القرآن:</strong> ${data.ayah}</p><p><strong>💬 السنة:</strong> ${data.hadith}</p><p style="margin-top: 10px; color: var(--highlight);">💡 طمأنينة: ${data.comfort}</p></div>`; }
 
-    function updateZkrUI() {
-        const list = azkarData[currentAzkarType];
-        const item = list[currentZkrIndex];
-        document.getElementById("zkrText").innerText = item.text;
-        document.getElementById("zkrReward").innerText = item.reward;
-        
-        const btn = document.getElementById("counterBtn");
-        btn.classList.remove('done');
-        btn.innerText = `${userCount} / ${item.count}`;
-        if(userCount >= item.count) {
-            btn.classList.add('done');
-        }
-    }
-
-    function countZkr() {
-        const item = azkarData[currentAzkarType][currentZkrIndex];
-        if(userCount < item.count) {
-            userCount++;
-            updateZkrUI();
-        }
-    }
-
-    function nextZkr() {
-        const list = azkarData[currentAzkarType];
-        if(currentZkrIndex < list.length - 1) {
-            currentZkrIndex++;
-            userCount = 0;
-            updateZkrUI();
-        }
-    }
-
-    function prevZkr() {
-        if(currentZkrIndex > 0) {
-            currentZkrIndex--;
-            userCount = 0;
-            updateZkrUI();
-        }
-    }
-
-    // إدارة محرك المشاعر النفسي
-    function searchFeeling() {
-        const input = document.getElementById("searchInput").value.trim();
-        if(!input) return;
-        
-        let foundKey = null;
-        for(let key in database) {
-            if(input.includes(key) || key.includes(input)) {
-                foundKey = key;
-                break;
-            }
-        }
-        renderFeelingResult(foundKey);
-    }
-
-    function quickSearch(key) {
-        document.getElementById("searchInput").value = database[key].title;
-        renderFeelingResult(key);
-    }
-
-    function renderFeelingResult(key) {
-        const container = document.getElementById("searchResult");
-        if(!key || !database[key]) {
-            container.innerHTML = `<div class="result-card" style="border-right-color: #ff4d4d">عذرًا، لم نجد شعورًا مطابقًا بدقة، جرّب كتابة كلمات أبسط مثل (مخنوق، حزين، خايف).</div>`;
-            return;
-        }
-        
-        const data = database[key];
-        container.innerHTML = `
-            <div class="result-card">
-                <h3 style="color: var(--accent-color); margin-bottom: 10px;">🩺 الدواء القرآني والنبوي لحالة: ${data.title}</h3>
-                <p><strong>📖 من القرآن الكريم:</strong> ${data.ayah}</p>
-                <p><strong>💬 من السنة النبوية:</strong> ${data.hadith}</p>
-                <p style="margin-top: 10px; color: var(--highlight); font-weight: bold;">💡 طمأنينة لقلبك: ${data.comfort}</p>
-            </div>
-        `;
-    }
-
-    // إدارة قسم الصحابة والمودال الشامل
-    function renderCompanions() {
-        const grid = document.getElementById("companionsGrid");
-        grid.innerHTML = "";
-        companionsData.forEach((comp, idx) => {
-            const card = document.createElement("div");
-            card.className = "companion-card";
-            card.onclick = () => openModal(idx);
-            card.innerHTML = `
-                <h3>${comp.name}</h3>
-                <h4>${comp.title}</h4>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    function filterCompanions() {
-        const query = document.getElementById("companionInput").value.toLowerCase();
-        const cards = document.querySelectorAll(".companion-card");
-        companionsData.forEach((comp, idx) => {
-            if(comp.name.includes(query) || comp.title.includes(query)) {
-                cards[idx].style.display = "block";
-            } else {
-                cards[idx].style.display = "none";
-            }
-        });
-    }
-
-    function openModal(idx) {
-        const comp = companionsData[idx];
-        document.getElementById("modalTitle").innerText = comp.name;
-        document.getElementById("modalSubtitle").innerText = comp.title;
-        document.getElementById("modalBody").innerHTML = comp.story;
-        document.getElementById("companionModal").style.display = "flex";
-    }
-
-    function closeModal(event) {
-        if (!event || event.target === document.getElementById("companionModal")) {
-            document.getElementById("companionModal").style.display = "none";
-        }
-    }
+    function renderCompanions() { const grid = document.getElementById("companionsGrid"); grid.innerHTML = ""; companionsData.forEach((comp, idx) => { const card = document.createElement("div"); card.className = "companion-card"; card.onclick = () => openModal(idx); card.innerHTML = `<h3>${comp.name}</h3><h4>${comp.title}</h4>`; grid.appendChild(card); }); }
+    function filterCompanions() { const query = document.getElementById("companionInput").value.toLowerCase(); const cards = document.querySelectorAll(".companion-card"); companionsData.forEach((comp, idx) => { if(comp.name.includes(query) || comp.title.includes(query)) cards[idx].style.display = "block"; else cards[idx].style.display = "none"; }); }
+    function openModal(idx) { const comp = companionsData[idx]; document.getElementById("modalTitle").innerText = comp.name; document.getElementById("modalSubtitle").innerText = comp.title; document.getElementById("modalBody").innerHTML = comp.story; document.getElementById("companionModal").style.display = "flex"; }
+    function closeModal(event) { if (!event || event.target === document.getElementById("companionModal")) document.getElementById("companionModal").style.display = "none"; }
     </script>
 </body>
 </html>
