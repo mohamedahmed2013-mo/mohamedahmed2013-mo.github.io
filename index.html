@@ -23,7 +23,7 @@
         
         .main-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 20px; }
         
-        /* بار الأذان الصوتي الجديد والمواقيت */
+        /* بار الأذان الصوتي والمواقيت */
         .azan-bar {
             background: linear-gradient(135deg, #132247, #1c2541);
             border: 1px solid var(--primary-color);
@@ -176,14 +176,14 @@
 
     <div class="main-container">
         
-        <!-- بار الأذان الصوتي ومواقيت الصلاة المطور -->
+        <!-- بار الأذان الصوتي ومواقيت الصلاة المطور بدون طلب إذن -->
         <div class="azan-bar">
             <div class="azan-header-container">
                 <div class="azan-info">
                     <span style="font-size: 1.8rem;">🕌</span>
                     <div>
-                        <div class="azan-title">نظام الميقات التلقائي والأذان</div>
-                        <div id="azanStatus" class="azan-status">جاري تشغيل المواقيت الحالية...</div>
+                        <div class="azan-title">نظام الميقات الفوري المدمج</div>
+                        <div id="azanStatus" class="azan-status">جاري تشغيل المواقيت...</div>
                     </div>
                 </div>
                 <button id="azanPlayBtn" class="azan-btn" onclick="toggleAzan()">▶ تشغيل تجريبي</button>
@@ -294,7 +294,7 @@
                 azanStatus.innerText = statusText || "🔊 يرفع الآن صوت الحق...";
             })
             .catch(error => {
-                azanStatus.innerText = "💡 اضغط على أي مكان بالصفحة لتفعيل الصوت التلقائي.";
+                azanStatus.innerText = "💡 الميقات يعمل، اضغط هنا لتفعيل الصوت عند الأذان.";
             });
     }
 
@@ -314,27 +314,14 @@
         resetAzanUI();
     };
 
-    // التشغيل الفوري والحل المباشر للمشكلة المتصفح
+    // التشغيل الفوري المباشر دون طلب أي إذن من المتصفح
     window.addEventListener('DOMContentLoaded', () => {
-        // نضع مواقيت افتراضية فوراً لكي لا تظهر الخانات فارغة أبداً
-        useFallbackCoordinates();
-
-        // نحاول في نفس الوقت طلب الإحداثيات الدقيقة من المتصفح لتحديثها إذا استجاب
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => initPrayerClock(pos.coords.latitude, pos.coords.longitude, "الموقع الدقيق مفعّل ✅"),
-                () => console.log("بانتظار إذن المتصفح - تم تفعيل الميقات التلقائي البديل بنجاح.")
-            );
-        }
+        // نستخدم إحداثيات مدمجة فورا لتظهر المواعيد بمجرد فتح الصفحة
+        initPrayerClock(30.0444, 31.2357); 
         setInterval(checkTimeForAzan, 1000);
     });
 
-    function useFallbackCoordinates() {
-        // إحداثيات توقيتية قياسية بديلة تعمل فوراً ودون توقف
-        initPrayerClock(30.0444, 31.2357, "الميقات التلقائي مفعّل ✅");
-    }
-
-    function initPrayerClock(lat, lng, modeText) {
+    function initPrayerClock(lat, lng) {
         const coordinates = new adhan.Coordinates(lat, lng);
         const params = adhan.CalculationMethod.UmmAlQura(); 
         const date = new Date();
@@ -347,14 +334,14 @@
         document.getElementById('t-maghrib').innerText = formatTime(prayerTimesToday.maghrib);
         document.getElementById('t-isha').innerText = formatTime(prayerTimesToday.isha);
         
-        updateNextPrayerCountdown(modeText);
+        updateNextPrayerCountdown();
     }
 
     function formatTime(dateObj) {
         return dateObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: true });
     }
 
-    function updateNextPrayerCountdown(modeText) {
+    function updateNextPrayerCountdown() {
         if(!prayerTimesToday) return;
         const next = prayerTimesToday.nextPrayer();
         
@@ -371,8 +358,7 @@
         const targetElement = document.getElementById(nextId);
         if(targetElement) targetElement.classList.add('next-prayer');
         
-        const prefix = modeText || "الأذان التلقائي مفعّل ✅";
-        azanStatus.innerText = `${prefix} | الصلاة القادمة: ${nextPrayerName}`;
+        azanStatus.innerText = `الميقات التلقائي مفعّل ✅ | الصلاة القادمة: ${nextPrayerName}`;
     }
 
     function checkTimeForAzan() {
@@ -406,7 +392,7 @@
     const azkarData = {
         morning: [
             { text: "{اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...} [آية الكرسي]", reward: "فضلها: لن يزال عليك من الله حافظ ولا يقربك شيطان حتى تصبح.", count: 1 },
-            { text: "{قُلْ هُوَ اللَّهُ أَحَدٌ...} و {قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...} و {قُلْ أَعُوذُ بِرَبِّ النَّاسِ...}", reward: "فضلها: تكفيك من كل شيء.", count: 3 },
+            { text: "{قُلْ هُوَ اللَّلهُ أَحَدٌ...} و {قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ...} و {قُلْ أَعُوذُ بِرَبِّ النَّاسِ...}", reward: "فضلها: تكفيك من كل شيء.", count: 3 },
             { text: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ...", reward: "فضلها: تمنحك التوحيد والسكينة والتوكل في بداية يومك.", count: 1 }
         ],
         evening: [
@@ -420,8 +406,8 @@
 
     const database = {
         "مخنوق": { title: "الضيق والخنقة", ayah: "«وَلَقَدْ نَعْلَمُ أَنَّكَ يَضِيقُ صَدْرُكَ... فَسَبِّحْ بِحَمْدِ رَبِّكَ»", hadith: "«ما يصيب المسلم من هم إلا كفّر الله به من خطاياه».", comfort: "الجأ للسجود والتسبيح الآن، فرجك قريب." },
-        "خايف": { title: "الخوف والقلق", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّلهُ لَنَا»", hadith: "«استعن بالله ولا تعجز»", comfort: "المستقبل ملك للرحيم، فلا تقلق وتوكل عليه." },
-        "مديون": { title: "الدين وضيق الرزق", ayah: "«وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ»", hadith: "«اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ»", comfort: "الرزق مقسوم ومكتوب، أكمل سعيك وأبشر." },
+        "خايف": { title: "الخوف والقلق", ayah: "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا»", hadith: "«استعن بالله ولا تعجز»", comfort: "المستقبل ملك للرحيم، فلا تقلق وتوكل عليه." },
+        "مديون": { title: "الدين وضيق الرزق", ayah: "«وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّلهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ»", hadith: "«اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ»", comfort: "الرزق مقسوم ومكتوب، أكمل سعيك وأبشر." },
         "حزين": { title: "الحزن والهم", ayah: "«لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا»", hadith: "«يا حي يا قيوم برحمتك أستغيث»", comfort: "سيعقب الحزن فرح وسرور عظيم يغسل قلبك." },
         "مظلوم": { title: "الظلم والقهر", ayah: "«وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ»", hadith: "«اتق دعوة المظلوم فإنه ليس بينها وبين الله حجاب»", comfort: "حقك محفوظ عند قاضي السماء والأرض ولن يضيع." },
         "مذنب": { title: "التقصير والذنب", ayah: "«قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا... لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ»", hadith: "«التائب من الذنب كمن لا ذنب له»", comfort: "باب التوبة مفتوح الآن، استغفر واملأ قلبك بالأمل." }
