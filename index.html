@@ -2,32 +2,31 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>طمئن قلبك - تفعيل الصوت</title>
-    <style>
-        body { background: #0a1128; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; }
-        .btn { padding: 20px 40px; font-size: 20px; background: #00b4d8; border: none; border-radius: 15px; color: white; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: #00f5d4; color: black; }
-        #status { margin-top: 20px; color: #94a3b8; }
-    </style>
+    <title>اختبار الصوت</title>
 </head>
 <body>
-
-    <h1>نظام الأذان</h1>
-    <!-- الرابط مباشر ومجرب -->
-    <audio id="audioPlayer" src="https://server11.mp3quran.net/thubti/001.mp3"></audio>
+    <button id="testBtn" style="padding: 20px; font-size: 24px;">اضغط لتشغيل صوت النظام</button>
     
-    <button class="btn" onclick="forcePlay()">اضغط هنا لتشغيل الصوت</button>
-    <p id="status">إذا لم تسمع صوتاً، تأكد أن هاتفك ليس على وضع الصامت.</p>
-
     <script>
-        function forcePlay() {
-            const audio = document.getElementById("audioPlayer");
-            audio.play().then(() => {
-                document.getElementById("status").innerText = "تم تفعيل الصوت بنجاح! يعمل الآن.";
-            }).catch(e => {
-                document.getElementById("status").innerText = "خطأ في التشغيل: " + e.message;
-            });
-        }
+        document.getElementById('testBtn').addEventListener('click', function() {
+            // إنشاء صوت داخلي بسيط جداً عبر المتصفح (Oscillator)
+            // هذه الطريقة لا تحتاج روابط خارجية ولا تتأثر بحظر السيرفرات
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.type = 'sine'; // نوع الصوت
+            oscillator.frequency.value = 440; // التردد
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1);
+            oscillator.stop(audioCtx.currentTime + 1);
+            
+            alert('إذا لم تسمع صوتاً الآن، فالمشكلة في "سماعات الهاتف" أو "زر الصامت الجانبي" وليست في الكود.');
+        });
     </script>
 </body>
 </html>
