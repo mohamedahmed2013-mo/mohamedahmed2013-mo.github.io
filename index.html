@@ -1,32 +1,39 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>اختبار الصوت</title>
+    <title>مشغل الأذان الكامل</title>
 </head>
 <body>
-    <button id="testBtn" style="padding: 20px; font-size: 24px;">اضغط لتشغيل صوت النظام</button>
-    
+
+    <h2 id="msg">انتظار التفاعل لتفعيل الصوت...</h2>
+    <button id="startBtn" style="padding: 20px; font-size: 20px;">تفعيل التشغيل</button>
+
     <script>
-        document.getElementById('testBtn').addEventListener('click', function() {
-            // إنشاء صوت داخلي بسيط جداً عبر المتصفح (Oscillator)
-            // هذه الطريقة لا تحتاج روابط خارجية ولا تتأثر بحظر السيرفرات
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
+        const audio = new Audio("https://server11.mp3quran.net/thubti/001.mp3");
+        
+        // 1. خدعة تفعيل الصوت (تشغيل صمت وهمي)
+        function unlockAudio() {
+            let silence = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA==");
+            silence.play();
+            document.getElementById("msg").innerText = "تم التفعيل! سيتم تشغيل الأذان الآن.";
+            startBtn.style.display = "none";
+        }
 
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            oscillator.type = 'sine'; // نوع الصوت
-            oscillator.frequency.value = 440; // التردد
-            
-            oscillator.start();
-            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1);
-            oscillator.stop(audioCtx.currentTime + 1);
-            
-            alert('إذا لم تسمع صوتاً الآن، فالمشكلة في "سماعات الهاتف" أو "زر الصامت الجانبي" وليست في الكود.');
+        document.getElementById("startBtn").addEventListener("click", () => {
+            unlockAudio();
+            // 2. تشغيل الأذان فوراً بعد التفعيل
+            audio.play().catch(e => console.log("خطأ: " + e));
         });
+
+        // 3. مثال للتشغيل عند وقت معين (استبدل القيم بـ وقت الصلاة القادم)
+        function checkTime() {
+            let now = new Date();
+            if (now.getHours() === 12 && now.getMinutes() === 6) { // مثال: الساعة 12:06
+                audio.play();
+            }
+        }
+        setInterval(checkTime, 10000); // فحص كل 10 ثوانٍ
     </script>
 </body>
 </html>
