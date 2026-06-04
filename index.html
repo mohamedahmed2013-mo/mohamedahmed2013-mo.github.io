@@ -572,7 +572,7 @@
     function renderCompanions() { const grid = document.getElementById("companionsGrid"); grid.innerHTML = ""; companionsData.forEach((comp, idx) => { const card = document.createElement("div"); card.className = "companion-card"; card.onclick = () => openModal(idx); card.innerHTML = `<h3>${comp.name}</h3><h4>${comp.title}</h4>`; grid.appendChild(card); }); }
     function filterCompanions() { const query = document.getElementById("companionInput").value.toLowerCase(); const cards = document.querySelectorAll(".companion-card"); companionsData.forEach((comp, idx) => { if(comp.name.includes(query) || comp.title.includes(query)) cards[idx].style.display = "block"; else cards[idx].style.display = "none"; }); }
     function openModal(idx) { const comp = companionsData[idx]; document.getElementById("modalTitle").innerText = comp.name; document.getElementById("modalSubtitle").innerText = comp.title; document.getElementById("modalBody").innerHTML = comp.story; document.getElementById("companionModal").style.display = "flex"; }
-    function closeModal(event) { if (!event || event.target === document.getElementById("companionModal")) document.getElementById("modalModal").style.display = "none"; }
+    function closeModal(event) { if (!event || event.target === document.getElementById("companionModal")) document.getElementById("companionModal").style.display = "none"; }
     </script>
 </body>
 </html>
